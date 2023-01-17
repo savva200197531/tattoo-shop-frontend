@@ -1,10 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+
 import './index.scss';
 import App from './App';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import LoginPage from './pages/LoginPage'
+import LoginPage from './pages/login/LoginPage'
 import RouteGuard from './components/RouteGuard'
+import RegisterPage from './pages/register/RegisterPage'
+import ConfirmationPage from './pages/confirmation/ConfirmationPage'
 
 const router = createBrowserRouter([
   {
@@ -19,6 +22,18 @@ const router = createBrowserRouter([
     path: "/login",
     element: (
       <LoginPage />
+    ),
+  },
+  {
+    path: "/register",
+    element: (
+      <RegisterPage />
+    ),
+  },
+  {
+    path: "/confirm/:token",
+    element: (
+      <ConfirmationPage />
     ),
   },
 ]);
