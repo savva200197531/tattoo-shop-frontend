@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { AuthContextProps, Login, Register, User } from './types'
 import { setAuthToken } from '../../helpers/setAuthToken'
+import requestUrl from '../../requestUrl'
 
 const AuthContext = React.createContext<AuthContextProps>({} as AuthContextProps)
 
@@ -18,14 +19,14 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
 
   const navigate = useNavigate()
 
-  const register: Register = (payload) => axios.post<User>('http://localhost:3001/auth/register', payload)
+  const register: Register = (payload) => axios.post<User>(`${requestUrl}/auth/register`, payload)
     .then(({ data }) => {
       navigate('/confirmation/await')
       localStorage.setItem('alisa-kisa-user-id', JSON.stringify(data.id))
     })
     .catch(err => console.log(err))
 
-  const login: Login = (payload) => axios.post<string>('http://localhost:3001/auth/login', payload)
+  const login: Login = (payload) => axios.post<string>(`${requestUrl}/auth/login`, payload)
     .then(response => {
       refreshToken(response.data)
       getUser()
@@ -34,7 +35,7 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
     .catch(err => console.log(err))
 
   const sendConfirmationLink = (token: string) => {
-    axios.post('http://localhost:3001/email-confirmation/confirm', {
+    axios.post(`${requestUrl}/email-confirmation/confirm`, {
       token,
     })
       .then(() => {
@@ -50,7 +51,7 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
       return
     }
 
-    axios.post(`http://localhost:3001/email-confirmation/resend-confirmation-link/${userId}`)
+    axios.post(`${requestUrl}/resend-confirmation-link/${userId}`)
       .catch(err => console.log(err))
   }
 
@@ -65,7 +66,7 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
       return
     }
 
-    return axios.post('http://localhost:3001/auth/refresh')
+    return axios.post(`${requestUrl}/auth/refresh`)
       .then((response) => {
         refreshToken(response.data)
       })
@@ -79,7 +80,7 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
       return
     }
 
-    axios.get('http://localhost:3001/auth/get-user-by-jwt')
+    axios.get(`${requestUrl}/auth/get-user-by-jwt`)
       .then(response => {
         setUser(response.data)
       })
