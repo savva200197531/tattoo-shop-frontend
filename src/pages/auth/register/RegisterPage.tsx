@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { literal, object, string, TypeOf } from 'zod';
 
@@ -16,7 +15,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { LoadingButton } from '@mui/lab';
 import Checkbox from '@mui/material/Checkbox';
 
-import { setAuthToken } from '../../helpers/setAuthToken'
+import { RegisterPayload } from '../../../contexts/auth/types'
+import { useAuth } from '../../../contexts/auth/AuthContext'
 
 const registerSchema = object({
   name: string()
@@ -38,9 +38,10 @@ const registerSchema = object({
 
 type RegisterInput = TypeOf<typeof registerSchema>;
 
-const RegisterPage: React.FC = () => {
-  const [loading, setLoading] = useState(false);
-  const navigate = useNavigate()
+ const RegisterPage: React.FC = () => {
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const { register: registerUser } = useAuth()
   const {
     register,
     formState: { errors, isSubmitSuccessful },
@@ -51,23 +52,17 @@ const RegisterPage: React.FC = () => {
   });
 
   const onSubmitHandler: SubmitHandler<RegisterInput> = ({ email, password, name }) => {
-    const loginPayload = {
+    const registerPayload: RegisterPayload = {
       email,
       password,
       name,
     }
 
-    axios.post('http://localhost:3001/auth/register', loginPayload)
-      .then(response => {
-        const token = response.data
+    setLoading(true)
 
-        localStorage.setItem('alisa-kisa-token', token)
-
-        setAuthToken(token)
-
-        navigate('/confirmation')
-      })
-      .catch(err => console.log(err))
+    registerUser(registerPayload).finally(() => {
+      setLoading(false)
+    })
   };
 
   useEffect(() => {
@@ -94,6 +89,7 @@ const RegisterPage: React.FC = () => {
         <TextField
           sx={{ mb: 2 }}
           label='Name'
+          defaultValue="Savva"
           fullWidth
           required
           error={!!errors['name']}
@@ -103,6 +99,7 @@ const RegisterPage: React.FC = () => {
         <TextField
           sx={{ mb: 2 }}
           label='Email'
+          defaultValue="yakikbutovski353@gmail.com"
           fullWidth
           required
           type='email'
@@ -113,6 +110,7 @@ const RegisterPage: React.FC = () => {
         <TextField
           sx={{ mb: 2 }}
           label='Password'
+          defaultValue="123123123"
           fullWidth
           required
           type='password'
@@ -123,6 +121,7 @@ const RegisterPage: React.FC = () => {
         <TextField
           sx={{ mb: 2 }}
           label='Confirm Password'
+          defaultValue="123123123"
           fullWidth
           required
           type='password'
@@ -135,7 +134,7 @@ const RegisterPage: React.FC = () => {
 
         <FormGroup>
           <FormControlLabel
-            control={<Checkbox required />}
+            control={<Checkbox defaultChecked={true} required />}
             {...register('terms')}
             label={
               <Typography color={errors['terms'] ? 'error' : 'inherit'}>
@@ -147,6 +146,10 @@ const RegisterPage: React.FC = () => {
             {errors['terms'] ? errors['terms'].message : ''}
           </FormHelperText>
         </FormGroup>
+
+        <Link to="/login">
+          Login
+        </Link>
 
         <LoadingButton
           variant='contained'

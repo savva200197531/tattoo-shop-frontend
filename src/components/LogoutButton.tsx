@@ -3,11 +3,14 @@ import { useNavigate } from 'react-router-dom'
 
 import { Button } from '@mui/material'
 
+import { setAuthToken } from '../helpers/setAuthToken'
+
 const LogoutButton = () => {
   const navigate = useNavigate()
 
   const logout = () => {
     localStorage.removeItem('alisa-kisa-token')
+    setAuthToken(undefined)
     navigate('login')
   }
 
