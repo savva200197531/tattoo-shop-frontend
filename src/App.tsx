@@ -7,10 +7,11 @@ import RegisterPage from './pages/auth/register/RegisterPage'
 import AuthPage from './pages/auth/AuthPage'
 import { AuthProvider } from './contexts/auth/AuthContext'
 import ConfirmationPage from './pages/auth/confirmation/ConfirmationPage'
-import RouteGuard from './components/RouteGuard'
-import MainPage from './pages/main/MainPage'
 import { ProductsProvider } from './contexts/products/ProductsContext'
 import { CartProvider } from './contexts/cart/CartContext'
+import ProductsPage from './pages/products/ProductsPage'
+import CartPage from './pages/cart/CartPage'
+import Header from './components/header/Header'
 
 function App() {
   const token = localStorage.getItem('alisa-kisa-token');
@@ -24,12 +25,10 @@ function App() {
       <AuthProvider>
         <CartProvider>
           <ProductsProvider>
+            <Header />
             <Routes>
-              <Route path="/" element={
-                <RouteGuard>
-                  <MainPage />
-                </RouteGuard>
-              }></Route>
+              <Route path="/" element={<ProductsPage />} />
+              <Route path="/cart" element={<CartPage />} />
               <Route element={<AuthPage />}>
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/register" element={<RegisterPage />} />

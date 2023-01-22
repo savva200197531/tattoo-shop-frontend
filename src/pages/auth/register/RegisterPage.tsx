@@ -52,7 +52,7 @@ type RegisterInput = TypeOf<typeof registerSchema>;
   });
 
   const onSubmitHandler: SubmitHandler<RegisterInput> = ({ email, password, name }) => {
-    const registerPayload: RegisterPayload = {
+    const payload: RegisterPayload = {
       email,
       password,
       name,
@@ -60,7 +60,7 @@ type RegisterInput = TypeOf<typeof registerSchema>;
 
     setLoading(true)
 
-    registerUser(registerPayload).finally(() => {
+    registerUser(payload).finally(() => {
       setLoading(false)
     })
   };

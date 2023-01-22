@@ -10,6 +10,7 @@ const LogoutButton = () => {
 
   const logout = () => {
     localStorage.removeItem('alisa-kisa-token')
+    localStorage.removeItem('alisa-kisa-user-id')
     setAuthToken(undefined)
     navigate('login')
   }

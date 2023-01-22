@@ -32,14 +32,14 @@ const LoginPage = () => {
   });
 
   const onSubmitHandler: SubmitHandler<LoginInput> = ({ email, password }) => {
-    const loginPayload: LoginPayload = {
+    const payload: LoginPayload = {
       email,
       password,
     }
 
     setLoading(true)
 
-    login(loginPayload).finally(() => {
+    login(payload).finally(() => {
       setLoading(false)
     })
   };

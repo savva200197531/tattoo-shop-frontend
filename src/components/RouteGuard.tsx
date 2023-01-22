@@ -1,8 +1,8 @@
-import React, { ReactElement } from 'react'
+import React, { ReactNode } from 'react'
 import { Navigate } from 'react-router-dom'
 
 type Props = {
-  children: ReactElement
+  children: ReactNode
 }
 
 const RouteGuard: React.FC<Props> = ({ children }) => {
@@ -12,7 +12,7 @@ const RouteGuard: React.FC<Props> = ({ children }) => {
     return <Navigate to="/login" replace />
   }
 
-  return children
+  return <>{children}</>
 }
 
 export default RouteGuard

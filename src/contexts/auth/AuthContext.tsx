@@ -1,4 +1,4 @@
-import React, { ReactElement, useContext, useEffect, useState } from 'react'
+import React, { ReactNode, useContext, useEffect, useState } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 
@@ -11,7 +11,7 @@ const AuthContext = React.createContext<AuthContextProps>({} as AuthContextProps
 export const useAuth = () => useContext(AuthContext)
 
 type Props = {
-  children: ReactElement
+  children: ReactNode
 }
 
 export const AuthProvider: React.FC<Props> = ({ children }) => {
@@ -21,8 +21,8 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
 
   const register: Register = (payload) => axios.post<User>(`${requestUrl}/auth/register`, payload)
     .then(({ data }) => {
-      navigate('/confirmation/await')
       localStorage.setItem('alisa-kisa-user-id', JSON.stringify(data.id))
+      navigate('/confirmation/await')
     })
     .catch(err => console.log(err))
 
@@ -67,8 +67,8 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
     }
 
     return axios.post(`${requestUrl}/auth/refresh`)
-      .then((response) => {
-        refreshToken(response.data)
+      .then(({ data }) => {
+        refreshToken(data)
       })
       .catch(error => {
         console.log(error)
@@ -81,8 +81,9 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
     }
 
     axios.get(`${requestUrl}/auth/get-user-by-jwt`)
-      .then(response => {
-        setUser(response.data)
+      .then(({ data }) => {
+        localStorage.setItem('alisa-kisa-user-id', JSON.stringify(data.id))
+        setUser(data)
       })
       .catch(err => console.log(err))
   }
