@@ -1,0 +1,55 @@
+*, *:before, *:after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  //font-family: "Roboto", sans-serif;
+}
+
+body {
+  //overflow-x: hidden;
+}
+
+.container {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 190px;
+}
+
+.hidden {
+  display: none;
+}
+
+ul, li {
+  list-style-type: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+h1, h2, h3 {
+  font-family: 'Geometria', sans-serif;
+}
+
+//.img-wrapper {
+//  overflow: hidden;
+//  position: relative;
+//  width: 100%;
+//  padding-bottom: 80%;
+//}
+//
+//.img-wrapper > div {
+//  position: absolute;
+//  top: 0;
+//  left: 0;
+//  width: 100%;
+//  height: 100%;
+//  justify-content: center;
+//  display: flex;
+//  align-items: center;
+//}
+//
+//.img-wrapper > div > img {
+//  width: 100%;
+//  height: 100%;
+//}

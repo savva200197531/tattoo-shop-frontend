@@ -17,7 +17,7 @@ const CartPage: React.FC = () => {
 
   return (
     <div>
-      {cartItems.map(cartItem => <CartItem cartItem={cartItem} />)}
+      {cartItems.map(cartItem => <CartItem key={cartItem.id} cartItem={cartItem} />)}
     </div>
   )
 }

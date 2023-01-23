@@ -9,13 +9,13 @@ import { LoadingButton } from '@mui/lab'
 
 const createProductSchema = object({
   name: string()
-    .nonempty(validationErrors.required('Название товара'))
-    .min(2, validationErrors.min('Название товара', 8))
-    .max(32, validationErrors.max('Название товара', 32)),
+      .nonempty(validationErrors.required('Название товара'))
+      .min(2, validationErrors.min('Название товара', 8))
+      .max(32, validationErrors.max('Название товара', 32)),
   count: number()
-    .min(0, validationErrors.min('Количество товара', 0)),
+      .min(0, validationErrors.min('Количество товара', 0)),
   price: number()
-    .min(0, validationErrors.min('Цена', 0))
+      .min(0, validationErrors.min('Цена', 0)),
 })
 
 type CreateProductInput = TypeOf<typeof createProductSchema>;
@@ -23,7 +23,7 @@ type CreateProductInput = TypeOf<typeof createProductSchema>;
 const CreateProductForm = () => {
   const [loading, setLoading] = useState<boolean>(false)
 
-  const { createProduct } = useProducts()
+  const { createProduct, getProducts } = useProducts()
 
   const {
     register,
@@ -32,21 +32,22 @@ const CreateProductForm = () => {
     handleSubmit,
   } = useForm<CreateProductInput>({
     resolver: zodResolver(createProductSchema),
-  });
+  })
 
   const onSubmitHandler: SubmitHandler<CreateProductInput> = (payload) => {
     setLoading(true)
 
     createProduct(payload).finally(() => {
       setLoading(false)
+      getProducts()
     })
-  };
+  }
 
   useEffect(() => {
     if (isSubmitSuccessful) {
-      reset();
+      reset()
     }
-  }, [isSubmitSuccessful, reset]);
+  }, [isSubmitSuccessful, reset])
 
   useEffect(() => {
     console.log(errors)
@@ -96,7 +97,7 @@ const CreateProductForm = () => {
           type="number"
           error={!!errors['price']}
           helperText={errors['price'] ? errors['price'].message : ''}
-          {...register('price',  { valueAsNumber: true })}
+          {...register('price', { valueAsNumber: true })}
         />
 
         <LoadingButton

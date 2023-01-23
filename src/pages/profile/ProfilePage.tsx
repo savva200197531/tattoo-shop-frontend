@@ -1,13 +1,12 @@
 import React from 'react'
 import LogoutButton from '../../components/LogoutButton'
 
-const MainPage = () => {
+const ProfilePage: React.FC = () => {
   return (
     <div>
-      main page
       <LogoutButton />
     </div>
   )
 }
 
-export default MainPage
+export default ProfilePage

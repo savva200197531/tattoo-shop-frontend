@@ -1,6 +1,7 @@
 import React from 'react'
+import { storageFactory } from 'storage-factory'
 
-import { setAuthToken } from './helpers/setAuthToken'
+import { setTokenToHeaders } from './helpers/setTokenToHeaders'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import LoginPage from './pages/auth/login/LoginPage'
 import RegisterPage from './pages/auth/register/RegisterPage'
@@ -11,13 +12,17 @@ import { ProductsProvider } from './contexts/products/ProductsContext'
 import { CartProvider } from './contexts/cart/CartContext'
 import ProductsPage from './pages/products/ProductsPage'
 import CartPage from './pages/cart/CartPage'
-import Header from './components/header/Header'
+import Header from './layout/Header/Header'
+import ProfilePage from './pages/profile/ProfilePage'
+
+export const local = storageFactory(() => localStorage)
+export const session = storageFactory(() => sessionStorage)
 
 function App() {
-  const token = localStorage.getItem('alisa-kisa-token');
+  const token = localStorage.getItem('alisa-kisa-token')
 
   if (token) {
-    setAuthToken(token);
+    setTokenToHeaders(token)
   }
 
   return (
@@ -29,6 +34,7 @@ function App() {
             <Routes>
               <Route path="/" element={<ProductsPage />} />
               <Route path="/cart" element={<CartPage />} />
+              <Route path="/profile" element={<ProfilePage />} />
               <Route element={<AuthPage />}>
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/register" element={<RegisterPage />} />

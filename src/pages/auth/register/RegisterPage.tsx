@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { useForm, SubmitHandler } from 'react-hook-form';
-import { literal, object, string, TypeOf } from 'zod';
+import { useForm, SubmitHandler } from 'react-hook-form'
+import { literal, object, string, TypeOf } from 'zod'
 
 import {
   Box,
@@ -10,23 +10,23 @@ import {
   FormHelperText,
   TextField,
   Typography,
-} from '@mui/material';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { LoadingButton } from '@mui/lab';
-import Checkbox from '@mui/material/Checkbox';
+} from '@mui/material'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { LoadingButton } from '@mui/lab'
+import Checkbox from '@mui/material/Checkbox'
 
 import { RegisterPayload } from '../../../contexts/auth/types'
 import { useAuth } from '../../../contexts/auth/AuthContext'
 
 const registerSchema = object({
   name: string()
-    .nonempty('Name is required')
-    .max(32, 'Name must be less than 100 characters'),
+      .nonempty('Name is required')
+      .max(32, 'Name must be less than 100 characters'),
   email: string().nonempty('Email is required').email('Email is invalid'),
   password: string()
-    .nonempty('Password is required')
-    .min(8, 'Password must be more than 8 characters')
-    .max(32, 'Password must be less than 32 characters'),
+      .nonempty('Password is required')
+      .min(8, 'Password must be more than 8 characters')
+      .max(32, 'Password must be less than 32 characters'),
   passwordConfirm: string().nonempty('Please confirm your password'),
   terms: literal(true, {
     invalid_type_error: 'Accept Terms is required',
@@ -34,12 +34,12 @@ const registerSchema = object({
 }).refine((data) => data.password === data.passwordConfirm, {
   path: ['passwordConfirm'],
   message: 'Passwords do not match',
-});
+})
 
 type RegisterInput = TypeOf<typeof registerSchema>;
 
- const RegisterPage: React.FC = () => {
-  const [loading, setLoading] = useState<boolean>(false);
+const RegisterPage: React.FC = () => {
+  const [loading, setLoading] = useState<boolean>(false)
 
   const { register: registerUser } = useAuth()
   const {
@@ -49,7 +49,7 @@ type RegisterInput = TypeOf<typeof registerSchema>;
     handleSubmit,
   } = useForm<RegisterInput>({
     resolver: zodResolver(registerSchema),
-  });
+  })
 
   const onSubmitHandler: SubmitHandler<RegisterInput> = ({ email, password, name }) => {
     const payload: RegisterPayload = {
@@ -63,13 +63,13 @@ type RegisterInput = TypeOf<typeof registerSchema>;
     registerUser(payload).finally(() => {
       setLoading(false)
     })
-  };
+  }
 
   useEffect(() => {
     if (isSubmitSuccessful) {
-      reset();
+      reset()
     }
-  }, [isSubmitSuccessful, reset]);
+  }, [isSubmitSuccessful, reset])
 
   useEffect(() => {
     console.log(errors)

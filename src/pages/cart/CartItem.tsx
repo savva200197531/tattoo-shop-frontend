@@ -1,6 +1,7 @@
 import React from 'react'
+
 import { CartItem as CartItemType } from '../../contexts/cart/types'
-import CartCounter from './CartCounter'
+import CartCounter from '../../components/CartCounter/CartCounter'
 
 type Props = {
   cartItem: CartItemType

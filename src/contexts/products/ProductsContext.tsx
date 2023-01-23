@@ -17,40 +17,35 @@ export const ProductsProvider: React.FC<Props> = ({ children }) => {
 
   const getProducts = () => {
     return axios.get<Product[]>(`${requestUrl}/products`)
-      .then((response) => {
-        // refreshToken(response.data)
-        setProducts(response.data)
-      })
-      .catch(error => {
-        console.log(error)
-      })
+        .then((response) => {
+          setProducts(response.data)
+        })
+        .finally(() => {
+        })
+        .catch(error => {
+          console.log(error)
+        })
   }
 
   const createProduct: CreateProduct = (payload) => {
     return axios.post(`${requestUrl}/products`, payload)
-      .then(() => {
-        getProducts()
-      })
-      .catch(error => {
-        console.log(error)
-      })
+        .catch(error => {
+          console.log(error)
+        })
   }
 
   const deleteProduct: DeleteProduct = (id) => {
     return axios.delete(`${requestUrl}/products/${id}`)
-      .then(() => {
-        getProducts()
-      })
-      .catch(error => {
-        console.log(error)
-      })
+        .catch(error => {
+          console.log(error)
+        })
   }
 
   const value = {
     getProducts,
     createProduct,
     products,
-    deleteProduct
+    deleteProduct,
   }
 
   return <ProductsContext.Provider value={value}>{children}</ProductsContext.Provider>

@@ -11,15 +11,15 @@ import { useAuth } from '../../../contexts/auth/AuthContext'
 const loginSchema = object({
   email: string().nonempty('Email is required').email('Email is invalid'),
   password: string()
-    .nonempty('Password is required')
-    .min(8, 'Password must be more than 8 characters')
-    .max(32, 'Password must be less than 32 characters'),
+      .nonempty('Password is required')
+      .min(8, 'Password must be more than 8 characters')
+      .max(32, 'Password must be less than 32 characters'),
 })
 
 type LoginInput = TypeOf<typeof loginSchema>;
 
 const LoginPage = () => {
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false)
 
   const { login } = useAuth()
   const {
@@ -29,7 +29,7 @@ const LoginPage = () => {
     handleSubmit,
   } = useForm<LoginInput>({
     resolver: zodResolver(loginSchema),
-  });
+  })
 
   const onSubmitHandler: SubmitHandler<LoginInput> = ({ email, password }) => {
     const payload: LoginPayload = {
@@ -42,13 +42,13 @@ const LoginPage = () => {
     login(payload).finally(() => {
       setLoading(false)
     })
-  };
+  }
 
   useEffect(() => {
     if (isSubmitSuccessful) {
-      reset();
+      reset()
     }
-  }, [isSubmitSuccessful, reset]);
+  }, [isSubmitSuccessful, reset])
 
   useEffect(() => {
     console.log(errors)

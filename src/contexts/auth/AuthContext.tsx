@@ -1,10 +1,11 @@
-import React, { ReactNode, useContext, useEffect, useState } from 'react'
+import React, { ReactNode, useContext, useState } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 
 import { AuthContextProps, Login, Register, User } from './types'
-import { setAuthToken } from '../../helpers/setAuthToken'
+import { setTokenToHeaders } from '../../helpers/setTokenToHeaders'
 import requestUrl from '../../requestUrl'
+import { local } from '../../App'
 
 const AuthContext = React.createContext<AuthContextProps>({} as AuthContextProps)
 
@@ -20,28 +21,27 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
   const navigate = useNavigate()
 
   const register: Register = (payload) => axios.post<User>(`${requestUrl}/auth/register`, payload)
-    .then(({ data }) => {
-      localStorage.setItem('alisa-kisa-user-id', JSON.stringify(data.id))
-      navigate('/confirmation/await')
-    })
-    .catch(err => console.log(err))
+      .then(({ data }) => {
+        local.setItem('alisa-kisa-user-id', JSON.stringify(data.id))
+        navigate('/confirmation/await')
+      })
+      .catch(err => console.log(err))
 
   const login: Login = (payload) => axios.post<string>(`${requestUrl}/auth/login`, payload)
-    .then(response => {
-      refreshToken(response.data)
-      getUser()
-      navigate('/')
-    })
-    .catch(err => console.log(err))
+      .then(({ data }) => {
+        refreshToken(data)
+        navigate('/')
+      })
+      .catch(err => console.log(err))
 
   const sendConfirmationLink = (token: string) => {
     axios.post(`${requestUrl}/email-confirmation/confirm`, {
       token,
     })
-      .then(() => {
-        navigate('/login')
-      })
-      .catch(err => console.log(err))
+        .then(() => {
+          navigate('/login')
+        })
+        .catch(err => console.log(err))
   }
 
   const resendConfirmationLink = () => {
@@ -52,13 +52,13 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
     }
 
     axios.post(`${requestUrl}/resend-confirmation-link/${userId}`)
-      .catch(err => console.log(err))
+        .catch(err => console.log(err))
   }
 
   const refreshToken = (token: string) => {
-    localStorage.setItem('alisa-kisa-token', token)
+    local.setItem('alisa-kisa-token', token)
 
-    setAuthToken(token)
+    setTokenToHeaders(token)
   }
 
   const refresh = () => {
@@ -67,12 +67,12 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
     }
 
     return axios.post(`${requestUrl}/auth/refresh`)
-      .then(({ data }) => {
-        refreshToken(data)
-      })
-      .catch(error => {
-        console.log(error)
-      })
+        .then(({ data }) => {
+          refreshToken(data)
+        })
+        .catch(error => {
+          console.log(error)
+        })
   }
 
   const getUser = () => {
@@ -81,18 +81,12 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
     }
 
     axios.get(`${requestUrl}/auth/get-user-by-jwt`)
-      .then(({ data }) => {
-        localStorage.setItem('alisa-kisa-user-id', JSON.stringify(data.id))
-        setUser(data)
-      })
-      .catch(err => console.log(err))
+        .then(({ data }) => {
+          localStorage.setItem('alisa-kisa-user-id', JSON.stringify(data.id))
+          setUser(data)
+        })
+        .catch(err => console.log(err))
   }
-
-  useEffect(() => {
-    refresh()?.then(() => {
-      getUser()
-    })
-  }, [])
 
   const value = {
     register,

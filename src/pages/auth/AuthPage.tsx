@@ -6,7 +6,6 @@ import { Outlet } from 'react-router-dom'
 const AuthPage: React.FC = () => {
   return (
     <div>
-      Auth page
       <Outlet />
     </div>
   )

@@ -1,9 +1,13 @@
-import React from 'react'
-import { Product } from '../../contexts/products/types'
+import React, { useState } from 'react'
+
 import { Button } from '@mui/material'
+import { LoadingButton } from '@mui/lab'
+
+import { Product } from '../../contexts/products/types'
 import { useProducts } from '../../contexts/products/ProductsContext'
 import { useCart } from '../../contexts/cart/CartContext'
-import CartCounter from '../cart/CartCounter'
+import productBg from '../../assets/images/product-bg.png'
+import CartCounter from '../../components/CartCounter/CartCounter'
 
 type Props = {
   product: Product
@@ -12,21 +16,45 @@ type Props = {
 const ProductItem: React.FC<Props> = ({ product }) => {
   const { id, name, price, count } = product
 
-  const { deleteProduct } = useProducts()
+  const [loading, setLoading] = useState<boolean>(false)
+
+  const { deleteProduct, getProducts } = useProducts()
   const { cartItems } = useCart()
 
   const handleDeleteProduct = () => {
-    deleteProduct(id)
+    setLoading(true)
+    deleteProduct(id).finally(() => {
+      setLoading(false)
+      getProducts()
+    })
   }
 
   return (
-    <div>
-      <div>{name}</div>
-      <div>{price}</div>
-      <div>{count}</div>
+    <div
+      className="product-item"
+      style={{ backgroundImage: `url(${productBg})` }}
+    >
+      {/*<img src={productBg} alt={name} className="product-item__img"/>*/}
 
-      <CartCounter product_id={id} count={cartItems.find(cartItem => cartItem.product_id === product.id)?.count} />
-      <Button onClick={handleDeleteProduct}>delete</Button>
+      <div className="product-item__info">
+        <div>{name}</div>
+        <div>{price} Р</div>
+        <div className="product-item__info-count">
+          <div>5шт</div>
+          <div>{count}шт</div>
+        </div>
+      </div>
+
+      <CartCounter product_id={id} count={cartItems.find(cartItem => cartItem.product_id === product.id)?.count}/>
+
+      {/*<LoadingButton*/}
+      {/*  variant="contained"*/}
+      {/*  loading={loading}*/}
+      {/*  onClick={handleDeleteProduct}*/}
+      {/*  sx={{ py: '0.8rem', mt: '1rem' }}*/}
+      {/*>*/}
+      {/*  Удалить*/}
+      {/*</LoadingButton>*/}
     </div>
   )
 }
