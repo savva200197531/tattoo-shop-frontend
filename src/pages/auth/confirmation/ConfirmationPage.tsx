@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import React from 'react'
+import { useParams } from 'react-router-dom'
 
 import { Button } from '@mui/material'
 
@@ -9,21 +9,10 @@ const ConfirmationPage = () => {
   const { token } = useParams()
   const { sendConfirmationLink, resendConfirmationLink } = useAuth()
 
-  useEffect(() => {
-    if (!!token && token !== 'await') {
-      sendConfirmationLink(token)
-    }
-  }, [sendConfirmationLink, token])
-
   return (
     <div>
-      {token === 'await' && (
-        <div>
-          <div>Пожалуйста подтвердите почту</div>
-          <Button onClick={resendConfirmationLink}>Выслать ссылку заново</Button>
-          <Link to="/login">Продолжить без подтверждения</Link>
-        </div>
-      )}
+      <Button onClick={() => sendConfirmationLink(token as string)}></Button>
+      <Button onClick={resendConfirmationLink}>Выслать ссылку заново</Button>
     </div>
   )
 }

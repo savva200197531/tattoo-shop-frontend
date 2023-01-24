@@ -7,19 +7,24 @@ import { useCart } from '../../contexts/cart/CartContext'
 import ProductItem from './ProductItem'
 import Spinner from '../../components/Spinner/Spinner'
 import './styles.scss'
+import { useAuth } from '../../contexts/auth/AuthContext'
 
 const ProductsPage: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false)
 
   const { getProducts, products } = useProducts()
   const { getCartItems } = useCart()
+  const { user } = useAuth()
 
   useEffect(() => {
     setLoading(true)
-    all([getProducts(), getCartItems()]).finally(() => {
+
+    if (!user.id) return
+
+    all([getProducts(), getCartItems(user.id)]).finally(() => {
       setLoading(false)
     })
-  }, [])
+  }, [user])
 
   return (
     <div className="products">

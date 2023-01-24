@@ -2,7 +2,7 @@ import React, { ReactNode, useContext, useState } from 'react'
 
 import { AddToCart, CartContextProps, CartItem } from './types'
 import axios from 'axios'
-import requestUrl from '../../requestUrl'
+import { requestUrl } from '../../env'
 
 const CartContext = React.createContext<CartContextProps>({} as CartContextProps)
 
@@ -15,11 +15,9 @@ type Props = {
 export const CartProvider: React.FC<Props> = ({ children }) => {
   const [cartItems, setCartItems] = useState<CartItem[]>([])
 
-  const userId = localStorage.getItem('alisa-kisa-user-id')
-
-  const getCartItems = () => {
+  const getCartItems = (user_id: number) => {
     // setLoading(true)
-    return axios.get<CartItem[]>(`${requestUrl}/cart/${userId}`)
+    return axios.get<CartItem[]>(`${requestUrl}/cart/${user_id}`)
         .then((response) => {
           setCartItems(response.data)
         })
@@ -31,8 +29,8 @@ export const CartProvider: React.FC<Props> = ({ children }) => {
         })
   }
 
-  const addToCart: AddToCart = (payload) => {
-    return axios.put(`${requestUrl}/cart/${userId}/add`, payload)
+  const addToCart: AddToCart = ({ user_id, ...payload }) => {
+    return axios.put(`${requestUrl}/cart/${user_id}/add`, payload)
         .catch(error => {
           console.log(error)
         })

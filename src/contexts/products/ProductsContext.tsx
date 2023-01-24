@@ -2,7 +2,7 @@ import React, { ReactNode, useContext, useState } from 'react'
 import axios from 'axios'
 
 import { CreateProduct, DeleteProduct, Product, ProductsContextProps } from './types'
-import requestUrl from '../../requestUrl'
+import { requestUrl } from '../../env'
 
 const ProductsContext = React.createContext<ProductsContextProps>({} as ProductsContextProps)
 

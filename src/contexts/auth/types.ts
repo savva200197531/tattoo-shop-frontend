@@ -1,6 +1,9 @@
 export type User = {
   id: number
   email: string
+}
+
+export type FullUser = User & {
   name?: string
   lastLoginAt: Date | null
   isEmailConfirmed: boolean

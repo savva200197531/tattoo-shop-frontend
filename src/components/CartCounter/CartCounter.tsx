@@ -8,6 +8,7 @@ import { useProducts } from '../../contexts/products/ProductsContext'
 import { AddToCartPayload } from '../../contexts/cart/types'
 import Svg from '../../components/Svg'
 import './styles.scss'
+import { useAuth } from '../../contexts/auth/AuthContext'
 
 type Props = {
   count?: number
@@ -17,15 +18,17 @@ type Props = {
 const CartCounter: React.FC<Props> = ({ count = 0, product_id }) => {
   const { addToCart, getCartItems } = useCart()
   const { getProducts } = useProducts()
+  const { user } = useAuth()
 
   const handleAddToCart = (count: number) => {
     const payload: AddToCartPayload = {
+      user_id: user.id,
       count,
       product_id,
     }
 
     addToCart(payload).then(() => {
-      all([getProducts(), getCartItems()])
+      all([getProducts(), getCartItems(user.id)])
     })
   }
 

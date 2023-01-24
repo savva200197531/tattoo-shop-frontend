@@ -1,10 +1,11 @@
-import React, { ReactNode, useContext, useState } from 'react'
+import React, { ReactNode, useContext, useEffect, useState } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import jwt from 'jwt-decode'
 
-import { AuthContextProps, Login, Register, User } from './types'
+import { AuthContextProps, FullUser, Login, Register, User } from './types'
 import { setTokenToHeaders } from '../../helpers/setTokenToHeaders'
-import requestUrl from '../../requestUrl'
+import { requestUrl, tokenKey } from '../../env'
 import { local } from '../../App'
 
 const AuthContext = React.createContext<AuthContextProps>({} as AuthContextProps)
@@ -20,16 +21,17 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
 
   const navigate = useNavigate()
 
-  const register: Register = (payload) => axios.post<User>(`${requestUrl}/auth/register`, payload)
-      .then(({ data }) => {
-        local.setItem('alisa-kisa-user-id', JSON.stringify(data.id))
-        navigate('/confirmation/await')
+  const register: Register = (payload) => axios.post<FullUser>(`${requestUrl}/auth/register`, payload)
+      .then(() => {
+        navigate('/login')
       })
       .catch(err => console.log(err))
 
   const login: Login = (payload) => axios.post<string>(`${requestUrl}/auth/login`, payload)
       .then(({ data }) => {
-        refreshToken(data)
+        local.setItem(tokenKey, data)
+        setTokenToHeaders(data)
+        setUser(jwt(data))
         navigate('/')
       })
       .catch(err => console.log(err))
@@ -44,49 +46,33 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
         .catch(err => console.log(err))
   }
 
-  const resendConfirmationLink = () => {
-    const userId = localStorage.getItem('alisa-kisa-user-id')
-
-    if (!userId) {
-      return
-    }
-
-    axios.post(`${requestUrl}/resend-confirmation-link/${userId}`)
-        .catch(err => console.log(err))
-  }
-
-  const refreshToken = (token: string) => {
-    local.setItem('alisa-kisa-token', token)
-
-    setTokenToHeaders(token)
-  }
+  const resendConfirmationLink = () =>
+    axios.post(`${requestUrl}/email-confirmation/resend-confirmation-link`).catch(err => console.log(err))
 
   const refresh = () => {
-    if (!localStorage.getItem('alisa-kisa-token')) {
-      return
-    }
-
     return axios.post(`${requestUrl}/auth/refresh`)
-        .then(({ data }) => {
-          refreshToken(data)
-        })
         .catch(error => {
           console.log(error)
         })
   }
 
-  const getUser = () => {
-    if (!localStorage.getItem('alisa-kisa-token')) {
-      return
-    }
+  const getUser = (id: number) => axios.get(`${requestUrl}/user/${id}`).catch(err => console.log(err))
 
-    axios.get(`${requestUrl}/auth/get-user-by-jwt`)
-        .then(({ data }) => {
-          localStorage.setItem('alisa-kisa-user-id', JSON.stringify(data.id))
-          setUser(data)
-        })
-        .catch(err => console.log(err))
-  }
+  useEffect(() => {
+    const token = local.getItem(tokenKey)
+
+    if (!token) return
+
+    setTokenToHeaders(token)
+
+    const { id, email } = jwt(token) as User
+
+    setUser({
+      id,
+      email,
+    })
+  }, [])
+
 
   const value = {
     register,
