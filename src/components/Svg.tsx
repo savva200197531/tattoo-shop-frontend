@@ -9,7 +9,8 @@ export type SvgId =
   'profile' |
   'phone' |
   'search' |
-  'telegram'
+  'telegram' |
+  'trash'
 
 type Props = {
   className?: string

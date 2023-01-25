@@ -1,8 +1,8 @@
 import React from 'react'
 
 import './styles.scss'
-import HeaderTop from './top/HeaderTop'
-import HeaderBottom from './bottom/HeaderBottom'
+import HeaderTop from './HeaderTop'
+import HeaderBottom from './HeaderBottom'
 
 const Header = () => {
   return (

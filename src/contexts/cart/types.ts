@@ -1,10 +1,12 @@
 import { FullUser } from '../auth/types'
+import { Product } from '../products/types'
 
 export type CartItem = {
   id: number
   count: number
-  product_id: number
+  product: Product
   user: FullUser
+  price: number
 }
 
 // export type AddCartItemPayload = {
@@ -30,8 +32,12 @@ export type AddToCart = (payload: AddToCartPayload) => Promise<any>
 
 export type GetCartItems = (user_id: number) => Promise<any>
 
+export type DeleteFromCart = (id: number) => Promise<any>
+
 export type CartContextProps = {
   cartItems: CartItem[]
   getCartItems: GetCartItems
   addToCart: AddToCart
+  getCartItemsCount: () => number
+  deleteFromCart: DeleteFromCart
 }

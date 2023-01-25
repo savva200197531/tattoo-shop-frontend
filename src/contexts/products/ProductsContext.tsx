@@ -17,28 +17,28 @@ export const ProductsProvider: React.FC<Props> = ({ children }) => {
 
   const getProducts = () => {
     return axios.get<Product[]>(`${requestUrl}/products`)
-        .then((response) => {
-          setProducts(response.data)
-        })
-        .finally(() => {
-        })
-        .catch(error => {
-          console.log(error)
-        })
+      .then((response) => {
+        setProducts(response.data)
+      })
+      .finally(() => {
+      })
+      .catch(error => {
+        console.log(error)
+      })
   }
 
   const createProduct: CreateProduct = (payload) => {
     return axios.post(`${requestUrl}/products`, payload)
-        .catch(error => {
-          console.log(error)
-        })
+      .catch(error => {
+        console.log(error)
+      })
   }
 
   const deleteProduct: DeleteProduct = (id) => {
     return axios.delete(`${requestUrl}/products/${id}`)
-        .catch(error => {
-          console.log(error)
-        })
+      .catch(error => {
+        console.log(error)
+      })
   }
 
   const value = {

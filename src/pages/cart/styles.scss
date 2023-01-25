@@ -1,0 +1,35 @@
+@import "../../styles/variables";
+
+.cart-title {
+  text-align: center;
+  margin-top: 50px;
+}
+
+.cart-main {
+  margin-top: 70px;
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  grid-gap: 30px;
+}
+
+.cart-item {
+  background: white;
+  height: 160px;
+  display: flex;
+  justify-content: space-between;
+  padding: 24px 40px 16px 25px;
+  box-shadow: $shadow;
+  border-radius: $border-radius;
+
+  &:not(:first-child) {
+    margin-top: 20px;
+  }
+}
+
+.cart-checkout {
+  background: white;
+  box-shadow: $shadow;
+  border-radius: $border-radius;
+  height: fit-content;
+  padding: 27px 27px 35px 27px;
+}

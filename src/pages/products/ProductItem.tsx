@@ -45,7 +45,7 @@ const ProductItem: React.FC<Props> = ({ product }) => {
         </div>
       </div>
 
-      <CartCounter product_id={id} count={cartItems.find(cartItem => cartItem.product_id === product.id)?.count}/>
+      <CartCounter product_id={id} count={cartItems.find(cartItem => cartItem.product.id === product.id)?.count}/>
 
       {/*<LoadingButton*/}
       {/*  variant="contained"*/}

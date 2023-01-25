@@ -1,9 +1,8 @@
 import React from 'react'
-import './styles.scss'
 import { useNavigate } from 'react-router-dom'
-import { ListItem } from '../../../types/list-item'
+import { ListItem } from '../../types/list-item'
 import { Button } from '@mui/material'
-import Catalog from '../../catalog/Catalog'
+import Catalog from '../catalog/Catalog'
 
 const HeaderBottom = () => {
   const navigate = useNavigate()

@@ -24,10 +24,13 @@ export type Login = (payload: LoginPayload) => Promise<any>
 
 export type SendConfirmationLink = (token: string) => Promise<any>
 
+export type Logout = () => void
+
 export type AuthContextProps = {
   login: Login
   register: Register
   sendConfirmationLink: (token: string) => void
   resendConfirmationLink: () => void
   user: User
+  logout: Logout
 };

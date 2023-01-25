@@ -4,11 +4,10 @@ import { useNavigate } from 'react-router-dom'
 import IconButton from '@mui/material/IconButton'
 import { Button } from '@mui/material'
 
-import './styles.scss'
-import { ListItem } from '../../../types/list-item'
-import SearchField from '../../../components/SearchField/SearchField'
-import Svg from '../../../components/Svg'
-import CartIcon from '../../../components/CartIcon'
+import { ListItem } from '../../types/list-item'
+import SearchField from '../../components/SearchField/SearchField'
+import Svg from '../../components/Svg'
+import CartIcon from '../../components/CartIcon'
 
 const HeaderTop = () => {
   const navigate = useNavigate()

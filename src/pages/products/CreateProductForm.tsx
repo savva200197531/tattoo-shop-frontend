@@ -9,13 +9,13 @@ import { LoadingButton } from '@mui/lab'
 
 const createProductSchema = object({
   name: string()
-      .nonempty(validationErrors.required('Название товара'))
-      .min(2, validationErrors.min('Название товара', 8))
-      .max(32, validationErrors.max('Название товара', 32)),
+    .nonempty(validationErrors.required('Название товара'))
+    .min(2, validationErrors.min('Название товара', 8))
+    .max(32, validationErrors.max('Название товара', 32)),
   count: number()
-      .min(0, validationErrors.min('Количество товара', 0)),
+    .min(0, validationErrors.min('Количество товара', 0)),
   price: number()
-      .min(0, validationErrors.min('Цена', 0)),
+    .min(0, validationErrors.min('Цена', 0)),
 })
 
 type CreateProductInput = TypeOf<typeof createProductSchema>;

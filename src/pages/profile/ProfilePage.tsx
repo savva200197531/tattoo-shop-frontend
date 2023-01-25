@@ -1,10 +1,13 @@
 import React from 'react'
-import LogoutButton from '../../components/LogoutButton'
+import { Button } from '@mui/material'
+import { useAuth } from '../../contexts/auth/AuthContext'
 
 const ProfilePage: React.FC = () => {
+  const { logout } = useAuth()
+
   return (
     <div>
-      <LogoutButton />
+      <Button onClick={logout}>log out</Button>
     </div>
   )
 }

@@ -6,23 +6,24 @@
 }
 
 body {
-  //position: relative;
-  //
-  //&:before {
-  //  content: ' ';
-  //  display: block;
-  //  position: absolute;
-  //  z-index: -1;
-  //  left: 0;
-  //  top: 0;
-  //  width: 100%;
-  //  height: 100%;
-  //  opacity: 0.05;
-  //  background-image: url('./assets/images/bg-pattern-light.svg');
-  //  background-repeat: no-repeat;
-  //  background-position: 50% 0;
-  //  background-size: cover;
-  //}
+  position: relative;
+  min-height: 100vh;
+
+  &:before {
+    content: ' ';
+    display: block;
+    position: absolute;
+    z-index: -1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.09;
+    background-image: url('./assets/images/bg-pattern-light.svg');
+    background-repeat: no-repeat;
+    background-position: 50% 0;
+    background-size: cover;
+  }
 }
 
 .container {
@@ -43,8 +44,11 @@ a {
   text-decoration: none;
 }
 
-h1, h2, h3 {
-  font-family: 'Geometria', sans-serif;
+h1, h2, h3 {}
+
+h1 {
+  font-weight: 500;
+  font-size: 40px;
 }
 
 //.img-wrapper {

@@ -22,28 +22,35 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
   const navigate = useNavigate()
 
   const register: Register = (payload) => axios.post<FullUser>(`${requestUrl}/auth/register`, payload)
-      .then(() => {
-        navigate('/login')
-      })
-      .catch(err => console.log(err))
+    .then(() => {
+      navigate('/login')
+    })
+    .catch(err => console.log(err))
 
   const login: Login = (payload) => axios.post<string>(`${requestUrl}/auth/login`, payload)
-      .then(({ data }) => {
-        local.setItem(tokenKey, data)
-        setTokenToHeaders(data)
-        setUser(jwt(data))
-        navigate('/')
-      })
-      .catch(err => console.log(err))
+    .then(({ data }) => {
+      local.setItem(tokenKey, data)
+      setTokenToHeaders(data)
+      setUser(jwt(data))
+      navigate('/')
+    })
+    .catch(err => console.log(err))
+
+  const logout = () => {
+    local.removeItem(tokenKey)
+    setTokenToHeaders(undefined)
+    setUser({} as User)
+    navigate('/login')
+  }
 
   const sendConfirmationLink = (token: string) => {
     axios.post(`${requestUrl}/email-confirmation/confirm`, {
       token,
     })
-        .then(() => {
-          navigate('/login')
-        })
-        .catch(err => console.log(err))
+      .then(() => {
+        navigate('/login')
+      })
+      .catch(err => console.log(err))
   }
 
   const resendConfirmationLink = () =>
@@ -51,9 +58,9 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
 
   const refresh = () => {
     return axios.post(`${requestUrl}/auth/refresh`)
-        .catch(error => {
-          console.log(error)
-        })
+      .catch(error => {
+        console.log(error)
+      })
   }
 
   const getUser = (id: number) => axios.get(`${requestUrl}/user/${id}`).catch(err => console.log(err))
@@ -80,6 +87,7 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
     sendConfirmationLink,
     resendConfirmationLink,
     user,
+    logout,
   }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
