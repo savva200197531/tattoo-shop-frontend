@@ -56,7 +56,7 @@ const CreateProductForm = () => {
   return (
     <Box sx={{ maxWidth: '30rem' }}>
       <Typography variant='h4' component='h1' sx={{ mb: '2rem' }}>
-        Create product
+        Создать товар
       </Typography>
       <Box
         component='form'

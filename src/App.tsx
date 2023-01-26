@@ -14,6 +14,8 @@ import CartPage from './pages/cart/CartPage'
 import Header from './layout/header/Header'
 import ProfilePage from './pages/profile/ProfilePage'
 import { createTheme, ThemeProvider } from '@mui/material'
+import { FavoriteProvider } from './contexts/favorite/FavoriteContext'
+import FavoritePage from './pages/favorite/FavoritePage'
 
 const theme = createTheme({
   palette: {
@@ -36,17 +38,20 @@ function App() {
         <AuthProvider>
           <CartProvider>
             <ProductsProvider>
-              <Header />
-              <Routes>
-                <Route path="/" element={<ProductsPage />} />
-                <Route path="/cart" element={<CartPage />} />
-                <Route path="/profile" element={<ProfilePage />} />
-                <Route element={<AuthPage />}>
-                  <Route path="/login" element={<LoginPage />} />
-                  <Route path="/register" element={<RegisterPage />} />
-                  <Route path="/confirmation/:token" element={<ConfirmationPage />} />
-                </Route>
-              </Routes>
+              <FavoriteProvider>
+                <Header />
+                <Routes>
+                  <Route path="/" element={<ProductsPage />} />
+                  <Route path="/cart" element={<CartPage />} />
+                  <Route path="/profile" element={<ProfilePage />} />
+                  <Route path="/favorite" element={<FavoritePage />} />
+                  <Route element={<AuthPage />}>
+                    <Route path="/login" element={<LoginPage />} />
+                    <Route path="/register" element={<RegisterPage />} />
+                    <Route path="/confirmation/:token" element={<ConfirmationPage />} />
+                  </Route>
+                </Routes>
+              </FavoriteProvider>
             </ProductsProvider>
           </CartProvider>
         </AuthProvider>

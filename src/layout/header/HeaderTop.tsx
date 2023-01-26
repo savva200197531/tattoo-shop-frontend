@@ -39,6 +39,7 @@ const HeaderTop = () => {
     },
     {
       element: 'hearth',
+      onClick: () => navigate('favorite'),
     },
     {
       element: <CartIcon />,

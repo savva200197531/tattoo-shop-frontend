@@ -33,7 +33,7 @@ const CartItem: React.FC<Props> = ({ cartItem }) => {
       <div className="cart-item__right">
         <p>{price}Р</p>
         <IconButton onClick={handleDeleteFromCart} type="button" sx={{ p: '6px' }}>
-          <Svg id="trash" width={27} height={30} />
+          <Svg id="trash" width={30} height={30} />
         </IconButton>
       </div>
     </div>
