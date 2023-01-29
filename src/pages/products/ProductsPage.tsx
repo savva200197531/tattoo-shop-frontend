@@ -1,32 +1,33 @@
 import React, { useEffect, useState } from 'react'
-import { all } from 'axios'
 
 import { useProducts } from '../../contexts/products/ProductsContext'
-import { useCart } from '../../contexts/cart/CartContext'
 import ProductItem from './ProductItem'
 import Spinner from '../../components/Spinner/Spinner'
 import './styles.scss'
-import { useAuth } from '../../contexts/auth/AuthContext'
 import CreateProduct from './CreateProduct'
 import ProductsFilters from './ProductsFilters'
 import ProductsHeader from './ProductsHeader'
+import { useAuth } from '../../contexts/auth/AuthContext'
 
 const ProductsPage: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false)
 
   const { getProducts, products } = useProducts()
-  const { getCartItems } = useCart()
-  const { user } = useAuth()
+  const { user, getUser } = useAuth()
 
   useEffect(() => {
     setLoading(true)
 
-    if (!user.id) return
-
-    all([getProducts(), getCartItems(user.id)]).finally(() => {
-      setLoading(false)
+    getProducts().finally(() => {
+      if (!user.id) {
+        setLoading(false)
+      } else {
+        getUser(user.id).finally(() => {
+          setLoading(false)
+        })
+      }
     })
-  }, [user])
+  }, [])
 
   return (
     <div className="products">

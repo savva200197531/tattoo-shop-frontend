@@ -1,11 +1,11 @@
-import { FullUser } from '../auth/types'
+import { User } from '../auth/types'
 import { Product } from '../products/types'
 
 export type CartItem = {
   id: number
   count: number
   product: Product
-  user: FullUser
+  user: User
   price: number
 }
 

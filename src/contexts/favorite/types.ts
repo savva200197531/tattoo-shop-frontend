@@ -1,10 +1,10 @@
-import { FullUser } from '../auth/types'
+import { User } from '../auth/types'
 import { Product } from '../products/types'
 
 export type Favorite = {
   id: number
   product: Product
-  user: FullUser
+  user: User
 }
 
 export type AddToFavoritePayload = {

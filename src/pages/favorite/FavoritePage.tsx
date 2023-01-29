@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { useAuth } from '../../contexts/auth/AuthContext'
 import { useFavorite } from '../../contexts/favorite/FavoriteContext'
+import { Typography } from '@mui/material'
+import Spinner from '../../components/Spinner/Spinner'
+import FavoriteItem from './FavoriteItem'
 
-const FavoritePage = () => {
+const FavoritePage: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false)
 
-  const { getFavoriteProducts } = useFavorite()
+  const { getFavoriteProducts, favoriteProducts } = useFavorite()
   const { user } = useAuth()
 
   useEffect(() => {
@@ -13,14 +16,26 @@ const FavoritePage = () => {
 
     if (!user.id) return
 
-    getFavoriteProducts(user.id).finally(() => {
-      setLoading(false)
-    })
+    getFavoriteProducts(user.id)
+      .catch(error => {
+        console.log(error)
+      })
+      .finally(() => {
+        setLoading(false)
+      })
   }, [user])
 
   return (
-    <div>
+    <div className="favorite">
+      <div className="container">
+        <div className="favorite-content">
+          <Typography variant='h4' component='h1' fontWeight={500} textAlign="center" sx={{ mt: '50px', mb: '70px' }}>
+            Избранное
+          </Typography>
 
+          {loading ? <Spinner /> : favoriteProducts.map(favoriteProduct => <FavoriteItem key={favoriteProduct.id} favoriteProduct={favoriteProduct} />)}
+        </div>
+      </div>
     </div>
   )
 }

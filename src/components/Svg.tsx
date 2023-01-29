@@ -18,12 +18,13 @@ type Props = {
   id: SvgId | string
   width?: string | number
   height?: string | number
+  fill?: string
 }
 
-const Svg: React.FC<Props> = ({ id, ...rest }) => {
+const Svg: React.FC<Props> = ({ id, fill = 'black', ...rest }) => {
   return (
-    <svg {...rest}>
-      <use xlinkHref={`${icons}#${id}`}/>
+    <svg fill={fill} {...rest}>
+      <use fill={fill} xlinkHref={`${icons}#${id}`}/>
     </svg>
   )
 }

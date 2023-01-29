@@ -3,7 +3,7 @@ import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import jwt from 'jwt-decode'
 
-import { AuthContextProps, FullUser, Login, Register, User } from './types'
+import { AuthContextProps, GetUser, Login, Register, SendConfirmationLink, User } from './types'
 import { setTokenToHeaders } from '../../helpers/setTokenToHeaders'
 import { requestUrl, tokenKey } from '../../env'
 import { local } from '../../App'
@@ -18,10 +18,11 @@ type Props = {
 
 export const AuthProvider: React.FC<Props> = ({ children }) => {
   const [user, setUser] = useState<User>({} as User)
+  const [isUserExist, setIsUserExist] = useState<boolean>(false)
 
   const navigate = useNavigate()
 
-  const register: Register = (payload) => axios.post<FullUser>(`${requestUrl}/auth/register`, payload)
+  const register: Register = (payload) => axios.post<User>(`${requestUrl}/auth/register`, payload)
     .then(() => {
       navigate('/login')
     })
@@ -31,7 +32,11 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
     .then(({ data }) => {
       local.setItem(tokenKey, data)
       setTokenToHeaders(data)
-      setUser(jwt(data))
+      const { id } = jwt(data) as User
+      getUser(id)
+        .then(() => {
+          setIsUserExist(true)
+        })
       navigate('/')
     })
     .catch(err => console.log(err))
@@ -39,12 +44,13 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
   const logout = () => {
     local.removeItem(tokenKey)
     setTokenToHeaders(undefined)
+    setIsUserExist(false)
     setUser({} as User)
     navigate('/login')
   }
 
-  const sendConfirmationLink = (token: string) => {
-    axios.post(`${requestUrl}/email-confirmation/confirm`, {
+  const sendConfirmationLink: SendConfirmationLink = (token: string) => {
+    return axios.post(`${requestUrl}/email-confirmation/confirm`, {
       token,
     })
       .then(() => {
@@ -63,7 +69,15 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
       })
   }
 
-  const getUser = (id: number) => axios.get(`${requestUrl}/user/${id}`).catch(err => console.log(err))
+  const getUser: GetUser = (id: number) => {
+    return axios.get<User>(`${requestUrl}/user/${id}`)
+      .then(({ data }) => {
+        setUser(data)
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }
 
   useEffect(() => {
     const token = local.getItem(tokenKey)
@@ -72,12 +86,12 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
 
     setTokenToHeaders(token)
 
-    const { id, email } = jwt(token) as User
+    const { id } = jwt(token) as User
 
-    setUser({
-      id,
-      email,
-    })
+    getUser(id)
+      .then(() => {
+        setIsUserExist(true)
+      })
   }, [])
 
 
@@ -88,6 +102,8 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
     resendConfirmationLink,
     user,
     logout,
+    getUser,
+    isUserExist,
   }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

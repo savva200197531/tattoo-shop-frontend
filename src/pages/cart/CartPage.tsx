@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
 
+import { Typography } from '@mui/material'
+
 import { useCart } from '../../contexts/cart/CartContext'
 import CartItem from './CartItem'
 import { useAuth } from '../../contexts/auth/AuthContext'
 import Spinner from '../../components/Spinner/Spinner'
 import './styles.scss'
 import CartCheckout from './CartCheckout'
-import { Typography } from '@mui/material'
 
 const CartPage: React.FC = () => {
   const [loading, setLoading] = useState(false)
@@ -19,9 +20,13 @@ const CartPage: React.FC = () => {
 
     if (!user.id) return
 
-    getCartItems(user.id).finally(() => {
-      setLoading(false)
-    })
+    getCartItems(user.id)
+      .catch(error => {
+        console.log(error)
+      })
+      .finally(() => {
+        setLoading(false)
+      })
   }, [user])
 
   return (

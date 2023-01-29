@@ -26,12 +26,7 @@ export const FavoriteProvider: React.FC<Props> = ({ children }) => {
       })
   }
 
-  const addToFavorite: AddToFavorite = ({ user_id, ...payload }) => {
-    return axios.post(`${requestUrl}/favorite/${user_id}`, payload)
-      .catch(error => {
-        console.log(error)
-      })
-  }
+  const addToFavorite: AddToFavorite = ({ user_id, ...payload }) => axios.post(`${requestUrl}/favorite/${user_id}`, payload)
 
   const deleteFromFavorite: DeleteFromFavorite = (id) => {
     return axios.delete(`${requestUrl}/favorite/${id}`)

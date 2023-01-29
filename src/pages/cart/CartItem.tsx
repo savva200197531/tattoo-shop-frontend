@@ -1,11 +1,13 @@
 import React from 'react'
 
+import IconButton from '@mui/material/IconButton'
+
 import { CartItem as CartItemType } from '../../contexts/cart/types'
 import CartCounter from '../../components/CartCounter/CartCounter'
 import productImg from '../../assets/images/product-bg.png'
 import Svg from '../../components/Svg'
-import IconButton from '@mui/material/IconButton'
 import { useCart } from '../../contexts/cart/CartContext'
+import { useAuth } from '../../contexts/auth/AuthContext'
 
 type Props = {
   cartItem: CartItemType
@@ -15,11 +17,28 @@ const CartItem: React.FC<Props> = ({ cartItem }) => {
   const { product, count, id, user, price } = cartItem
 
   const { deleteFromCart, getCartItems } = useCart()
+  const { getUser } = useAuth()
 
   const handleDeleteFromCart = () => {
-    deleteFromCart(id).finally(() => {
-      getCartItems(user.id)
-    })
+    deleteFromCart(id)
+      .finally(() => {
+        getUser(user.id)
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }
+
+  const handleUpdate = (promise: Promise<any>) => {
+    promise
+      .then(() => {
+        getCartItems(user.id).catch(error => {
+          console.log(error)
+        })
+      })
+      .catch(error => {
+        console.log(error)
+      })
   }
 
   return (
@@ -28,12 +47,12 @@ const CartItem: React.FC<Props> = ({ cartItem }) => {
       <div className="cart-item__middle">
         <p>{product.name}</p>
         <p>{product.count} в наличии</p>
-        <CartCounter product_id={product.id} count={count} />
+        <CartCounter product_id={product.id} count={count} onSubmit={handleUpdate} user_id={user.id}/>
       </div>
       <div className="cart-item__right">
         <p>{price}Р</p>
         <IconButton onClick={handleDeleteFromCart} type="button" sx={{ p: '6px' }}>
-          <Svg id="trash" width={30} height={30} />
+          <Svg id="trash" width={30} height={30}/>
         </IconButton>
       </div>
     </div>

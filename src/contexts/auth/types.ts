@@ -1,12 +1,14 @@
+import { CartItem } from '../cart/types'
+import { Favorite } from '../favorite/types'
+
 export type User = {
   id: number
   email: string
-}
-
-export type FullUser = User & {
   name?: string
   lastLoginAt: Date | null
   isEmailConfirmed: boolean
+  cart: CartItem[]
+  favorite: Favorite[]
 }
 
 export type RegisterPayload = LoginPayload & {
@@ -26,11 +28,15 @@ export type SendConfirmationLink = (token: string) => Promise<any>
 
 export type Logout = () => void
 
+export type GetUser = (id: number) => Promise<any>
+
 export type AuthContextProps = {
   login: Login
   register: Register
-  sendConfirmationLink: (token: string) => void
+  sendConfirmationLink: SendConfirmationLink
   resendConfirmationLink: () => void
   user: User
   logout: Logout
+  getUser: GetUser
+  isUserExist: boolean
 };

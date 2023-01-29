@@ -1,16 +1,15 @@
 import React from 'react'
 
+import IconButton from '@mui/material/IconButton'
+
 import { Product } from '../../contexts/products/types'
 import { useProducts } from '../../contexts/products/ProductsContext'
-import { useCart } from '../../contexts/cart/CartContext'
 import productBg from '../../assets/images/product-bg.png'
 import CartCounter from '../../components/CartCounter/CartCounter'
 import Svg from '../../components/Svg'
-import IconButton from '@mui/material/IconButton'
-import { useFavorite } from '../../contexts/favorite/FavoriteContext'
 import EditProduct from './EditProduct'
-import { AddToFavoritePayload } from '../../contexts/favorite/types'
 import { useAuth } from '../../contexts/auth/AuthContext'
+import AddToFavorite from '../../components/AddToFavorite/AddToFavorite'
 
 type Props = {
   product: Product
@@ -20,9 +19,8 @@ const ProductItem: React.FC<Props> = ({ product }) => {
   const { id, name, price, count } = product
 
   const { deleteProduct, getProducts } = useProducts()
-  const { addToFavorite } = useFavorite()
-  const { cartItems } = useCart()
-  const { user } = useAuth()
+  // const { cartItems } = useCart()
+  const { user, getUser } = useAuth()
 
   const handleDeleteProduct = () => {
     // setLoading(true)
@@ -32,17 +30,14 @@ const ProductItem: React.FC<Props> = ({ product }) => {
     })
   }
 
-  const handleAddToFavorites = () => {
-    if (!user.id) {
-      return
-    }
-
-    const payload: AddToFavoritePayload = {
-      product_id: id,
-      user_id: user.id,
-    }
-
-    addToFavorite(payload)
+  const handleUpdate = (promise: Promise<any>) => {
+    promise
+      .then(() => {
+        getUser(user.id)
+      })
+      .catch(error => {
+        console.log(error)
+      })
   }
 
   return (
@@ -50,9 +45,13 @@ const ProductItem: React.FC<Props> = ({ product }) => {
       className="product-item"
       style={{ backgroundImage: `url(${productBg})` }}
     >
-      <IconButton style={{ position: 'absolute' }} className="product-item__favorite" onClick={handleAddToFavorites} type="button" sx={{ p: '6px' }}>
-        <Svg id="hearth" width={30} height={30} />
-      </IconButton>
+      <AddToFavorite
+        id={user.favorite.find(favoriteProduct => favoriteProduct.product?.id === product.id)?.id}
+        product_id={id}
+        user_id={user.id}
+        onSubmit={handleUpdate}
+        isFavorite={!!user.favorite.find(favoriteProduct => favoriteProduct.product?.id === product.id)}
+      />
 
       <EditProduct />
 
@@ -69,7 +68,12 @@ const ProductItem: React.FC<Props> = ({ product }) => {
         </div>
       </div>
 
-      <CartCounter product_id={id} count={cartItems.find(cartItem => cartItem.product.id === product.id)?.count}/>
+      <CartCounter
+        product_id={id}
+        count={user.cart.find(cartItem => cartItem.product?.id === product.id)?.count}
+        onSubmit={handleUpdate}
+        user_id={user.id}
+      />
     </div>
   )
 }

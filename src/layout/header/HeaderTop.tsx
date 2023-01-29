@@ -7,10 +7,12 @@ import { Button } from '@mui/material'
 import { ListItem } from '../../types/list-item'
 import SearchField from '../../components/SearchField/SearchField'
 import Svg from '../../components/Svg'
-import CartIcon from '../../components/CartIcon'
+import CounterBadge from '../../components/CounterBadge'
+import { useAuth } from '../../contexts/auth/AuthContext'
 
 const HeaderTop = () => {
   const navigate = useNavigate()
+  const { user } = useAuth()
 
   const items: ListItem[] = [
     {
@@ -38,13 +40,20 @@ const HeaderTop = () => {
       onClick: () => navigate('profile'),
     },
     {
-      element: 'hearth',
-      onClick: () => navigate('favorite'),
+      element: (
+        <CounterBadge count={user.favorite?.length} onClick={() => navigate('/favorite')}>
+          <Svg className="header-icon" id="hearth" />
+        </CounterBadge>
+      ),
+      customElement: true,
     },
     {
-      element: <CartIcon />,
+      element: (
+        <CounterBadge count={user.cart?.length} onClick={() => navigate('/cart')}>
+          <Svg className="header-icon" id="cart" />
+        </CounterBadge>
+      ),
       customElement: true,
-      onClick: () => navigate('cart'),
     },
   ]
 
