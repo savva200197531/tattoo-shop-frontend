@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
-import { SpeedDial, SpeedDialIcon } from '@mui/lab'
-import { Box, Modal } from '@mui/material'
+
+import { Box, Fab, Modal } from '@mui/material'
+import AddIcon from '@mui/icons-material/Add'
+
 import CreateProductForm from './CreateProductForm'
 
 const style = {
@@ -28,12 +30,16 @@ const CreateProduct: React.FC = () => {
 
   return (
     <>
-      <SpeedDial
-        ariaLabel="SpeedDial openIcon example"
-        sx={{ position: 'fixed', bottom: 16, right: 16 }}
-        icon={<SpeedDialIcon />}
-        onClick={handleOpen}
-      />
+      {/*<SpeedDial*/}
+      {/*  ariaLabel="SpeedDial openIcon example"*/}
+      {/*  sx={{ position: 'fixed', bottom: 16, right: 16 }}*/}
+      {/*  icon={<SpeedDialIcon />}*/}
+      {/*  onClick={}*/}
+      {/*/>*/}
+
+      <Fab sx={{ position: 'fixed', bottom: 16, right: 16 }} onClick={handleOpen} color="primary" aria-label="add">
+        <AddIcon />
+      </Fab>
 
       <Modal
         open={open}

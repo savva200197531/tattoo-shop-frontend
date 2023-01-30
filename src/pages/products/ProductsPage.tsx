@@ -4,7 +4,6 @@ import { useProducts } from '../../contexts/products/ProductsContext'
 import ProductItem from './ProductItem'
 import Spinner from '../../components/Spinner/Spinner'
 import './styles.scss'
-import CreateProduct from './CreateProduct'
 import ProductsFilters from './ProductsFilters'
 import ProductsHeader from './ProductsHeader'
 import { useAuth } from '../../contexts/auth/AuthContext'
@@ -42,8 +41,6 @@ const ProductsPage: React.FC = () => {
               products.map(product => <ProductItem key={product.id} product={product} />)
             )}
           </div>
-
-          <CreateProduct />
         </div>
       </div>
     </div>

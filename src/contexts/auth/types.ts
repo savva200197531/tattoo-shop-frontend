@@ -9,6 +9,7 @@ export type User = {
   isEmailConfirmed: boolean
   cart: CartItem[]
   favorite: Favorite[]
+  role: 'User' | 'Admin'
 }
 
 export type RegisterPayload = LoginPayload & {

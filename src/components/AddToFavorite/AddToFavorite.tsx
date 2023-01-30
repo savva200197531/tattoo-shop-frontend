@@ -4,6 +4,9 @@ import { AddToFavoritePayload } from '../../contexts/favorite/types'
 import { useFavorite } from '../../contexts/favorite/FavoriteContext'
 import Svg from '../Svg'
 import IconButton from '@mui/material/IconButton'
+import { useAuth } from '../../contexts/auth/AuthContext'
+import { useAlert } from '../../contexts/alert/AlertContext'
+import { ShowAlertPayload } from '../../contexts/alert/types'
 
 type Props = {
   product_id: number
@@ -15,8 +18,19 @@ type Props = {
 
 const AddToFavorite: React.FC<Props> = ({ product_id, onSubmit, user_id, isFavorite, id }) => {
   const { addToFavorite, deleteFromFavorite } = useFavorite()
+  const { isUserExist } = useAuth()
+  const { showAlert } = useAlert()
 
   const handleAddToFavorite = () => {
+    if (!isUserExist) {
+      const payload: ShowAlertPayload = {
+        text: 'Невозможно добавить в избранное, зарегистрируйтесь',
+        severity: 'warning',
+      }
+
+      return showAlert(payload)
+    }
+
     const payload: AddToFavoritePayload = {
       product_id,
       user_id,

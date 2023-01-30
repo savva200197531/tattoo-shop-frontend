@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { number, object, string, TypeOf } from 'zod'
-import { validationErrors } from '../../validationErrors'
 import { SubmitHandler, useForm } from 'react-hook-form'
+
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useProducts } from '../../contexts/products/ProductsContext'
 import { Box, TextField, Typography } from '@mui/material'
 import { LoadingButton } from '@mui/lab'
+
+import { validationErrors } from '../../validationErrors'
+import { useProducts } from '../../contexts/products/ProductsContext'
 
 const createProductSchema = object({
   name: string()
@@ -20,7 +22,7 @@ const createProductSchema = object({
 
 type CreateProductInput = TypeOf<typeof createProductSchema>;
 
-const CreateProductForm = () => {
+const CreateProductForm: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false)
 
   const { createProduct, getProducts } = useProducts()

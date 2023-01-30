@@ -10,8 +10,9 @@
 .product-item {
   position: relative;
   border: 1px solid $border;
+  background-color: white;
   border-radius: 6px;
-  height: 420px;
+  height: 500px;
   padding: 0 20px 5px 20px;
   background-size: cover;
   background-position: bottom center;
@@ -33,14 +34,19 @@
 }
 
 .product-item__info-count {
+  position: relative;
   border: 1px solid $border;
   border-radius: 30px;
-  position: relative;
   display: flex;
   justify-content: space-between;
   align-content: center;
   padding: 3px 15px;
-  height: 26px;
+  height: 30px;
+
+  p {
+    display: flex;
+    align-items: center;
+  }
 
   &:before {
     content: '';

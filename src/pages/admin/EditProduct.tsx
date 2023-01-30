@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import Svg from '../../components/Svg'
 import IconButton from '@mui/material/IconButton'
 import { Box, Modal } from '@mui/material'
+import { Product } from '../../contexts/products/types'
 
 const style = {
   position: 'absolute',
@@ -15,7 +16,11 @@ const style = {
   p: 4,
 }
 
-const EditProduct = () => {
+type Props = {
+  product: Product
+}
+
+const EditProduct: React.FC<Props> = ({ product }) => {
   const [open, setOpen] = useState<boolean>(false)
 
   const handleOpen = () => {
