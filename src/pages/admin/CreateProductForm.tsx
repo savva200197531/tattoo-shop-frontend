@@ -8,16 +8,25 @@ import { LoadingButton } from '@mui/lab'
 
 import { validationErrors } from '../../validationErrors'
 import { useProducts } from '../../contexts/products/ProductsContext'
+import FileInput from '../../components/FileInput/FileInput'
 
 const createProductSchema = object({
   name: string()
-    .nonempty(validationErrors.required('Название товара'))
-    .min(2, validationErrors.min('Название товара', 8))
-    .max(32, validationErrors.max('Название товара', 32)),
-  count: number()
-    .min(0, validationErrors.min('Количество товара', 0)),
-  price: number()
-    .min(0, validationErrors.min('Цена', 0)),
+    .nonempty(validationErrors.required('название товара'))
+    .min(2, validationErrors.min('название товара', 8))
+    .max(32, validationErrors.max('название товара', 32)),
+  count: number({
+    errorMap: () => {
+      return { message: validationErrors.required('количество товара') }
+    },
+  })
+    .min(0, validationErrors.min('количество товара', 0)),
+  price: number({
+    errorMap: () => {
+      return { message: validationErrors.required('цена') }
+    },
+  })
+    .min(0, validationErrors.min('цена', 0)),
 })
 
 type CreateProductInput = TypeOf<typeof createProductSchema>;
@@ -56,7 +65,7 @@ const CreateProductForm: React.FC = () => {
   }, [errors])
 
   return (
-    <Box sx={{ maxWidth: '30rem' }}>
+    <Box className="product-form">
       <Typography variant='h4' component='h1' sx={{ mb: '2rem' }}>
         Создать товар
       </Typography>
@@ -101,6 +110,8 @@ const CreateProductForm: React.FC = () => {
           helperText={errors['price'] ? errors['price'].message : ''}
           {...register('price', { valueAsNumber: true })}
         />
+
+        <FileInput />
 
         <LoadingButton
           variant='contained'

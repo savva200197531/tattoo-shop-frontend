@@ -34,12 +34,7 @@ export const ProductsProvider: React.FC<Props> = ({ children }) => {
       })
   }
 
-  const deleteProduct: DeleteProduct = (id) => {
-    return axios.delete(`${requestUrl}/products/${id}`)
-      .catch(error => {
-        console.log(error)
-      })
-  }
+  const deleteProduct: DeleteProduct = (id) => axios.delete(`${requestUrl}/products/${id}`)
 
   const value = {
     getProducts,

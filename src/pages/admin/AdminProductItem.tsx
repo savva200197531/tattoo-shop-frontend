@@ -7,6 +7,7 @@ import { useProducts } from '../../contexts/products/ProductsContext'
 import productBg from '../../assets/images/product-bg.png'
 import Svg from '../../components/Svg'
 import EditProduct from './EditProduct'
+import { useAuth } from '../../contexts/auth/AuthContext'
 
 type Props = {
   product: Product
@@ -16,11 +17,17 @@ const ProductItem: React.FC<Props> = ({ product }) => {
   const { id, name, price, count } = product
 
   const { deleteProduct, getProducts } = useProducts()
+  const { getUser, user } = useAuth()
 
   const handleDeleteProduct = () => {
-    deleteProduct(id).finally(() => {
-      getProducts()
-    })
+    deleteProduct(id)
+      .then(() => {
+        getProducts()
+        getUser(user.id)
+      })
+      .catch(error => {
+        console.log(error)
+      })
   }
 
   return (
@@ -28,7 +35,6 @@ const ProductItem: React.FC<Props> = ({ product }) => {
       className="product-item"
       style={{ backgroundImage: `url(${productBg})` }}
     >
-
       <EditProduct product={product} />
 
       <IconButton style={{ position: 'absolute' }} className="product-item__delete" onClick={handleDeleteProduct} type="button" sx={{ p: '6px' }}>
