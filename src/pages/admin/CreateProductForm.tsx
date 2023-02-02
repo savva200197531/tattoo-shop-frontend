@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { number, object, string, TypeOf } from 'zod'
+import { any, number, object, string, TypeOf } from 'zod'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -27,6 +27,7 @@ const createProductSchema = object({
     },
   })
     .min(0, validationErrors.min('цена', 0)),
+  images: any().optional(),
 })
 
 type CreateProductInput = TypeOf<typeof createProductSchema>;
@@ -41,6 +42,8 @@ const CreateProductForm: React.FC = () => {
     formState: { errors, isSubmitSuccessful },
     reset,
     handleSubmit,
+    setValue,
+    resetField,
   } = useForm<CreateProductInput>({
     resolver: zodResolver(createProductSchema),
   })
@@ -54,9 +57,17 @@ const CreateProductForm: React.FC = () => {
     })
   }
 
+  const onFileChange = (value: any) => {
+    if (!value?.length) {
+      resetField('images')
+    } else {
+      setValue('images', value)
+    }
+  }
+
   useEffect(() => {
     if (isSubmitSuccessful) {
-      reset()
+      // reset()
     }
   }, [isSubmitSuccessful, reset])
 
@@ -111,7 +122,7 @@ const CreateProductForm: React.FC = () => {
           {...register('price', { valueAsNumber: true })}
         />
 
-        <FileInput />
+        <FileInput onChange={onFileChange} />
 
         <LoadingButton
           variant='contained'

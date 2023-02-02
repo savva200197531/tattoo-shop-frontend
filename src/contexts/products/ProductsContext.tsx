@@ -1,5 +1,5 @@
-import React, { ReactNode, useContext, useState } from 'react'
-import axios from 'axios'
+import React, { ReactNode, useContext, useEffect, useState } from 'react'
+import axios, { all } from 'axios'
 
 import { CreateProduct, DeleteProduct, Product, ProductsContextProps } from './types'
 import { requestUrl } from '../../env'
@@ -17,24 +17,55 @@ export const ProductsProvider: React.FC<Props> = ({ children }) => {
 
   const getProducts = () => {
     return axios.get<Product[]>(`${requestUrl}/products`)
-      .then((response) => {
-        setProducts(response.data)
-      })
-      .finally(() => {
+      .then(({ data }) => {
+        setProducts(data)
       })
       .catch(error => {
         console.log(error)
       })
   }
 
-  const createProduct: CreateProduct = (payload) => {
-    return axios.post(`${requestUrl}/products`, payload)
+  const getProductImages = (id: number) => {
+    return axios.get(`${requestUrl}/files/${id}`)
+      .then((response) => {
+        console.log(response.data)
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }
+
+  const createProduct: CreateProduct = ({ images, price, name, count }) => {
+    const formData = new FormData()
+
+    if (images?.length) {
+      images.forEach(img => {
+        formData.append('images', img, img.name)
+      })
+    }
+
+    formData.append('name', name)
+    formData.append('price', price.toString())
+    formData.append('count', count.toString())
+
+    return axios.post(`${requestUrl}/products`, formData)
       .catch(error => {
         console.log(error)
       })
   }
 
   const deleteProduct: DeleteProduct = (id) => axios.delete(`${requestUrl}/products/${id}`)
+
+  useEffect(() => {
+    // products.forEach(product => {
+    //   all(product.images?.map(img => getProductImages(img.id))).then((response) => {
+    //     console.log(response)
+    //   })
+    // })
+    getProductImages(17).then(res => {
+      console.log(res)
+    })
+  }, [products])
 
   const value = {
     getProducts,
