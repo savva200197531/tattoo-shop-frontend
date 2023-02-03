@@ -1,0 +1,59 @@
+@import "../../styles/variables";
+
+.product-layout {
+  position: relative;
+  border: 1px solid $border;
+  background-color: white;
+  border-radius: 6px;
+  //height: 500px;
+  padding: 5px 20px 5px 20px;
+  background-size: cover;
+  background-position: bottom center;
+  //display: flex;
+  //flex-direction: column;
+  //justify-content: end;
+}
+
+.product-header {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.product-slider {
+  margin-top: 10px;
+}
+
+.product-info {
+  margin-top: 20px;
+}
+
+.product-info__count {
+  position: relative;
+  border: 1px solid $border;
+  border-radius: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+  padding: 3px 15px;
+  height: 30px;
+  margin-top: 10px;
+
+  p {
+    display: flex;
+    align-items: center;
+  }
+
+  &:before {
+    content: '';
+    position: absolute;
+    height: 100%;
+    width: 1px;
+    background: $border;
+    left: 50%;
+    top: 0;
+  }
+}
+
+.product-footer {
+  margin-top: 10px;
+}

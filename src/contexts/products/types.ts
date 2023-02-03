@@ -1,14 +1,9 @@
-export type ProductImg = {
-  filename: string
-  id: number
-}
-
 export type Product = {
   id: number
   name: string
   price: number
   count: number
-  images: ProductImg[]
+  img_ids: number[]
 }
 
 export type GetProducts = () => Promise<any>
@@ -24,9 +19,12 @@ export type CreateProduct = (payload: CreateProductPayload) => Promise<any>
 
 export type DeleteProduct = (id: number) => Promise<any>
 
+export type ProductImgSrc = (id: number) => string
+
 export type ProductsContextProps = {
   getProducts: GetProducts
   products: Product[]
   createProduct: CreateProduct
   deleteProduct: DeleteProduct
+  productImgSrc: ProductImgSrc
 }

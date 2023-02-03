@@ -33,7 +33,7 @@ const EditProduct: React.FC<Props> = ({ product }) => {
 
   return (
     <>
-      <IconButton style={{ position: 'absolute' }} className="product-item__edit" onClick={handleOpen} type="button" sx={{ p: '6px' }}>
+      <IconButton className="product-item__edit" onClick={handleOpen} type="button" sx={{ p: '6px' }}>
         <Svg id="pencil" width={30} height={30} />
       </IconButton>
 

@@ -47,7 +47,6 @@ const AddToFavorite: React.FC<Props> = ({ product_id, onSubmit, user_id, isFavor
 
   return (
     <IconButton
-      style={{ position: 'absolute' }}
       className="product-item__favorite"
       onClick={() => {
         isFavorite ? handleDeleteFromFavorite() : handleAddToFavorite()

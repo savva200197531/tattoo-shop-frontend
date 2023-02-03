@@ -7,72 +7,8 @@
   grid-row-gap: 30px;
 }
 
-.product-item {
-  position: relative;
-  border: 1px solid $border;
-  background-color: white;
-  border-radius: 6px;
-  height: 500px;
-  padding: 0 20px 5px 20px;
-  background-size: cover;
-  background-position: bottom center;
-  display: flex;
-  flex-direction: column;
-  justify-content: end;
-}
-
-.product-item__img {
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
-  bottom: 0;
-}
-
-.product-item__info {
-  margin-bottom: 10px;
-}
-
-.product-item__info-count {
-  position: relative;
-  border: 1px solid $border;
-  border-radius: 30px;
-  display: flex;
-  justify-content: space-between;
-  align-content: center;
-  padding: 3px 15px;
-  height: 30px;
-
-  p {
-    display: flex;
-    align-items: center;
-  }
-
-  &:before {
-    content: '';
-    position: absolute;
-    height: 100%;
-    width: 1px;
-    background: $border;
-    left: 50%;
-    top: 0;
-  }
-}
-
 .product-item__favorite {
-  //position: absolute;
-  right: 5px;
-  top: 5px;
-}
-
-.product-item__delete {
-  left: 50px;
-  top: 5px;
-}
-
-.product-item__edit {
-  left: 5px;
-  top: 5px;
+  margin-left: auto;
 }
 
 .products-header {

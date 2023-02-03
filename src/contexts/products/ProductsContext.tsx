@@ -1,7 +1,7 @@
-import React, { ReactNode, useContext, useEffect, useState } from 'react'
-import axios, { all } from 'axios'
+import React, { ReactNode, useContext, useState } from 'react'
+import axios from 'axios'
 
-import { CreateProduct, DeleteProduct, Product, ProductsContextProps } from './types'
+import { CreateProduct, DeleteProduct, Product, ProductImgSrc, ProductsContextProps } from './types'
 import { requestUrl } from '../../env'
 
 const ProductsContext = React.createContext<ProductsContextProps>({} as ProductsContextProps)
@@ -25,15 +25,7 @@ export const ProductsProvider: React.FC<Props> = ({ children }) => {
       })
   }
 
-  const getProductImages = (id: number) => {
-    return axios.get(`${requestUrl}/files/${id}`)
-      .then((response) => {
-        console.log(response.data)
-      })
-      .catch(error => {
-        console.log(error)
-      })
-  }
+  const productImgSrc: ProductImgSrc = (id: number) => `${requestUrl}/files/product-img/${id}`
 
   const createProduct: CreateProduct = ({ images, price, name, count }) => {
     const formData = new FormData()
@@ -56,22 +48,12 @@ export const ProductsProvider: React.FC<Props> = ({ children }) => {
 
   const deleteProduct: DeleteProduct = (id) => axios.delete(`${requestUrl}/products/${id}`)
 
-  useEffect(() => {
-    // products.forEach(product => {
-    //   all(product.images?.map(img => getProductImages(img.id))).then((response) => {
-    //     console.log(response)
-    //   })
-    // })
-    getProductImages(17).then(res => {
-      console.log(res)
-    })
-  }, [products])
-
   const value = {
     getProducts,
     createProduct,
     products,
     deleteProduct,
+    productImgSrc,
   }
 
   return <ProductsContext.Provider value={value}>{children}</ProductsContext.Provider>
