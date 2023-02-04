@@ -6,25 +6,17 @@ import Spinner from '../../components/Spinner/Spinner'
 import './styles.scss'
 import ProductsFilters from './ProductsFilters'
 import ProductsHeader from './ProductsHeader'
-import { useAuth } from '../../contexts/auth/AuthContext'
 
 const ProductsPage: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false)
 
   const { getProducts, products } = useProducts()
-  const { user, getUser } = useAuth()
 
   useEffect(() => {
     setLoading(true)
 
     getProducts().finally(() => {
-      if (!user.id) {
-        setLoading(false)
-      } else {
-        getUser(user.id).finally(() => {
-          setLoading(false)
-        })
-      }
+      setLoading(false)
     })
   }, [])
 

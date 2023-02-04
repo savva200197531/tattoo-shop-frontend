@@ -21,7 +21,7 @@ const ProductLayout: React.FC<Props> = ({ product, headerContent, footerContent 
       <div className="product-header">{headerContent}</div>
 
       <Carousel className="product-slider" showThumbs={false} showArrows={true}>
-        {img_ids.map(id => <img key={id} src={productImgSrc(id)} alt=""/>)}
+        {img_ids?.map(id => <img key={id} src={productImgSrc(id)} alt=""/>)}
       </Carousel>
 
       <div className="product-info">

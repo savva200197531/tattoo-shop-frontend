@@ -23,6 +23,9 @@ const CartItem: React.FC<Props> = ({ cartItem }) => {
     deleteFromCart(id)
       .finally(() => {
         getUser(user.id)
+        getCartItems(user.id).catch(error => {
+          console.log(error)
+        })
       })
       .catch(error => {
         console.log(error)

@@ -15,7 +15,18 @@ const FavoriteItem: React.FC<Props> = ({ favoriteProduct }) => {
   const { getFavoriteProducts } = useFavorite()
   const { getUser, user } = useAuth()
 
-  const handleUpdate = (promise: Promise<any>) => {
+  const handleUpdateFavorite = (promise: Promise<any>) => {
+    promise
+      .then(() => {
+        getUser(user.id)
+        getFavoriteProducts(user.id)
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }
+
+  const handleUpdateCart = (promise: Promise<any>) => {
     promise
       .then(() => {
         getUser(user.id)
@@ -43,7 +54,7 @@ const FavoriteItem: React.FC<Props> = ({ favoriteProduct }) => {
           id={id}
           product_id={product.id}
           user_id={user.id}
-          onSubmit={handleUpdate}
+          onSubmit={handleUpdateFavorite}
           isFavorite={true}
         />
       )}
@@ -51,7 +62,7 @@ const FavoriteItem: React.FC<Props> = ({ favoriteProduct }) => {
         <CartCounter
           product_id={product.id}
           count={user.cart?.find(cartItem => cartItem.product?.id === product.id)?.count}
-          onSubmit={handleUpdate}
+          onSubmit={handleUpdateCart}
           user_id={user.id}
         />
       )}

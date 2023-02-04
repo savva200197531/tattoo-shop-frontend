@@ -9,12 +9,12 @@ const FavoritePage: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false)
 
   const { getFavoriteProducts, favoriteProducts } = useFavorite()
-  const { user } = useAuth()
+  const { user, isUserExist } = useAuth()
 
   useEffect(() => {
     setLoading(true)
 
-    if (!user.id) return
+    if (!isUserExist) return
 
     getFavoriteProducts(user.id)
       .catch(error => {
@@ -23,7 +23,7 @@ const FavoritePage: React.FC = () => {
       .finally(() => {
         setLoading(false)
       })
-  }, [user])
+  }, [isUserExist])
 
   return (
     <div className="favorite">
@@ -33,7 +33,9 @@ const FavoritePage: React.FC = () => {
             Избранное
           </Typography>
 
-          {loading ? <Spinner /> : favoriteProducts.map(favoriteProduct => <FavoriteItem key={favoriteProduct.id} favoriteProduct={favoriteProduct} />)}
+          <div className="products-list">
+            {loading ? <Spinner /> : favoriteProducts.map(favoriteProduct => <FavoriteItem key={favoriteProduct.id} favoriteProduct={favoriteProduct} />)}
+          </div>
         </div>
       </div>
     </div>

@@ -13,12 +13,12 @@ const CartPage: React.FC = () => {
   const [loading, setLoading] = useState(false)
 
   const { cartItems, getCartItems } = useCart()
-  const { user } = useAuth()
+  const { user, isUserExist } = useAuth()
 
   useEffect(() => {
     setLoading(true)
 
-    if (!user.id) return
+    if (!isUserExist) return
 
     getCartItems(user.id)
       .catch(error => {
@@ -27,7 +27,7 @@ const CartPage: React.FC = () => {
       .finally(() => {
         setLoading(false)
       })
-  }, [user])
+  }, [isUserExist])
 
   return (
     <div className="cart">

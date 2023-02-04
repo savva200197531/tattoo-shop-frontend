@@ -3,7 +3,7 @@ export type Product = {
   name: string
   price: number
   count: number
-  img_ids: number[]
+  img_ids: number[] | null
 }
 
 export type GetProducts = () => Promise<any>
