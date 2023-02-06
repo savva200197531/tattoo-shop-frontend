@@ -7,6 +7,7 @@ import IconButton from '@mui/material/IconButton'
 import { useAuth } from '../../contexts/auth/AuthContext'
 import { useAlert } from '../../contexts/alert/AlertContext'
 import { ShowAlertPayload } from '../../contexts/alert/types'
+import { useTheme } from '@mui/material'
 
 type Props = {
   product_id: number
@@ -20,6 +21,7 @@ const AddToFavorite: React.FC<Props> = ({ product_id, onSubmit, user_id, isFavor
   const { addToFavorite, deleteFromFavorite } = useFavorite()
   const { isUserExist } = useAuth()
   const { showAlert } = useAlert()
+  const theme = useTheme()
 
   const handleAddToFavorite = () => {
     if (!isUserExist) {
@@ -54,7 +56,13 @@ const AddToFavorite: React.FC<Props> = ({ product_id, onSubmit, user_id, isFavor
       type="button"
       sx={{ p: '6px' }}
     >
-      <Svg fill={isFavorite ? 'red' : 'black'} id="hearth" width={30} height={30}/>
+      <Svg
+        stroke={isFavorite ? theme.palette.primary.main : 'black'}
+        fill={isFavorite ? theme.palette.primary.main : 'none'}
+        id="hearth"
+        width={30}
+        height={30}
+      />
     </IconButton>
   )
 }

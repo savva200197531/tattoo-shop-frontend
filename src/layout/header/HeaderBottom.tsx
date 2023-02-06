@@ -1,12 +1,9 @@
 import React from 'react'
-import { useNavigate } from 'react-router-dom'
 import { ListItem } from '../../types/list-item'
 import { Button } from '@mui/material'
 import Catalog from '../catalog/Catalog'
 
 const HeaderBottom = () => {
-  const navigate = useNavigate()
-
   const items: ListItem[] = [
     {
       element: <Catalog />,
@@ -21,6 +18,9 @@ const HeaderBottom = () => {
     {
       element: 'Доставка и оплата',
     },
+    {
+      element: 'О нас',
+    },
   ]
 
   return (
@@ -31,7 +31,7 @@ const HeaderBottom = () => {
             <div className="header-item" key={index}>
               {
                 customElement ? element : (
-                  <Button onClick={onClick}>{element}</Button>
+                  <Button color="secondary" onClick={onClick}>{element}</Button>
                 )
               }
             </div>

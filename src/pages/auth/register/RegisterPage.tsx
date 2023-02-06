@@ -12,28 +12,30 @@ import {
   Typography,
 } from '@mui/material'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { LoadingButton } from '@mui/lab'
 import Checkbox from '@mui/material/Checkbox'
 
 import { RegisterPayload } from '../../../contexts/auth/types'
 import { useAuth } from '../../../contexts/auth/AuthContext'
+import { StyledLoadingButton } from '../../../components/StyledButtons'
+import { validationErrors } from '../../../validationErrors'
 
 const registerSchema = object({
   name: string()
-    .nonempty('Name is required')
-    .max(32, 'Name must be less than 100 characters'),
-  email: string().nonempty('Email is required').email('Email is invalid'),
+    .max(32, validationErrors.max('имя', 32)),
+  email: string()
+    .nonempty(validationErrors.required('почта'))
+    .email(validationErrors.email()),
   password: string()
-    .nonempty('Password is required')
-    .min(8, 'Password must be more than 8 characters')
-    .max(32, 'Password must be less than 32 characters'),
-  passwordConfirm: string().nonempty('Please confirm your password'),
+    .nonempty(validationErrors.required('пароль'))
+    .min(8, validationErrors.min('пароль', 8))
+    .max(32, validationErrors.max('пароль', 32)),
+  passwordConfirm: string().nonempty(validationErrors.required('подтверждение пароля')),
   terms: literal(true, {
     invalid_type_error: 'Accept Terms is required',
   }),
 }).refine((data) => data.password === data.passwordConfirm, {
   path: ['passwordConfirm'],
-  message: 'Passwords do not match',
+  message: 'Пароли не совпадают',
 })
 
 type RegisterInput = TypeOf<typeof registerSchema>;
@@ -76,91 +78,86 @@ const RegisterPage: React.FC = () => {
   }, [errors])
 
   return (
-    <Box sx={{ maxWidth: '30rem' }}>
-      <Typography variant='h4' component='h1' sx={{ mb: '2rem' }}>
-        Register
-      </Typography>
-      <Box
-        component='form'
-        noValidate
-        autoComplete='off'
-        onSubmit={handleSubmit(onSubmitHandler)}
-      >
-        <TextField
-          sx={{ mb: 2 }}
-          label='Name'
-          defaultValue="Savva"
-          fullWidth
-          required
-          error={!!errors['name']}
-          helperText={errors['name'] ? errors['name'].message : ''}
-          {...register('name')}
-        />
-        <TextField
-          sx={{ mb: 2 }}
-          label='Email'
-          defaultValue="yakikbutovski353@gmail.com"
-          fullWidth
-          required
-          type='email'
-          error={!!errors['email']}
-          helperText={errors['email'] ? errors['email'].message : ''}
-          {...register('email')}
-        />
-        <TextField
-          sx={{ mb: 2 }}
-          label='Password'
-          defaultValue="123123123"
-          fullWidth
-          required
-          type='password'
-          error={!!errors['password']}
-          helperText={errors['password'] ? errors['password'].message : ''}
-          {...register('password')}
-        />
-        <TextField
-          sx={{ mb: 2 }}
-          label='Confirm Password'
-          defaultValue="123123123"
-          fullWidth
-          required
-          type='password'
-          error={!!errors['passwordConfirm']}
-          helperText={
-            errors['passwordConfirm'] ? errors['passwordConfirm'].message : ''
+    <Box
+      component='form'
+      noValidate
+      autoComplete='off'
+      onSubmit={handleSubmit(onSubmitHandler)}
+    >
+      <TextField
+        sx={{ mb: 2 }}
+        label='Имя'
+        defaultValue="Savva"
+        fullWidth
+        // required
+        error={!!errors['name']}
+        helperText={errors['name'] ? errors['name'].message : ''}
+        {...register('name')}
+      />
+      <TextField
+        sx={{ mb: 2 }}
+        label='Почта'
+        defaultValue="yakikbutovski353@gmail.com"
+        fullWidth
+        required
+        type='email'
+        error={!!errors['email']}
+        helperText={errors['email'] ? errors['email'].message : ''}
+        {...register('email')}
+      />
+      <TextField
+        sx={{ mb: 2 }}
+        label='Пароль'
+        defaultValue="123123123"
+        fullWidth
+        required
+        type='password'
+        error={!!errors['password']}
+        helperText={errors['password'] ? errors['password'].message : ''}
+        {...register('password')}
+      />
+      <TextField
+        sx={{ mb: 2 }}
+        label='Подтверждение пароля'
+        defaultValue="123123123"
+        fullWidth
+        required
+        type='password'
+        error={!!errors['passwordConfirm']}
+        helperText={
+          errors['passwordConfirm'] ? errors['passwordConfirm'].message : ''
+        }
+        {...register('passwordConfirm')}
+      />
+
+      <FormGroup>
+        <FormControlLabel
+          control={<Checkbox defaultChecked={true} required />}
+          {...register('terms')}
+          label={
+            <Typography color={errors['terms'] ? 'error' : 'inherit'}>
+              Accept Terms and Conditions
+            </Typography>
           }
-          {...register('passwordConfirm')}
         />
+        <FormHelperText error={!!errors['terms']}>
+          {errors['terms'] ? errors['terms'].message : ''}
+        </FormHelperText>
+      </FormGroup>
 
-        <FormGroup>
-          <FormControlLabel
-            control={<Checkbox defaultChecked={true} required />}
-            {...register('terms')}
-            label={
-              <Typography color={errors['terms'] ? 'error' : 'inherit'}>
-                Accept Terms and Conditions
-              </Typography>
-            }
-          />
-          <FormHelperText error={!!errors['terms']}>
-            {errors['terms'] ? errors['terms'].message : ''}
-          </FormHelperText>
-        </FormGroup>
+      <Link to="/login">
+        Вход
+      </Link>
 
-        <Link to="/login">
-          Login
-        </Link>
-
-        <LoadingButton
-          variant='contained'
-          fullWidth
-          type='submit'
-          loading={loading}
-          sx={{ py: '0.8rem', mt: '1rem' }}
-        >
-          Register
-        </LoadingButton>
-      </Box>
+      <StyledLoadingButton
+        variant='contained'
+        fullWidth
+        type='submit'
+        loading={loading}
+        sx={{ py: '0.8rem', mt: '1rem' }}
+      >
+        Зарегистрироваться
+      </StyledLoadingButton>
     </Box>
   )
 }

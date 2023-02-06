@@ -8,6 +8,8 @@ export type Product = {
 
 export type GetProducts = () => Promise<any>
 
+export type GetProduct = (id: number) => Promise<any>
+
 export type CreateProductPayload = {
   name: string
   price: number
@@ -23,6 +25,7 @@ export type ProductImgSrc = (id: number) => string
 
 export type ProductsContextProps = {
   getProducts: GetProducts
+  getProduct: GetProduct
   products: Product[]
   createProduct: CreateProduct
   deleteProduct: DeleteProduct

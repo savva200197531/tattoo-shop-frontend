@@ -1,6 +1,6 @@
 import React from 'react'
-import { Button } from '@mui/material'
 import { useCart } from '../../contexts/cart/CartContext'
+import { StyledButton } from '../../components/StyledButtons'
 
 const CartCheckout: React.FC = () => {
   const { getCartItemsCount } = useCart()
@@ -11,7 +11,7 @@ const CartCheckout: React.FC = () => {
 
       <p>Итого </p>
 
-      <Button variant="outlined" fullWidth>Перейти к оформлению</Button>
+      <StyledButton variant="contained" fullWidth>Перейти к оформлению</StyledButton>
     </div>
   )
 }

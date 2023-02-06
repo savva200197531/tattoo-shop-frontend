@@ -19,3 +19,13 @@
   //justify-content: center;
 }
 
+.product-cart-counter {
+  padding: 0 5px;
+}
+
+.product-content {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-column-gap: 30px;
+}
+

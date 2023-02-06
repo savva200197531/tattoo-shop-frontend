@@ -3,11 +3,11 @@ import React, { ReactElement } from 'react'
 import IconButton from '@mui/material/IconButton'
 import { Badge, BadgeProps, styled } from '@mui/material'
 
-const StyledBadge = styled(Badge)<BadgeProps>(() => ({
+const StyledBadge = styled(Badge)<BadgeProps>((props) => ({
   '& .MuiBadge-badge': {
     right: -1,
     top: 6,
-    border: `2px solid #D0D2E1`,
+    border: `2px solid ${props.theme.palette.background.paper}`,
     padding: '0 4px',
   },
 }))

@@ -2,18 +2,19 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Box, TextField, Typography } from '@mui/material'
-import { LoadingButton } from '@mui/lab'
+import { Box, TextField } from '@mui/material'
 import { object, string, TypeOf } from 'zod'
 import { LoginPayload } from '../../../contexts/auth/types'
 import { useAuth } from '../../../contexts/auth/AuthContext'
+import { StyledLoadingButton } from '../../../components/StyledButtons'
+import { validationErrors } from '../../../validationErrors'
 
 const loginSchema = object({
-  email: string().nonempty('Email is required').email('Email is invalid'),
+  email: string().nonempty(validationErrors.required('почта')).email(validationErrors.email()),
   password: string()
-    .nonempty('Password is required')
-    .min(8, 'Password must be more than 8 characters')
-    .max(32, 'Password must be less than 32 characters'),
+    .nonempty(validationErrors.required('пароль'))
+    .min(8, validationErrors.min('пароль', 8))
+    .max(32, validationErrors.max('пароль', 32)),
 })
 
 type LoginInput = TypeOf<typeof loginSchema>;
@@ -55,53 +56,48 @@ const LoginPage = () => {
   }, [errors])
 
   return (
-    <Box sx={{ maxWidth: '30rem' }}>
-      <Typography variant='h4' component='h1' sx={{ mb: '2rem' }}>
-        Login
-      </Typography>
-      <Box
-        component='form'
-        noValidate
-        autoComplete='off'
-        onSubmit={handleSubmit(onSubmitHandler)}
+    <Box
+      component="form"
+      noValidate
+      autoComplete="off"
+      onSubmit={handleSubmit(onSubmitHandler)}
+    >
+      <TextField
+        sx={{ mb: 2 }}
+        label="Почта"
+        defaultValue="yakikbutovski353@gmail.com"
+        fullWidth
+        required
+        type="email"
+        error={!!errors['email']}
+        helperText={errors['email'] ? errors['email'].message : ''}
+        {...register('email')}
+      />
+      <TextField
+        sx={{ mb: 2 }}
+        label="Пароль"
+        defaultValue="123123123"
+        fullWidth
+        required
+        type="password"
+        error={!!errors['password']}
+        helperText={errors['password'] ? errors['password'].message : ''}
+        {...register('password')}
+      />
+
+      <Link to="/register">
+        Регистрация
+      </Link>
+
+      <StyledLoadingButton
+        variant="contained"
+        fullWidth
+        type="submit"
+        loading={loading}
+        sx={{ py: '0.8rem', mt: '1rem' }}
       >
-        <TextField
-          sx={{ mb: 2 }}
-          label='Email'
-          defaultValue="yakikbutovski353@gmail.com"
-          fullWidth
-          required
-          type='email'
-          error={!!errors['email']}
-          helperText={errors['email'] ? errors['email'].message : ''}
-          {...register('email')}
-        />
-        <TextField
-          sx={{ mb: 2 }}
-          label='Password'
-          defaultValue="123123123"
-          fullWidth
-          required
-          type='password'
-          error={!!errors['password']}
-          helperText={errors['password'] ? errors['password'].message : ''}
-          {...register('password')}
-        />
-
-        <Link to="/register">
-          Register
-        </Link>
-
-        <LoadingButton
-          variant='contained'
-          fullWidth
-          type='submit'
-          loading={loading}
-          sx={{ py: '0.8rem', mt: '1rem' }}
-        >
-          Login
-        </LoadingButton>
-      </Box>
+        Войти
+      </StyledLoadingButton>
     </Box>
   )
 }

@@ -2,13 +2,13 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import IconButton from '@mui/material/IconButton'
-import { Button } from '@mui/material'
 
 import { ListItem } from '../../types/list-item'
 import SearchField from '../../components/SearchField/SearchField'
 import Svg from '../../components/Svg'
 import CounterBadge from '../../components/CounterBadge'
 import { useAuth } from '../../contexts/auth/AuthContext'
+import Logo from '../../components/Logo'
 
 const HeaderTop = () => {
   const navigate = useNavigate()
@@ -16,11 +16,14 @@ const HeaderTop = () => {
 
   const items: ListItem[] = [
     {
-      element: <Button variant="outlined" onClick={() => navigate('/')}>Logo</Button>,
+      element: <Logo />,
       customElement: true,
     },
     {
       element: 'phone',
+    },
+    {
+      element: 'vk',
     },
     {
       element: 'instagram',
@@ -42,7 +45,7 @@ const HeaderTop = () => {
     {
       element: (
         <CounterBadge count={user.favorite?.length} onClick={() => navigate('/favorite')}>
-          <Svg className="header-icon" id="hearth" />
+          <Svg fill="none" stroke="black" className="header-icon" id="hearth" />
         </CounterBadge>
       ),
       customElement: true,
@@ -65,7 +68,7 @@ const HeaderTop = () => {
 
             <div className="header-item" style={style} key={index}>
               {customElement ? element : (
-                <IconButton onClick={onClick} type="button" sx={{ p: '6px' }}>
+                <IconButton onClick={onClick} type="button" color="secondary" sx={{ p: '6px' }}>
                   <Svg className="header-icon" id={element as string} />
                 </IconButton>
               )}

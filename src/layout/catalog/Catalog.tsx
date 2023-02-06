@@ -1,12 +1,14 @@
-import React from 'react'
-import './styles.scss'
-import Svg from '../../components/Svg'
+import React, { useState } from 'react'
 import { Button } from '@mui/material'
+import './styles.scss'
+import Hamburger from '../../components/Hamburger/Hamburger'
 
 const Catalog: React.FC = () => {
+  const [open, setOpen] = useState(false)
+
   return (
     <div className="catalog">
-      <Button startIcon={<Svg id="burger" className="burger-icon" width={30} height={30} />}>Каталог</Button>
+      <Button color="secondary" onClick={() => setOpen(!open)} startIcon={<Hamburger isActive={open} />}>Каталог</Button>
     </div>
   )
 }

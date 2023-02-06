@@ -37,6 +37,7 @@ const ProductItem: React.FC<Props> = ({ product }) => {
       )}
       footerContent={(
         <CartCounter
+          className="product-cart-counter"
           product_id={product.id}
           count={user.cart?.find(cartItem => cartItem.product?.id === product.id)?.count}
           onSubmit={handleUpdate}

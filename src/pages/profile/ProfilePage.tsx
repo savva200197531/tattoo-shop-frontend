@@ -1,7 +1,7 @@
 import React from 'react'
-import { Button } from '@mui/material'
 import { useAuth } from '../../contexts/auth/AuthContext'
 import { useNavigate } from 'react-router-dom'
+import { StyledButton } from '../../components/StyledButtons'
 
 const ProfilePage: React.FC = () => {
   const { logout } = useAuth()
@@ -11,8 +11,8 @@ const ProfilePage: React.FC = () => {
     <div className="profile">
       <div className="container">
         <div className="profile-content">
-          <Button variant="outlined" onClick={logout}>Выйти</Button>
-          <Button variant="outlined" onClick={() => navigate('/admin')}>Админка</Button>
+          <StyledButton variant="contained" onClick={logout}>Выйти</StyledButton>
+          <StyledButton variant="contained" onClick={() => navigate('/admin')}>Админка</StyledButton>
         </div>
       </div>
     </div>

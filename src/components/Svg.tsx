@@ -19,6 +19,7 @@ type Props = {
   width?: string | number
   height?: string | number
   fill?: string
+  stroke?: string
 }
 
 const Svg: React.FC<Props> = ({ id, fill = 'black', ...rest }) => {

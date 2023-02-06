@@ -1,20 +1,21 @@
 import React from 'react'
 
-import { Button } from '@mui/material'
-
 import { useCart } from '../../contexts/cart/CartContext'
 import { AddToCartPayload, CartItem } from '../../contexts/cart/types'
 import Svg from '../../components/Svg'
 import './styles.scss'
+import classNames from 'classnames'
+import { StyledButton } from '../StyledButtons'
 
 type Props = {
   count?: number
   product_id: number
   user_id: number
   onSubmit: (promise: Promise<CartItem>) => void
+  className?: string
 }
 
-const CartCounter: React.FC<Props> = ({ count = 0, product_id, onSubmit, user_id }) => {
+const CartCounter: React.FC<Props> = ({ count = 0, product_id, onSubmit, user_id, className }) => {
   const { addToCart } = useCart()
 
   const handleAddToCart = (count: number) => {
@@ -28,23 +29,23 @@ const CartCounter: React.FC<Props> = ({ count = 0, product_id, onSubmit, user_id
   }
 
   return (
-    <div className="cart-counter">
+    <div className={classNames('cart-counter', className)}>
       {count === 0 ?
         (
-          <Button
+          <StyledButton
             startIcon={<Svg id="cart" height={20} width={20}/>}
             onClick={() => handleAddToCart(1)}
             fullWidth
-            variant="outlined"
+            variant="contained"
           >
             Добавить в корзину
-          </Button>
+          </StyledButton>
         ) :
         (
           <div className="cart-counter__active">
-            <Button variant="outlined" onClick={() => handleAddToCart(count - 1)}>-</Button>
+            <StyledButton variant="contained" onClick={() => handleAddToCart(count - 1)}>-</StyledButton>
             <div>{count}</div>
-            <Button variant="outlined" onClick={() => handleAddToCart(count + 1)}>+</Button>
+            <StyledButton variant="contained" onClick={() => handleAddToCart(count + 1)}>+</StyledButton>
           </div>
         )
       }
