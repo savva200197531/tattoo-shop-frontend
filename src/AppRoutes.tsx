@@ -13,6 +13,10 @@ import RegisterPage from './pages/auth/register/RegisterPage'
 import ConfirmationPage from './pages/auth/confirmation/ConfirmationPage'
 import MainPage from './pages/main/MainPage'
 import ProductPage from './pages/products/ProductPage'
+import PaymentSuccess from './pages/payment/PaymentSuccess'
+import PaymentPage from './pages/payment/PaymentPage'
+import OrderPage from './pages/order/OrderPage'
+import CheckoutPage from './pages/checkout/CheckoutPage'
 
 const AppRoutes = () => {
   return (
@@ -23,6 +27,10 @@ const AppRoutes = () => {
       <Route path="/cart" element={<CartPage />} />
       <Route path="/profile" element={<ProfilePage />} />
       <Route path="/favorite" element={<FavoritePage />} />
+      <Route path="/checkout" element={<CheckoutPage />} />
+      {/*<Route path="/order/:id" element={<OrderPage />} />*/}
+      <Route path="/payment" element={<PaymentPage />} />
+      <Route path="/payment-success" element={<PaymentSuccess />} />
       <Route
         path="/admin"
         element={(

@@ -7,7 +7,7 @@ import CartItem from './CartItem'
 import { useAuth } from '../../contexts/auth/AuthContext'
 import Spinner from '../../components/Spinner/Spinner'
 import './styles.scss'
-import CartCheckout from './CartCheckout'
+import CartTotal from './CartTotal'
 
 const CartPage: React.FC = () => {
   const [loading, setLoading] = useState(false)
@@ -47,7 +47,7 @@ const CartPage: React.FC = () => {
               }
             </div>
 
-            <CartCheckout />
+            <CartTotal />
           </div>
         </div>
       </div>

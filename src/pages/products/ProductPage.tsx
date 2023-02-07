@@ -44,7 +44,7 @@ const ProductPage = () => {
 
 
   return (
-    <div className="product-page">
+    <div className="product">
       <div className="container">
         <div className="product-content">
           {loading ? <Spinner /> : (

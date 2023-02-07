@@ -4,12 +4,14 @@ import { BrowserRouter } from 'react-router-dom'
 
 import { createTheme, ThemeProvider } from '@mui/material'
 
+import AppLayout from './AppLayout'
 import { AuthProvider } from './contexts/auth/AuthContext'
 import { ProductsProvider } from './contexts/products/ProductsContext'
 import { CartProvider } from './contexts/cart/CartContext'
 import { FavoriteProvider } from './contexts/favorite/FavoriteContext'
 import { AlertProvider } from './contexts/alert/AlertContext'
-import AppLayout from './AppLayout'
+import { PaymentProvider } from './contexts/payment/PaymentContext'
+import { OrdersProvider } from './contexts/orders/OrdersContext'
 
 const theme = createTheme({
   palette: {
@@ -33,9 +35,13 @@ function App() {
           <AuthProvider>
             <CartProvider>
               <ProductsProvider>
-                <FavoriteProvider>
-                  <AppLayout />
-                </FavoriteProvider>
+                <OrdersProvider>
+                  <PaymentProvider>
+                    <FavoriteProvider>
+                      <AppLayout />
+                    </FavoriteProvider>
+                  </PaymentProvider>
+                </OrdersProvider>
               </ProductsProvider>
             </CartProvider>
           </AuthProvider>
