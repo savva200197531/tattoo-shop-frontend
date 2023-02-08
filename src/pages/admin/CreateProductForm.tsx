@@ -4,11 +4,11 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Box, TextField, Typography } from '@mui/material'
-import { LoadingButton } from '@mui/lab'
 
 import { validationErrors } from '../../validationErrors'
 import { useProducts } from '../../contexts/products/ProductsContext'
 import FileInput from '../../components/FileInput/FileInput'
+import { StyledLoadingButton } from '../../components/StyledButtons'
 
 const createProductSchema = object({
   name: string()
@@ -124,7 +124,7 @@ const CreateProductForm: React.FC = () => {
 
         <FileInput onChange={onFileChange} />
 
-        <LoadingButton
+        <StyledLoadingButton
           variant='contained'
           fullWidth
           type='submit'
@@ -132,7 +132,7 @@ const CreateProductForm: React.FC = () => {
           sx={{ py: '0.8rem', mt: '1rem' }}
         >
           Создать товар
-        </LoadingButton>
+        </StyledLoadingButton>
       </Box>
     </Box>
   )

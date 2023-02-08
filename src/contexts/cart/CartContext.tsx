@@ -28,12 +28,15 @@ export const CartProvider: React.FC<Props> = ({ children }) => {
 
   const getCartItemsCount = (): number => cartItems.reduce((p, c) => p + c.count, 0)
 
+  const getTotalPrice = () => cartItems.reduce((p, c) => p + c.price, 0)
+
   const value = {
     cartItems,
     getCartItems,
     addToCart,
     getCartItemsCount,
     deleteFromCart,
+    getTotalPrice,
   }
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>

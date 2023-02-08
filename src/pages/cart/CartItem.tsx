@@ -34,10 +34,13 @@ const CartItem: React.FC<Props> = ({ cartItem }) => {
 
   const handleUpdate = (promise: Promise<any>) => {
     promise
-      .then(() => {
+      .then(({ data }) => {
         getCartItems(user.id).catch(error => {
           console.log(error)
         })
+        if (data.action === 'delete') {
+          getUser(user.id)
+        }
       })
       .catch(error => {
         console.log(error)

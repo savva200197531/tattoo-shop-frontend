@@ -40,4 +40,5 @@ export type CartContextProps = {
   addToCart: AddToCart
   getCartItemsCount: () => number
   deleteFromCart: DeleteFromCart
+  getTotalPrice: () => number
 }
