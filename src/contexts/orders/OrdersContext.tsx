@@ -13,12 +13,7 @@ type Props = {
 }
 
 export const OrdersProvider: React.FC<Props> = ({ children }) => {
-  const createOrder: CreateOrder = (payload) => {
-    return axios.post(`${requestUrl}/orders`, payload)
-      .catch(error => {
-        console.log(error)
-      })
-  }
+  const createOrder: CreateOrder = (payload) => axios.post(`${requestUrl}/orders`, payload)
 
   const value = {
     createOrder,

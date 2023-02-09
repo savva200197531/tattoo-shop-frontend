@@ -12,7 +12,7 @@ import CartTotal from './CartTotal'
 const CartPage: React.FC = () => {
   const [loading, setLoading] = useState(false)
 
-  const { cartItems, getCartItems } = useCart()
+  const { cart, getCartItems } = useCart()
   const { user, isUserExist } = useAuth()
 
   useEffect(() => {
@@ -41,8 +41,8 @@ const CartPage: React.FC = () => {
             <div className="cart-items">
               {loading ?
                 <Spinner/> :
-                cartItems.length ?
-                  cartItems.map(cartItem => <CartItem key={cartItem.id} cartItem={cartItem}/>) :
+                cart?.items?.length ?
+                  cart.items.map(cartItem => <CartItem key={cartItem.id} cartItem={cartItem}/>) :
                   <div>Корзина пуста</div>
               }
             </div>

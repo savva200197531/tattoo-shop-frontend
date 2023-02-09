@@ -1,6 +1,12 @@
 import { User } from '../auth/types'
 import { Product } from '../products/types'
 
+export type Cart = {
+  totalPrice: number
+  totalProductsCount: number
+  items: CartItem[]
+}
+
 export type CartItem = {
   id: number
   count: number
@@ -35,10 +41,8 @@ export type GetCartItems = (user_id: number) => Promise<any>
 export type DeleteFromCart = (id: number) => Promise<any>
 
 export type CartContextProps = {
-  cartItems: CartItem[]
+  cart: Cart
   getCartItems: GetCartItems
   addToCart: AddToCart
-  getCartItemsCount: () => number
   deleteFromCart: DeleteFromCart
-  getTotalPrice: () => number
 }

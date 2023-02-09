@@ -5,13 +5,13 @@ import { useNavigate } from 'react-router-dom'
 
 const CartTotal: React.FC = () => {
   const navigate = useNavigate()
-  const { getCartItemsCount, getTotalPrice } = useCart()
+  const { cart } = useCart()
 
   return (
     <div className="cart-total">
-      <p>Товары ({getCartItemsCount()})</p>
+      <p>Товары ({cart.totalProductsCount})</p>
 
-      <p>Итого {getTotalPrice()}Р</p>
+      <p>Итого {cart.totalPrice}Р</p>
 
       <StyledButton
         variant="contained"

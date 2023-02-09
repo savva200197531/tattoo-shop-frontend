@@ -1,6 +1,6 @@
 import React, { ReactNode, useContext, useState } from 'react'
 
-import { AddToCart, CartContextProps, CartItem, DeleteFromCart } from './types'
+import { AddToCart, Cart, CartContextProps, DeleteFromCart } from './types'
 import axios from 'axios'
 import { requestUrl } from '../../env'
 
@@ -13,12 +13,12 @@ type Props = {
 }
 
 export const CartProvider: React.FC<Props> = ({ children }) => {
-  const [cartItems, setCartItems] = useState<CartItem[]>([])
+  const [cart, setCart] = useState<Cart>({} as Cart)
 
   const getCartItems = (user_id: number) => {
-    return axios.get<CartItem[]>(`${requestUrl}/cart/${user_id}`)
+    return axios.get<Cart>(`${requestUrl}/cart/${user_id}`)
       .then((response) => {
-        setCartItems(response.data)
+        setCart(response.data)
       })
   }
 
@@ -26,17 +26,11 @@ export const CartProvider: React.FC<Props> = ({ children }) => {
 
   const deleteFromCart: DeleteFromCart = (id) => axios.delete(`${requestUrl}/cart/${id}`)
 
-  const getCartItemsCount = (): number => cartItems.reduce((p, c) => p + c.count, 0)
-
-  const getTotalPrice = () => cartItems.reduce((p, c) => p + c.price, 0)
-
   const value = {
-    cartItems,
+    cart,
     getCartItems,
     addToCart,
-    getCartItemsCount,
     deleteFromCart,
-    getTotalPrice,
   }
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>

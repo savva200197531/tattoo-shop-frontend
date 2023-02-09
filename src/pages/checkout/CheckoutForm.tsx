@@ -50,8 +50,8 @@ const CreateProductForm: React.FC = () => {
   const [phoneValue, setPhoneValue] = useState<string>('9132537745')
 
   const { createOrder } = useOrders()
-  const { user, isUserExist } = useAuth()
-  const { getTotalPrice } = useCart()
+  const { user, isUserExist, getUser } = useAuth()
+  const { cart } = useCart()
 
   const {
     register,
@@ -65,16 +65,21 @@ const CreateProductForm: React.FC = () => {
   const onSubmitHandler: SubmitHandler<CheckoutInput> = (data) => {
     const payload: CreateOrderPayload = {
       ...data,
-      price: getTotalPrice(),
+      price: cart.totalPrice,
       user_id: user.id,
       payment_method: 'bank_card',
     }
 
     setLoading(true)
 
-    createOrder(payload).finally(() => {
-      setLoading(false)
-    })
+    createOrder(payload)
+      .then(() => {
+        getUser(user.id)
+        setLoading(false)
+      })
+      .catch(error => {
+        console.log(error)
+      })
   }
 
   const handlePhoneChange = (event: React.ChangeEvent<HTMLInputElement>) => setPhoneValue(event.target.value)
