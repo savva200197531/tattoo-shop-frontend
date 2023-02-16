@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { DropzoneArea } from 'react-mui-dropzone'
+import { DropzoneArea, DropzoneAreaProps } from 'react-mui-dropzone'
 
 import { Button } from '@mui/material'
 
@@ -9,11 +9,9 @@ const Icon: React.FC = () => {
   return <Button fullWidth variant="outlined" color="primary">Прикрепить изображение</Button>
 }
 
-type Props = {
-  onChange: (value: any) => void
-}
+type Props = DropzoneAreaProps
 
-const FileInput: React.FC<Props> = ({ onChange }) => {
+const FileInput: React.FC<Props> = ({ onChange, ...rest }) => {
   const [files, setFiles] = useState<any[]>([])
 
   const handleChange = (files: any) => {
@@ -21,7 +19,7 @@ const FileInput: React.FC<Props> = ({ onChange }) => {
   }
 
   useEffect(() => {
-    onChange(files)
+    onChange?.(files)
   }, [files])
 
   return (
@@ -29,10 +27,10 @@ const FileInput: React.FC<Props> = ({ onChange }) => {
       classes={{
         root: 'file-input',
       }}
-      filesLimit={9}
       Icon={Icon}
       dropzoneText=""
       onChange={handleChange}
+      {...rest}
     />
   )
 }

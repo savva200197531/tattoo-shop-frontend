@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { Box, Fab, Modal } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
 
-import CreateProductForm from './CreateProductForm'
+import CreateSlideForm from './CreateSlideForm'
 
 const style = {
   position: 'absolute',
@@ -30,13 +30,6 @@ const CreateProduct: React.FC = () => {
 
   return (
     <>
-      {/*<SpeedDial*/}
-      {/*  ariaLabel="SpeedDial openIcon example"*/}
-      {/*  sx={{ position: 'fixed', bottom: 16, right: 16 }}*/}
-      {/*  icon={<SpeedDialIcon />}*/}
-      {/*  onClick={}*/}
-      {/*/>*/}
-
       <Fab sx={{ position: 'fixed', bottom: 16, right: 16 }} onClick={handleOpen} color="primary" aria-label="add">
         <AddIcon />
       </Fab>
@@ -45,10 +38,10 @@ const CreateProduct: React.FC = () => {
         className="product-modal"
         open={open}
         onClose={handleClose}
-        title="Добавить товар"
+        title="Создать слайд"
       >
         <Box sx={style}>
-          <CreateProductForm />
+          <CreateSlideForm />
         </Box>
       </Modal>
     </>

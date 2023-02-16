@@ -10,7 +10,7 @@ import './styles.scss'
 import CartTotal from './CartTotal'
 
 const CartPage: React.FC = () => {
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState<boolean>(false)
 
   const { cart, getCartItems } = useCart()
   const { user, isUserExist } = useAuth()

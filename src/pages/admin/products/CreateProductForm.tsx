@@ -5,15 +5,15 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Box, TextField, Typography } from '@mui/material'
 
-import { validationErrors } from '../../validationErrors'
-import { useProducts } from '../../contexts/products/ProductsContext'
-import FileInput from '../../components/FileInput/FileInput'
-import { StyledLoadingButton } from '../../components/StyledButtons'
+import { validationErrors } from '../../../validationErrors'
+import { useProducts } from '../../../contexts/products/ProductsContext'
+import FileInput from '../../../components/FileInput/FileInput'
+import { StyledLoadingButton } from '../../../components/StyledButtons'
 
 const createProductSchema = object({
   name: string()
     .nonempty(validationErrors.required('название товара'))
-    .min(2, validationErrors.min('название товара', 8))
+    .min(2, validationErrors.min('название товара', 2))
     .max(32, validationErrors.max('название товара', 32)),
   count: number({
     errorMap: () => {
@@ -43,7 +43,6 @@ const CreateProductForm: React.FC = () => {
     reset,
     handleSubmit,
     setValue,
-    resetField,
   } = useForm<CreateProductInput>({
     resolver: zodResolver(createProductSchema),
   })
@@ -59,7 +58,7 @@ const CreateProductForm: React.FC = () => {
 
   const onFileChange = (value: any) => {
     if (!value?.length) {
-      resetField('images')
+      setValue('images', undefined)
     } else {
       setValue('images', value)
     }
@@ -122,7 +121,7 @@ const CreateProductForm: React.FC = () => {
           {...register('price', { valueAsNumber: true })}
         />
 
-        <FileInput onChange={onFileChange} />
+        <FileInput filesLimit={9} onChange={onFileChange} />
 
         <StyledLoadingButton
           variant='contained'

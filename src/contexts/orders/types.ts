@@ -1,3 +1,7 @@
+export type Order = {
+  id: number
+}
+
 export declare type IPaymentMethodType = 'bank_card' | 'apple_pay' | 'google_pay' | 'yoo_money' | 'qiwi' | 'webmoney' | 'sberbank' | 'alfabank' | 'tinkoff_bank' | 'b2b_sberbank' | 'sbp' | 'mobile_balance' | 'cash' | 'installments';
 
 export type CreateOrderPayload = {
@@ -18,6 +22,10 @@ export type CreateOrderPayload = {
 
 export type CreateOrder = (payload: CreateOrderPayload) => Promise<any>
 
+export type GetOrders = (user_id: number) => Promise<any>
+
 export type OrdersContextProps = {
   createOrder: CreateOrder
+  getOrders: GetOrders
+  orders: Order[]
 }

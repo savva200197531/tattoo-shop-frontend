@@ -17,6 +17,9 @@ import PaymentSuccess from './pages/payment/PaymentSuccess'
 import PaymentPage from './pages/payment/PaymentPage'
 import OrderPage from './pages/order/OrderPage'
 import CheckoutPage from './pages/checkout/CheckoutPage'
+import TabProducts from './pages/admin/products/TabProducts'
+import TabSlider from './pages/admin/slider/TabSlider'
+import TabOrders from './pages/profile/TabOrders'
 
 const AppRoutes = () => {
   return (
@@ -25,7 +28,9 @@ const AppRoutes = () => {
       <Route path="/products" element={<ProductsPage />} />
       <Route path="/products/:id" element={<ProductPage />} />
       <Route path="/cart" element={<CartPage />} />
-      <Route path="/profile" element={<ProfilePage />} />
+      <Route path="/profile" element={<ProfilePage />}>
+        <Route path="/profile/orders" element={<TabOrders />} />
+      </Route>
       <Route path="/favorite" element={<FavoritePage />} />
       <Route path="/checkout" element={<CheckoutPage />} />
       {/*<Route path="/order/:id" element={<OrderPage />} />*/}
@@ -38,7 +43,10 @@ const AppRoutes = () => {
             <AdminPage />
           </AdminGuard>
         )}
-      />
+      >
+        <Route path="/admin/products" element={<TabProducts />} />
+        <Route path="/admin/slider" element={<TabSlider />} />
+      </Route>
       <Route element={<AuthPage />}>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />

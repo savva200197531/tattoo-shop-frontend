@@ -1,7 +1,7 @@
 import React, { ReactNode, useContext, useState } from 'react'
 import axios from 'axios'
 
-import { CreateProduct, DeleteProduct, GetProduct, Product, ProductImgSrc, ProductsContextProps } from './types'
+import { CreateProduct, DeleteProduct, GetProduct, Product, ProductsContextProps } from './types'
 import { requestUrl } from '../../env'
 
 const ProductsContext = React.createContext<ProductsContextProps>({} as ProductsContextProps)
@@ -26,8 +26,6 @@ export const ProductsProvider: React.FC<Props> = ({ children }) => {
   }
 
   const getProduct: GetProduct = (id) => axios.get<Product>(`${requestUrl}/products/${id}`)
-
-  const productImgSrc: ProductImgSrc = (id: number) => `${requestUrl}/files/product-img/${id}`
 
   const createProduct: CreateProduct = ({ images, price, name, count }) => {
     const formData = new FormData()
@@ -55,7 +53,6 @@ export const ProductsProvider: React.FC<Props> = ({ children }) => {
     createProduct,
     products,
     deleteProduct,
-    productImgSrc,
     getProduct,
   }
 

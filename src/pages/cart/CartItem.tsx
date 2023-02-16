@@ -4,10 +4,10 @@ import IconButton from '@mui/material/IconButton'
 
 import { CartItem as CartItemType } from '../../contexts/cart/types'
 import CartCounter from '../../components/CartCounter/CartCounter'
-import productImg from '../../assets/images/product-bg.png'
 import Svg from '../../components/Svg'
 import { useCart } from '../../contexts/cart/CartContext'
 import { useAuth } from '../../contexts/auth/AuthContext'
+import { imgSrc } from '../../helpers/imgSrc'
 
 type Props = {
   cartItem: CartItemType
@@ -49,7 +49,7 @@ const CartItem: React.FC<Props> = ({ cartItem }) => {
 
   return (
     <div className="cart-item">
-      <img src={productImg} alt=""/>
+      <img src={imgSrc(product.img_ids?.[0] as number)} alt=""/>
       <div className="cart-item__middle">
         <p>{product.name}</p>
         <p>{product.count} в наличии</p>

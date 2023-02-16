@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
-import Svg from '../../components/Svg'
+
 import IconButton from '@mui/material/IconButton'
 import { Box, Modal } from '@mui/material'
-import { Product } from '../../contexts/products/types'
+
+import Svg from '../../../components/Svg'
+import { Product } from '../../../contexts/products/types'
 
 const style = {
   position: 'absolute',
@@ -18,6 +20,7 @@ const style = {
 
 type Props = {
   product: Product
+
 }
 
 const EditProduct: React.FC<Props> = ({ product }) => {
@@ -33,7 +36,7 @@ const EditProduct: React.FC<Props> = ({ product }) => {
 
   return (
     <>
-      <IconButton className="product-item__edit" onClick={handleOpen} type="button" sx={{ p: '6px' }}>
+      <IconButton onClick={handleOpen} type="button" sx={{ p: '6px' }}>
         <Svg id="pencil" width={30} height={30} />
       </IconButton>
 

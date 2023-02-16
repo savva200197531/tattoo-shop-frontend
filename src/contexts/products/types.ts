@@ -21,13 +21,10 @@ export type CreateProduct = (payload: CreateProductPayload) => Promise<any>
 
 export type DeleteProduct = (id: number) => Promise<any>
 
-export type ProductImgSrc = (id: number) => string
-
 export type ProductsContextProps = {
   getProducts: GetProducts
   getProduct: GetProduct
   products: Product[]
   createProduct: CreateProduct
   deleteProduct: DeleteProduct
-  productImgSrc: ProductImgSrc
 }

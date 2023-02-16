@@ -1,20 +1,23 @@
 @import "../../styles/variables";
 
-.product-item__delete {
-  //left: 50px;
-  //top: 5px;
+.admin-content {
+  display: flex;
+  width: 100%;
+  margin-top: 50px;
 }
 
-.product-item__edit {
-  //left: 5px;
-  //top: 5px;
+.admin-tabs {
+  width: 20%;
 }
 
-.product-modal {
-  //width: unset;
+.admin-slider {
+  position: relative;
 }
 
-.product-form {
-  //width: unset;
+.admin-slider__toolbar {
+  position: absolute;
+  top: 15px;
+  right: 25px;
+  z-index: 1;
 }
 

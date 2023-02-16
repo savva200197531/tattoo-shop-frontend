@@ -2,12 +2,12 @@ import React from 'react'
 
 import IconButton from '@mui/material/IconButton'
 
-import { Product } from '../../contexts/products/types'
-import { useProducts } from '../../contexts/products/ProductsContext'
-import Svg from '../../components/Svg'
+import { Product } from '../../../contexts/products/types'
+import { useProducts } from '../../../contexts/products/ProductsContext'
+import Svg from '../../../components/Svg'
 import EditProduct from './EditProduct'
-import { useAuth } from '../../contexts/auth/AuthContext'
-import ProductLayout from '../../components/ProductLayout/ProductLayout'
+import { useAuth } from '../../../contexts/auth/AuthContext'
+import ProductLayout from '../../../components/ProductLayout/ProductLayout'
 
 type Props = {
   product: Product

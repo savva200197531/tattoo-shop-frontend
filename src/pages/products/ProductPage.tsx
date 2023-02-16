@@ -6,12 +6,13 @@ import { Carousel } from 'react-responsive-carousel'
 import CartCounter from '../../components/CartCounter/CartCounter'
 import { useAuth } from '../../contexts/auth/AuthContext'
 import Spinner from '../../components/Spinner/Spinner'
+import { imgSrc } from '../../helpers/imgSrc'
 
 const ProductPage = () => {
   const [loading, setLoading] = useState<boolean>(false)
   const [product, setProduct] = useState<Product>({} as Product)
 
-  const { getProduct, productImgSrc } = useProducts()
+  const { getProduct } = useProducts()
   const { user, getUser } = useAuth()
   const { id } = useParams()
 
@@ -52,7 +53,7 @@ const ProductPage = () => {
               <Carousel showStatus={false} className="product-slider" showThumbs={false} showArrows={true}>
                 {product.img_ids?.map(id => (
                   <div className="product-slide" key={id}>
-                    <img className="product-slide__img" src={productImgSrc(id)} alt=""/>
+                    <img className="product-slide__img" src={imgSrc(id)} alt=""/>
                   </div>
                 ))}
               </Carousel>
