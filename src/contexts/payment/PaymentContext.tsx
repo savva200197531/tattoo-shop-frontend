@@ -15,6 +15,9 @@ type Props = {
 export const PaymentProvider: React.FC<Props> = ({ children }) => {
   const createPayment: CreatePayment = (payload) => {
     return axios.post(`${requestUrl}/payment`, payload)
+      .then(({ data }) => {
+        window.open(data.confirmation.confirmation_url, '_blank')
+      })
       .catch(error => {
         console.log(error)
       })

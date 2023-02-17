@@ -13,6 +13,8 @@ import { useOrders } from '../../contexts/orders/OrdersContext'
 import { CreateOrderPayload } from '../../contexts/orders/types'
 import { useCart } from '../../contexts/cart/CartContext'
 import { StyledLoadingButton } from '../../components/StyledButtons'
+import { usePayment } from '../../contexts/payment/PaymentContext'
+import { CreatePaymentPayload } from '../../contexts/payment/types'
 
 const checkoutSchema = object({
   // user data
@@ -50,6 +52,7 @@ const CreateProductForm: React.FC = () => {
   const [phoneValue, setPhoneValue] = useState<string>('9132537745')
 
   const { createOrder } = useOrders()
+  const { createPayment } = usePayment()
   const { user, isUserExist, getUser } = useAuth()
   const { cart } = useCart()
 
@@ -61,6 +64,12 @@ const CreateProductForm: React.FC = () => {
   } = useForm<CheckoutInput>({
     resolver: zodResolver(checkoutSchema),
   })
+
+  const handleCreatePayment = (data: CreatePaymentPayload) => {
+    createPayment(data).finally(() => {
+      setLoading(false)
+    })
+  }
 
   const onSubmitHandler: SubmitHandler<CheckoutInput> = (data) => {
     const payload: CreateOrderPayload = {
@@ -75,7 +84,11 @@ const CreateProductForm: React.FC = () => {
     createOrder(payload)
       .then(() => {
         getUser(user.id)
-        setLoading(false)
+        handleCreatePayment({
+          price: cart.totalPrice,
+          description: data.comment,
+          return_url: 'http://localhost:3000/thanks',
+        })
       })
       .catch(error => {
         console.log(error)

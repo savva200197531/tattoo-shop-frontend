@@ -21,6 +21,7 @@ import TabProducts from './pages/admin/products/TabProducts'
 import TabSlider from './pages/admin/slider/TabSlider'
 import TabOrders from './pages/profile/orders/TabOrders'
 import TabInfo from './pages/profile/info/TabInfo'
+import ThanksPage from './pages/thanks/ThanksPage'
 
 const AppRoutes = () => {
   return (
@@ -32,10 +33,11 @@ const AppRoutes = () => {
       <Route path="/profile" element={<ProfilePage />}>
         <Route path="/profile/info" element={<TabInfo />} />
         <Route path="/profile/orders" element={<TabOrders />} />
+        <Route path="/profile/orders/:id" element={<OrderPage />} />
       </Route>
       <Route path="/favorite" element={<FavoritePage />} />
       <Route path="/checkout" element={<CheckoutPage />} />
-      {/*<Route path="/order/:id" element={<OrderPage />} />*/}
+      <Route path="/thanks" element={<ThanksPage />} />
       <Route path="/payment" element={<PaymentPage />} />
       <Route path="/payment-success" element={<PaymentSuccess />} />
       <Route
