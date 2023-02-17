@@ -18,8 +18,8 @@
   display: flex;
   justify-content: space-between;
   padding: 24px 40px 16px 25px;
-  box-shadow: $shadow;
   border-radius: $border-radius;
+  border: 1px solid $border;
 
   &:not(:first-child) {
     margin-top: 20px;
@@ -28,8 +28,8 @@
 
 .cart-total {
   background: white;
-  box-shadow: $shadow;
   border-radius: $border-radius;
+  border: 1px solid $border;
   height: fit-content;
   padding: 27px 27px 35px 27px;
 }

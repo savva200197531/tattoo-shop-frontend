@@ -40,7 +40,7 @@ const HeaderTop = () => {
     },
     {
       element: 'profile',
-      onClick: () => navigate('profile'),
+      onClick: () => navigate('/profile/info'),
     },
     {
       element: (

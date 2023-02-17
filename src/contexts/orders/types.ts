@@ -1,8 +1,40 @@
+import { Product } from '../products/types'
+import { User } from '../auth/types'
+
 export type Order = {
   id: number
+  price: number
+  phone: string
+  payment_method: IPaymentMethodType
+  address: string
+  surname: string
+  name: string
+  lastname: string
+  email: string
+  region: string
+  city: string
+  comment: string
+  status: string
+  date: string
+  user: User
+  products: Product[]
 }
 
-export declare type IPaymentMethodType = 'bank_card' | 'apple_pay' | 'google_pay' | 'yoo_money' | 'qiwi' | 'webmoney' | 'sberbank' | 'alfabank' | 'tinkoff_bank' | 'b2b_sberbank' | 'sbp' | 'mobile_balance' | 'cash' | 'installments';
+export declare type IPaymentMethodType =
+  'bank_card'
+  | 'apple_pay'
+  | 'google_pay'
+  | 'yoo_money'
+  | 'qiwi'
+  | 'webmoney'
+  | 'sberbank'
+  | 'alfabank'
+  | 'tinkoff_bank'
+  | 'b2b_sberbank'
+  | 'sbp'
+  | 'mobile_balance'
+  | 'cash'
+  | 'installments';
 
 export type CreateOrderPayload = {
   price: number

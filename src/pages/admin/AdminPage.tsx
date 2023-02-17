@@ -1,50 +1,46 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 import './styles.scss'
 import { Tab, Tabs } from '@mui/material'
 import { TabProps } from '../../components/TabPanel/TabPanel'
-import { Link, Outlet } from 'react-router-dom'
-import { local } from '../../App'
+import { Link, Outlet, useLocation } from 'react-router-dom'
 
 const tabs: TabProps[] = [
   {
     label: 'Товары',
-    index: 0,
-    to: 'products',
+    to: '/admin/products',
   },
   {
     label: 'Слайдер',
-    index: 1,
-    to: 'slider',
+    to: '/admin/slider',
   },
 ]
 
 const AdminPage: React.FC = () => {
-  const [tab, setTab] = useState<number>(local.getItem('tab') ? parseInt(local.getItem('tab') as string) : 0)
-
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setTab(newValue)
-    local.setItem('tab', newValue.toString())
-  }
+  const location = useLocation()
 
   return (
     <div className="admin">
       <div className="container">
         <div className="admin-content">
           <Tabs
-            value={tab}
-            onChange={handleChange}
+            value={
+              location.pathname !== '/' ?
+                location.pathname :
+                false
+            }
             orientation="vertical"
             variant="scrollable"
-            className="admin-tabs"
             sx={{ borderRight: 1, borderColor: 'divider' }}
+            className="admin-tabs"
           >
-            {tabs.map(({ index, label, to }) => (
+            {tabs.map(({ label, to }, index) => (
               <Tab
                 key={index}
+                value={to}
                 label={label}
                 component={Link}
-                to={to as string}
+                to={to}
               />
             ))}
           </Tabs>

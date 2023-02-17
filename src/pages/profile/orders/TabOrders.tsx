@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { useOrders } from '../../contexts/orders/OrdersContext'
-import { useAuth } from '../../contexts/auth/AuthContext'
-import Spinner from '../../components/Spinner/Spinner'
+
+import { useOrders } from '../../../contexts/orders/OrdersContext'
+import { useAuth } from '../../../contexts/auth/AuthContext'
+import Spinner from '../../../components/Spinner/Spinner'
+import OrderItem from './OrderItem'
+import { Typography } from '@mui/material'
 
 const TabOrders: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false)
@@ -25,7 +28,11 @@ const TabOrders: React.FC = () => {
 
   return (
     <div className="">
-      {loading ? <Spinner /> : orders.map(order => order.id)}
+      <Typography variant='h4' component='h1' fontWeight={500} textAlign="center" sx={{ mb: '60px' }}>
+        Мои заказы
+      </Typography>
+
+      {loading ? <Spinner /> : orders.map(order => <OrderItem key={order.id} order={order} />)}
     </div>
   )
 }

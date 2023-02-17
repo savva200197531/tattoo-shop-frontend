@@ -19,7 +19,8 @@ import OrderPage from './pages/order/OrderPage'
 import CheckoutPage from './pages/checkout/CheckoutPage'
 import TabProducts from './pages/admin/products/TabProducts'
 import TabSlider from './pages/admin/slider/TabSlider'
-import TabOrders from './pages/profile/TabOrders'
+import TabOrders from './pages/profile/orders/TabOrders'
+import TabInfo from './pages/profile/info/TabInfo'
 
 const AppRoutes = () => {
   return (
@@ -29,6 +30,7 @@ const AppRoutes = () => {
       <Route path="/products/:id" element={<ProductPage />} />
       <Route path="/cart" element={<CartPage />} />
       <Route path="/profile" element={<ProfilePage />}>
+        <Route path="/profile/info" element={<TabInfo />} />
         <Route path="/profile/orders" element={<TabOrders />} />
       </Route>
       <Route path="/favorite" element={<FavoritePage />} />

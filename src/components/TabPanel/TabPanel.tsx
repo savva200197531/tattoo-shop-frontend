@@ -7,9 +7,9 @@ type Props = {
   className?: string;
 }
 
-export type TabProps = Omit<Props, 'value'> & {
+export type TabProps = {
   label: string;
-  to?: string
+  to: string
 }
 
 const TabPanel: React.FC<Props> = ({ children, value, index, ...other }) => {

@@ -1,29 +1,26 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useAuth } from '../../contexts/auth/AuthContext'
-import { Link, Outlet, useNavigate } from 'react-router-dom'
+import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { StyledButton } from '../../components/StyledButtons'
 import { TabProps } from '../../components/TabPanel/TabPanel'
 import { Tab, Tabs } from '@mui/material'
-import { local } from '../../App'
+import './styles.scss'
 
 const tabs: TabProps[] = [
   {
+    label: 'Личная информация',
+    to: '/profile/info',
+  },
+  {
     label: 'Заказы',
-    index: 0,
-    to: 'orders',
+    to: '/profile/orders',
   },
 ]
 
 const ProfilePage: React.FC = () => {
-  const [tab, setTab] = useState<number>(local.getItem('tab') ? parseInt(local.getItem('tab') as string) : 0)
-
-  const { logout } = useAuth()
+  const { logout, user } = useAuth()
   const navigate = useNavigate()
-
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setTab(newValue)
-    local.setItem('tab', newValue.toString())
-  }
+  const location = useLocation()
 
   return (
     <div className="profile">
@@ -31,25 +28,29 @@ const ProfilePage: React.FC = () => {
         <div className="profile-content">
           <div className="profile-tabs">
             <Tabs
-              value={tab}
-              onChange={handleChange}
+              value={
+                location.pathname !== '/' ?
+                  location.pathname :
+                  false
+              }
               orientation="vertical"
               variant="scrollable"
-              className="admin-tabs"
               sx={{ borderRight: 1, borderColor: 'divider' }}
             >
-              {tabs.map(({ index, label, to }) => (
+              {tabs.map(({ label, to }, index) => (
                 <Tab
                   key={index}
+                  value={to}
                   label={label}
                   component={Link}
-                  to={to as string}
+                  to={to}
                 />
               ))}
             </Tabs>
 
-            <StyledButton variant="contained" onClick={logout}>Выйти</StyledButton>
-            <StyledButton variant="contained" onClick={() => navigate('/admin')}>Админка</StyledButton>
+            {user.role === 'Admin' && <StyledButton fullWidth variant="contained" onClick={() => navigate('/admin/products')}>Админка</StyledButton>}
+
+            <StyledButton fullWidth variant="contained" onClick={logout}>Выйти</StyledButton>
           </div>
 
           <div className="tab-outlet">
