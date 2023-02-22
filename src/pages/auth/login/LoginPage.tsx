@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { object, string, TypeOf } from 'zod'
 import { SubmitHandler, useForm } from 'react-hook-form'
+
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Box, TextField } from '@mui/material'
-import { object, string, TypeOf } from 'zod'
+
 import { LoginPayload } from '../../../contexts/auth/types'
 import { useAuth } from '../../../contexts/auth/AuthContext'
 import { StyledLoadingButton } from '../../../components/StyledButtons'
-import { validationErrors } from '../../../validationErrors'
+import { validationErrors } from '../../../helpers/validationErrors'
 
 const loginSchema = object({
   email: string().nonempty(validationErrors.required('почта')).email(validationErrors.email()),

@@ -5,32 +5,36 @@ import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Box, TextField, Typography } from '@mui/material'
 
-import FileInput from '../../../components/FileInput/FileInput'
 import { StyledLoadingButton } from '../../../components/StyledButtons'
-import { useSlider } from '../../../contexts/slider/SliderContext'
-import { CreateSlidePayload } from '../../../contexts/slider/types'
 import { validationErrors } from '../../../helpers/validationErrors'
+import { useSlider } from '../../../contexts/slider/SliderContext'
+import { EditSlidePayload, Slide } from '../../../contexts/slider/types'
+import FileInput from '../../../components/FileInput/FileInput'
 
 const ACCEPTED_IMAGE_TYPES = ['.jpeg', '.jpg', '.png', '.webp', '.svg']
 
-const createSlideSchema = object({
+const editSlideSchema = object({
   link: string()
     .max(200, validationErrors.max('ссылка', 200)),
   img_ids: any().refine((data) => data.length, { message: validationErrors.required('файл') }),
 })
 
-type CreateSlideInput = TypeOf<typeof createSlideSchema>;
+type EditSlideInput = TypeOf<typeof editSlideSchema>;
 
-const CreateSlideForm: React.FC = () => {
+type Props = {
+  record: Slide
+}
+
+const EditSlideForm: React.FC<Props> = ({ record }) => {
   const [loading, setLoading] = useState<boolean>(false)
 
-  const { createSlide, getSlides, createSlideImg } = useSlider()
+  const { editSlide, getSlides, createSlideImg } = useSlider()
 
-  const methods = useForm<CreateSlideInput>({
-    resolver: zodResolver(createSlideSchema),
+  const methods = useForm<EditSlideInput>({
+    resolver: zodResolver(editSlideSchema),
     defaultValues: {
-      link: '',
-      img_ids: [],
+      link: record.link,
+      img_ids: [record.img_id],
     },
   })
 
@@ -41,15 +45,15 @@ const CreateSlideForm: React.FC = () => {
     handleSubmit,
   } = methods
 
-  const onSubmitHandler: SubmitHandler<CreateSlideInput> = ({ img_ids, link }) => {
+  const onSubmitHandler: SubmitHandler<EditSlideInput> = ({ link, img_ids }) => {
     setLoading(true)
 
-    const payload: CreateSlidePayload = {
+    const payload: EditSlidePayload = {
       link,
       img_id: img_ids[0],
     }
 
-    createSlide(payload).finally(() => {
+    editSlide(record.id, payload).finally(() => {
       setLoading(false)
       getSlides()
     })
@@ -70,7 +74,7 @@ const CreateSlideForm: React.FC = () => {
   return (
     <Box className="product-form">
       <Typography variant="h5" component="h5" sx={{ mb: '2rem' }} textAlign="center">
-        Создать слайд
+        Редактировать слайд
       </Typography>
       <Box
         component="form"
@@ -81,7 +85,6 @@ const CreateSlideForm: React.FC = () => {
         <TextField
           sx={{ mb: 2 }}
           label="Ссылка"
-          defaultValue="Ссылка"
           fullWidth
           error={!!errors['link']}
           helperText={errors['link'] ? errors['link'].message : ''}
@@ -105,11 +108,11 @@ const CreateSlideForm: React.FC = () => {
           loading={loading}
           sx={{ py: '0.8rem', mt: '1rem' }}
         >
-          Создать
+          Сохранить
         </StyledLoadingButton>
       </Box>
     </Box>
   )
 }
 
-export default CreateSlideForm
+export default EditSlideForm

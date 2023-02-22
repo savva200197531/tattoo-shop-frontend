@@ -17,7 +17,7 @@ import Checkbox from '@mui/material/Checkbox'
 import { RegisterPayload } from '../../../contexts/auth/types'
 import { useAuth } from '../../../contexts/auth/AuthContext'
 import { StyledLoadingButton } from '../../../components/StyledButtons'
-import { validationErrors } from '../../../validationErrors'
+import { validationErrors } from '../../../helpers/validationErrors'
 
 const registerSchema = object({
   name: string()

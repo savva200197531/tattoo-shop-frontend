@@ -1,7 +1,7 @@
 import React, { ReactNode, useContext, useState } from 'react'
 import axios from 'axios'
 
-import { CreateSlide, DeleteSlide, Slide, SliderContextProps } from './types'
+import { CreateSlide, CreateSlideImg, DeleteSlide, EditSlide, Slide, SliderContextProps } from './types'
 import { requestUrl } from '../../env'
 
 const SliderContext = React.createContext<SliderContextProps>({} as SliderContextProps)
@@ -25,18 +25,26 @@ export const SliderProvider: React.FC<Props> = ({ children }) => {
       })
   }
 
-  const createSlide: CreateSlide = ({ img, title, description, bg_color }) => {
+  const createSlide: CreateSlide = (payload) => {
+    return axios.post(`${requestUrl}/slider`, payload)
+      .catch(error => {
+        console.log(error)
+      })
+  }
+
+  const editSlide: EditSlide = (id, payload) => {
+    return axios.patch(`${requestUrl}/slider/${id}`, payload)
+      .catch(error => {
+        console.log(error)
+      })
+  }
+
+  const createSlideImg: CreateSlideImg = (img) => {
     const formData = new FormData()
 
-    if (img) {
-      formData.append('img', img, img.name)
-    }
+    formData.append('img', img, img.name)
 
-    formData.append('title', title)
-    formData.append('description', description)
-    formData.append('bg_color', bg_color)
-
-    return axios.post(`${requestUrl}/slider`, formData)
+    return axios.post(`${requestUrl}/slider/upload-img`, formData)
       .catch(error => {
         console.log(error)
       })
@@ -49,6 +57,8 @@ export const SliderProvider: React.FC<Props> = ({ children }) => {
     getSlides,
     createSlide,
     deleteSlide,
+    editSlide,
+    createSlideImg,
   }
 
   return <SliderContext.Provider value={value}>{children}</SliderContext.Provider>

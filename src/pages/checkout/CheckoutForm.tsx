@@ -5,7 +5,6 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Box, TextField, Typography } from '@mui/material'
 
-import { validationErrors } from '../../validationErrors'
 import { PhoneMaskCustom } from '../../components/PhoneMaskCustom'
 import { useAuth } from '../../contexts/auth/AuthContext'
 import Spinner from '../../components/Spinner/Spinner'
@@ -15,6 +14,7 @@ import { useCart } from '../../contexts/cart/CartContext'
 import { StyledLoadingButton } from '../../components/StyledButtons'
 import { usePayment } from '../../contexts/payment/PaymentContext'
 import { CreatePaymentPayload } from '../../contexts/payment/types'
+import { validationErrors } from '../../helpers/validationErrors'
 
 const checkoutSchema = object({
   // user data

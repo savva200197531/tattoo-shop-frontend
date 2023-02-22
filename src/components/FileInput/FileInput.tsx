@@ -1,37 +1,109 @@
-import React, { useEffect, useState } from 'react'
-import { DropzoneArea, DropzoneAreaProps } from 'react-mui-dropzone'
+import React, { FC, useCallback, useEffect, useState } from 'react'
+import { DropzoneOptions, useDropzone } from 'react-dropzone'
+import { useFormContext } from 'react-hook-form'
 
-import { Button } from '@mui/material'
+import { Button, FormControl, FormHelperText } from '@mui/material'
 
 import './styles.scss'
+import { imgSrc } from '../../helpers/imgSrc'
 
-const Icon: React.FC = () => {
-  return <Button fullWidth variant="outlined" color="primary">Прикрепить изображение</Button>
+interface IFileInputProps extends DropzoneOptions {
+  label?: string
+  name: string
+  onDropPromise: (files: File[]) => Promise<any>
 }
 
-type Props = DropzoneAreaProps
+const FileInput: FC<IFileInputProps> = (props) => {
+  const { name, label = 'Прикрепить файл', multiple = false, onDropPromise } = props
 
-const FileInput: React.FC<Props> = ({ onChange, ...rest }) => {
-  const [files, setFiles] = useState<any[]>([])
+  const [loading, setLoading] = useState(false)
 
-  const handleChange = (files: any) => {
-    setFiles(files)
-  }
+  const {
+    register,
+    unregister,
+    setValue,
+    formState: { errors },
+    watch,
+  } = useFormContext()
+
+  const fileIds: number[] = watch(name)
+
+  const onDrop = useCallback(
+    (files: File[]) => {
+      setLoading(true)
+      onDropPromise(files)
+        .then(({ data }) => {
+          if (multiple) {
+            setValue(name, [...fileIds, data.id], { shouldValidate: true })
+          } else {
+            setValue(name, [data.id], { shouldValidate: true })
+          }
+        })
+        .finally(() => {
+          setLoading(false)
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+    [setValue, name, fileIds],
+  )
+
+  const onDelete = useCallback(
+    (id: number) => {
+      const filteredIds = fileIds.filter((item) => item !== id)
+
+      if (!filteredIds.length) {
+        setValue(name, [], { shouldValidate: true })
+      } else {
+        setValue(name, filteredIds, { shouldValidate: true })
+      }
+    },
+    [setValue, name, fileIds],
+  )
+
+
+  const { getRootProps, getInputProps, open } = useDropzone({
+    onDrop,
+    multiple,
+    accept: props.accept,
+  })
 
   useEffect(() => {
-    onChange?.(files)
-  }, [files])
+    register(name)
+    return () => {
+      unregister(name)
+    }
+  }, [register, unregister, name])
 
   return (
-    <DropzoneArea
-      classes={{
-        root: 'file-input',
-      }}
-      Icon={Icon}
-      dropzoneText=""
-      onChange={handleChange}
-      {...rest}
-    />
+    <FormControl>
+      <div>
+        <input id={name} {...getInputProps()} />
+        <div>
+          <Button {...getRootProps()} onClick={open} variant="outlined">{label}</Button>
+          {!!fileIds?.length && (
+            <div className="file-input__list">
+              {fileIds.map((id) => (
+                <div className="file-input__img-wrapper" key={id}>
+                  <img
+                    src={imgSrc(id)}
+                    alt="file"
+                    style={{ width: '100px', height: '100px' }}
+                    className="file-input__img"
+                    onClick={() => onDelete(id)}
+                  />
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+
+      <FormHelperText id={name} error>
+        <>{errors[name] ? errors[name]?.message : ''}</>
+      </FormHelperText>
+    </FormControl>
   )
 }
 

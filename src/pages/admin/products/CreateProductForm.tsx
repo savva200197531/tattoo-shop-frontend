@@ -5,10 +5,10 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Box, TextField, Typography } from '@mui/material'
 
-import { validationErrors } from '../../../validationErrors'
 import { useProducts } from '../../../contexts/products/ProductsContext'
 import FileInput from '../../../components/FileInput/FileInput'
 import { StyledLoadingButton } from '../../../components/StyledButtons'
+import { validationErrors } from '../../../helpers/validationErrors'
 
 const createProductSchema = object({
   name: string()
@@ -76,13 +76,13 @@ const CreateProductForm: React.FC = () => {
 
   return (
     <Box className="product-form">
-      <Typography variant='h4' component='h1' sx={{ mb: '2rem' }}>
+      <Typography variant="h4" component="h1" sx={{ mb: '2rem' }}>
         Создать товар
       </Typography>
       <Box
-        component='form'
+        component="form"
         noValidate
-        autoComplete='off'
+        autoComplete="off"
         onSubmit={handleSubmit(onSubmitHandler)}
       >
         <TextField
@@ -121,12 +121,12 @@ const CreateProductForm: React.FC = () => {
           {...register('price', { valueAsNumber: true })}
         />
 
-        <FileInput filesLimit={9} onChange={onFileChange} />
+        {/*<FileInput filesLimit={9} onChange={onFileChange} />*/}
 
         <StyledLoadingButton
-          variant='contained'
+          variant="contained"
           fullWidth
-          type='submit'
+          type="submit"
           loading={loading}
           sx={{ py: '0.8rem', mt: '1rem' }}
         >

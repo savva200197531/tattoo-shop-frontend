@@ -5,6 +5,7 @@ import { Box, Modal } from '@mui/material'
 
 import Svg from '../../../components/Svg'
 import { Slide } from '../../../contexts/slider/types'
+import EditSlideForm from './EditSlideForm'
 
 const style = {
   position: 'absolute',
@@ -45,7 +46,7 @@ const EditSlide: React.FC<Props> = ({ slide }) => {
         title="Редактировать слайд"
       >
         <Box sx={style}>
-          <div>Редактировать слайд</div>
+          <EditSlideForm record={slide} />
         </Box>
       </Modal>
     </>

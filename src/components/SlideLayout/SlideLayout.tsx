@@ -2,7 +2,6 @@ import React from 'react'
 import './styles.scss'
 import { Slide } from '../../contexts/slider/types'
 import { imgSrc } from '../../helpers/imgSrc'
-import { Typography } from '@mui/material'
 
 type Props = {
   slide: Slide
@@ -10,15 +9,10 @@ type Props = {
 }
 
 const SlideLayout: React.FC<Props> = ({ slide, children }) => {
-  const { title, description, img_id, bg_color } = slide
+  const {} = slide
 
   return (
-    <div className="slide-layout" style={{ background: bg_color }}>
-      <Typography variant='h6' component='h4' fontWeight={500}>
-        {title}
-      </Typography>
-      <p className="slide-description">{description}</p>
-      {img_id && <img className="slide-img" src={imgSrc(img_id)} alt=""/>}
+    <div className="slide-layout" style={{ backgroundImage: `url(${imgSrc(slide.img_id)})` }}>
       {children}
     </div>
   )

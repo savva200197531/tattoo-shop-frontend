@@ -13,6 +13,7 @@ import { AlertProvider } from './contexts/alert/AlertContext'
 import { PaymentProvider } from './contexts/payment/PaymentContext'
 import { OrdersProvider } from './contexts/orders/OrdersContext'
 import { SliderProvider } from './contexts/slider/SliderContext'
+import { FilesProvider } from './contexts/files/FilesContext'
 
 const theme = createTheme({
   palette: {
@@ -40,7 +41,9 @@ function App() {
                   <PaymentProvider>
                     <FavoriteProvider>
                       <SliderProvider>
-                        <AppLayout />
+                        <FilesProvider>
+                          <AppLayout />
+                        </FilesProvider>
                       </SliderProvider>
                     </FavoriteProvider>
                   </PaymentProvider>

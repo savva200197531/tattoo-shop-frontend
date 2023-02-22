@@ -1,25 +1,50 @@
-.file-input {
+@import "../../styles/variables";
 
-  .MuiDropzoneArea-textContainer {
-    text-align: left;
-  }
+.file-input__list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-top: 8px;
+}
 
-  &.MuiDropzoneArea-root {
-    border: none;
-    min-height: unset;
-  }
+.file-input__img-wrapper {
+  position: relative;
+  cursor: pointer;
 
-  .MuiGrid-container {
-    margin-top: 0;
-    width: 100%;
-    margin-left: 0;
+  &:hover {
+    &:before {
+      content: ' ';
+      height: 2px;
+      width: 100px;
+      position: absolute;
+      transform: rotate(45deg);
+      background: black;
+      left: 0;
+      top: 50%;
+      z-index: 1;
+    }
 
-    > .MuiGrid-item {
+    &:after {
+      content: ' ';
+      height: 2px;
       width: 100%;
-      padding-left: 0;
-      margin-top: 10px;
-      padding-top: 0;
-      max-width: unset;
+      position: absolute;
+      transform: rotate(-45deg);
+      background: black;
+      left: 0;
+      top: 50%;
+      z-index: 1;
+    }
+
+    .file-input__img {
+      transition: ease 0.1s;
+      opacity: 0.5;
+      backdrop-filter: blur(2px);
     }
   }
 }
+
+.file-input__img {
+  border-radius: $border-radius;
+}
+

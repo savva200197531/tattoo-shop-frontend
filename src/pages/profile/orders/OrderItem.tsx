@@ -15,7 +15,7 @@ const OrderItem: React.FC<Props> = ({ order }) => {
       </div>
       <p>№ {order.id}</p>
       <p>{order.status}</p>
-      <img src={imgSrc(order.products[0].img_ids?.[0] as number)} alt=""/>
+      <img src={imgSrc(order.products[0]?.img_ids?.[0] as number)} alt=""/>
     </div>
   )
 }
