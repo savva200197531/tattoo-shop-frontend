@@ -14,12 +14,14 @@ export type CreateProductPayload = {
   name: string
   price: number
   count: number
-  images?: File[]
+  images?: number[]
 }
 
 export type CreateProduct = (payload: CreateProductPayload) => Promise<any>
 
 export type DeleteProduct = (id: number) => Promise<any>
+
+export type CreateProductImg = (img: File) => Promise<any>
 
 export type ProductsContextProps = {
   getProducts: GetProducts

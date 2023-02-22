@@ -1,9 +1,14 @@
 @import "../../styles/variables";
 
+.file-input {
+  width: 100%;
+}
+
 .file-input__list {
+  width: 100%;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  //justify-content: space-between;
   margin-top: 8px;
 }
 
@@ -42,6 +47,10 @@
       backdrop-filter: blur(2px);
     }
   }
+}
+
+.file-input__img-wrapper {
+  margin: 0 5px 5px 5px;
 }
 
 .file-input__img {

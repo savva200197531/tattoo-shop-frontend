@@ -17,8 +17,6 @@ export type EditSlidePayload = Partial<CreateSlidePayload>
 
 export type EditSlide = (id: number, payload: EditSlidePayload) => Promise<any>
 
-export type CreateSlideImg = (img: File) => Promise<any>
-
 export type DeleteSlide = (id: number) => Promise<any>
 
 export type SliderContextProps = {
@@ -27,5 +25,4 @@ export type SliderContextProps = {
   createSlide: CreateSlide
   editSlide: EditSlide
   deleteSlide: DeleteSlide
-  createSlideImg: CreateSlideImg
 }

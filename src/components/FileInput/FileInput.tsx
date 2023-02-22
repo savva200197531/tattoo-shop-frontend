@@ -6,6 +6,7 @@ import { Button, FormControl, FormHelperText } from '@mui/material'
 
 import './styles.scss'
 import { imgSrc } from '../../helpers/imgSrc'
+import { LocalFile } from '../../contexts/files/types'
 
 interface IFileInputProps extends DropzoneOptions {
   label?: string
@@ -34,7 +35,7 @@ const FileInput: FC<IFileInputProps> = (props) => {
       onDropPromise(files)
         .then(({ data }) => {
           if (multiple) {
-            setValue(name, [...fileIds, data.id], { shouldValidate: true })
+            setValue(name, [...fileIds, ...data.map((item: LocalFile) => item.id)], { shouldValidate: true })
           } else {
             setValue(name, [data.id], { shouldValidate: true })
           }
@@ -76,28 +77,31 @@ const FileInput: FC<IFileInputProps> = (props) => {
     }
   }, [register, unregister, name])
 
+  useEffect(() => {
+    console.log(fileIds)
+  }, [fileIds])
+
+
   return (
-    <FormControl>
+    <FormControl className="file-input">
       <div>
         <input id={name} {...getInputProps()} />
-        <div>
-          <Button {...getRootProps()} onClick={open} variant="outlined">{label}</Button>
-          {!!fileIds?.length && (
-            <div className="file-input__list">
-              {fileIds.map((id) => (
-                <div className="file-input__img-wrapper" key={id}>
-                  <img
-                    src={imgSrc(id)}
-                    alt="file"
-                    style={{ width: '100px', height: '100px' }}
-                    className="file-input__img"
-                    onClick={() => onDelete(id)}
-                  />
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
+        <Button {...getRootProps()} onClick={open} variant="outlined">{label}</Button>
+        {!!fileIds?.length && (
+          <div className="file-input__list">
+            {fileIds.map((id) => (
+              <div className="file-input__img-wrapper" key={id}>
+                <img
+                  src={imgSrc(id)}
+                  alt="file"
+                  style={{ width: '100px', height: '100px' }}
+                  className="file-input__img"
+                  onClick={() => onDelete(id)}
+                />
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       <FormHelperText id={name} error>

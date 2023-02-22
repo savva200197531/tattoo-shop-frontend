@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { any, number, object, string, TypeOf } from 'zod'
-import { SubmitHandler, useForm } from 'react-hook-form'
+import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Box, TextField, Typography } from '@mui/material'
@@ -9,6 +9,8 @@ import { useProducts } from '../../../contexts/products/ProductsContext'
 import FileInput from '../../../components/FileInput/FileInput'
 import { StyledLoadingButton } from '../../../components/StyledButtons'
 import { validationErrors } from '../../../helpers/validationErrors'
+import { ACCEPTED_IMAGE_TYPES, CreateFilesPayload } from '../../../contexts/files/types'
+import { useFiles } from '../../../contexts/files/FilesContext'
 
 const createProductSchema = object({
   name: string()
@@ -27,7 +29,7 @@ const createProductSchema = object({
     },
   })
     .min(0, validationErrors.min('цена', 0)),
-  images: any().optional(),
+  img_ids: any().optional(),
 })
 
 type CreateProductInput = TypeOf<typeof createProductSchema>;
@@ -36,16 +38,21 @@ const CreateProductForm: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false)
 
   const { createProduct, getProducts } = useProducts()
+  const { createFiles } = useFiles()
+
+  const methods = useForm<CreateProductInput>({
+    resolver: zodResolver(createProductSchema),
+    defaultValues: {
+      img_ids: [],
+    },
+  })
 
   const {
     register,
     formState: { errors, isSubmitSuccessful },
     reset,
     handleSubmit,
-    setValue,
-  } = useForm<CreateProductInput>({
-    resolver: zodResolver(createProductSchema),
-  })
+  } = methods
 
   const onSubmitHandler: SubmitHandler<CreateProductInput> = (payload) => {
     setLoading(true)
@@ -56,12 +63,14 @@ const CreateProductForm: React.FC = () => {
     })
   }
 
-  const onFileChange = (value: any) => {
-    if (!value?.length) {
-      setValue('images', undefined)
-    } else {
-      setValue('images', value)
+  const handleCreateProductImg = (files: File[]) => {
+    const payload: CreateFilesPayload = {
+      files,
+      path: 'products/upload-images',
+      key: 'images',
     }
+
+    return createFiles(payload)
   }
 
   useEffect(() => {
@@ -121,7 +130,16 @@ const CreateProductForm: React.FC = () => {
           {...register('price', { valueAsNumber: true })}
         />
 
-        {/*<FileInput filesLimit={9} onChange={onFileChange} />*/}
+        <FormProvider {...methods}>
+          <FileInput
+            onDropPromise={handleCreateProductImg}
+            multiple
+            name="img_ids"
+            accept={{
+              'image/png': ACCEPTED_IMAGE_TYPES,
+            }}
+          />
+        </FormProvider>
 
         <StyledLoadingButton
           variant="contained"

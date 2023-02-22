@@ -10,8 +10,8 @@ import { validationErrors } from '../../../helpers/validationErrors'
 import { useSlider } from '../../../contexts/slider/SliderContext'
 import { EditSlidePayload, Slide } from '../../../contexts/slider/types'
 import FileInput from '../../../components/FileInput/FileInput'
-
-const ACCEPTED_IMAGE_TYPES = ['.jpeg', '.jpg', '.png', '.webp', '.svg']
+import { ACCEPTED_IMAGE_TYPES, CreateFilesPayload } from '../../../contexts/files/types'
+import { useFiles } from '../../../contexts/files/FilesContext'
 
 const editSlideSchema = object({
   link: string()
@@ -28,7 +28,8 @@ type Props = {
 const EditSlideForm: React.FC<Props> = ({ record }) => {
   const [loading, setLoading] = useState<boolean>(false)
 
-  const { editSlide, getSlides, createSlideImg } = useSlider()
+  const { editSlide, getSlides } = useSlider()
+  const { createFiles } = useFiles()
 
   const methods = useForm<EditSlideInput>({
     resolver: zodResolver(editSlideSchema),
@@ -59,7 +60,15 @@ const EditSlideForm: React.FC<Props> = ({ record }) => {
     })
   }
 
-  const handleCreateSlideImg = (files: File[]) => createSlideImg(files[0])
+  const handleCreateSlideImg = (files: File[]) => {
+    const payload: CreateFilesPayload = {
+      files,
+      path: 'slider/upload-img',
+      key: 'img',
+    }
+
+    return createFiles(payload)
+  }
 
   useEffect(() => {
     if (isSubmitSuccessful) {

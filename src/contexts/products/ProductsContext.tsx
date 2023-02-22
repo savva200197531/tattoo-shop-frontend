@@ -27,20 +27,8 @@ export const ProductsProvider: React.FC<Props> = ({ children }) => {
 
   const getProduct: GetProduct = (id) => axios.get<Product>(`${requestUrl}/products/${id}`)
 
-  const createProduct: CreateProduct = ({ images, price, name, count }) => {
-    const formData = new FormData()
-
-    if (images?.length) {
-      images.forEach(img => {
-        formData.append('images', img, img.name)
-      })
-    }
-
-    formData.append('name', name)
-    formData.append('price', price.toString())
-    formData.append('count', count.toString())
-
-    return axios.post(`${requestUrl}/products`, formData)
+  const createProduct: CreateProduct = (payload) => {
+    return axios.post(`${requestUrl}/products`, payload)
       .catch(error => {
         console.log(error)
       })

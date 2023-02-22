@@ -1,7 +1,7 @@
 import React, { ReactNode, useContext, useState } from 'react'
 import axios from 'axios'
 
-import { CreateSlide, CreateSlideImg, DeleteSlide, EditSlide, Slide, SliderContextProps } from './types'
+import { CreateSlide, DeleteSlide, EditSlide, Slide, SliderContextProps } from './types'
 import { requestUrl } from '../../env'
 
 const SliderContext = React.createContext<SliderContextProps>({} as SliderContextProps)
@@ -39,17 +39,6 @@ export const SliderProvider: React.FC<Props> = ({ children }) => {
       })
   }
 
-  const createSlideImg: CreateSlideImg = (img) => {
-    const formData = new FormData()
-
-    formData.append('img', img, img.name)
-
-    return axios.post(`${requestUrl}/slider/upload-img`, formData)
-      .catch(error => {
-        console.log(error)
-      })
-  }
-
   const deleteSlide: DeleteSlide = (id) => axios.delete(`${requestUrl}/slider/${id}`)
 
   const value = {
@@ -58,7 +47,6 @@ export const SliderProvider: React.FC<Props> = ({ children }) => {
     createSlide,
     deleteSlide,
     editSlide,
-    createSlideImg,
   }
 
   return <SliderContext.Provider value={value}>{children}</SliderContext.Provider>
