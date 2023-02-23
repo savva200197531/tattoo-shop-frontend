@@ -14,6 +14,7 @@ import { PaymentProvider } from './contexts/payment/PaymentContext'
 import { OrdersProvider } from './contexts/orders/OrdersContext'
 import { SliderProvider } from './contexts/slider/SliderContext'
 import { FilesProvider } from './contexts/files/FilesContext'
+import { ProductsFiltersProvider } from './contexts/productsFilters/ProductsFiltersContext'
 
 const theme = createTheme({
   palette: {
@@ -42,7 +43,9 @@ function App() {
                     <FavoriteProvider>
                       <SliderProvider>
                         <FilesProvider>
-                          <AppLayout />
+                          <ProductsFiltersProvider>
+                            <AppLayout />
+                          </ProductsFiltersProvider>
                         </FilesProvider>
                       </SliderProvider>
                     </FavoriteProvider>

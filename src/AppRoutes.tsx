@@ -22,6 +22,7 @@ import TabSlider from './pages/admin/slider/TabSlider'
 import TabOrders from './pages/profile/orders/TabOrders'
 import TabInfo from './pages/profile/info/TabInfo'
 import ThanksPage from './pages/thanks/ThanksPage'
+import TabCategories from './pages/admin/categories/TabCategories'
 
 const AppRoutes = () => {
   return (
@@ -50,6 +51,8 @@ const AppRoutes = () => {
       >
         <Route path="/admin/products" element={<TabProducts />} />
         <Route path="/admin/slider" element={<TabSlider />} />
+        <Route path="/admin/categories" element={<TabCategories />} />
+        {/*<Route path="/admin/filters" element={<TabFilters />} />*/}
       </Route>
       <Route element={<AuthPage />}>
         <Route path="/login" element={<LoginPage />} />

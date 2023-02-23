@@ -7,6 +7,7 @@ import { Button, FormControl, FormHelperText } from '@mui/material'
 import './styles.scss'
 import { imgSrc } from '../../helpers/imgSrc'
 import { LocalFile } from '../../contexts/files/types'
+import Spinner from '../Spinner/Spinner'
 
 interface IFileInputProps extends DropzoneOptions {
   label?: string
@@ -77,30 +78,27 @@ const FileInput: FC<IFileInputProps> = (props) => {
     }
   }, [register, unregister, name])
 
-  useEffect(() => {
-    console.log(fileIds)
-  }, [fileIds])
-
-
   return (
     <FormControl className="file-input">
       <div>
         <input id={name} {...getInputProps()} />
         <Button {...getRootProps()} onClick={open} variant="outlined">{label}</Button>
         {!!fileIds?.length && (
-          <div className="file-input__list">
-            {fileIds.map((id) => (
-              <div className="file-input__img-wrapper" key={id}>
-                <img
-                  src={imgSrc(id)}
-                  alt="file"
-                  style={{ width: '100px', height: '100px' }}
-                  className="file-input__img"
-                  onClick={() => onDelete(id)}
-                />
-              </div>
-            ))}
-          </div>
+          loading ? <Spinner/> : (
+            <div className="file-input__list">
+              {fileIds.map((id) => (
+                <div className="file-input__img-wrapper" key={id}>
+                  <img
+                    src={imgSrc(id)}
+                    alt="file"
+                    style={{ width: '100px', height: '100px' }}
+                    className="file-input__img"
+                    onClick={() => onDelete(id)}
+                  />
+                </div>
+              ))}
+            </div>
+          )
         )}
       </div>
 

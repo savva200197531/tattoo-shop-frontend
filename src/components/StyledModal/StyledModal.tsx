@@ -1,17 +1,16 @@
 import React, { useState } from 'react'
+import classNames from 'classnames'
 
-import IconButton from '@mui/material/IconButton'
 import { Box, Modal } from '@mui/material'
 
-import Svg from '../../../components/Svg'
-import { Product } from '../../../contexts/products/types'
+import './styles.scss'
 
 const style = {
   position: 'absolute',
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 400,
+  // width: 400,
   bgcolor: 'background.paper',
   // border: '2px solid #000',
   boxShadow: 24,
@@ -19,11 +18,13 @@ const style = {
 }
 
 type Props = {
-  product: Product
-
+  title: string
+  children: React.ReactElement
+  className?: string
+  icon: React.ReactElement
 }
 
-const EditProduct: React.FC<Props> = ({ product }) => {
+const StyledModal: React.FC<Props> = ({ title, children, className, icon }) => {
   const [open, setOpen] = useState<boolean>(false)
 
   const handleOpen = () => {
@@ -36,21 +37,22 @@ const EditProduct: React.FC<Props> = ({ product }) => {
 
   return (
     <>
-      <IconButton onClick={handleOpen} type="button" sx={{ p: '6px' }}>
-        <Svg id="pencil" width={30} height={30} />
-      </IconButton>
+      {React.cloneElement(icon, {
+        onClick: handleOpen,
+      })}
 
       <Modal
+        className={classNames('mui-modal', className)}
         open={open}
         onClose={handleClose}
-        title="Редактировать товар"
+        title={title}
       >
         <Box sx={style}>
-          <div>Редактировать товар</div>
+          {children}
         </Box>
       </Modal>
     </>
   )
 }
 
-export default EditProduct
+export default StyledModal

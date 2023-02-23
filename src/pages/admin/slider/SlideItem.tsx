@@ -1,10 +1,14 @@
 import React from 'react'
-import { Slide } from '../../../contexts/slider/types'
-import EditSlide from './EditSlide'
+
 import IconButton from '@mui/material/IconButton'
+
+import { Slide } from '../../../contexts/slider/types'
 import Svg from '../../../components/Svg'
 import SlideLayout from '../../../components/SlideLayout/SlideLayout'
 import { useSlider } from '../../../contexts/slider/SliderContext'
+import StyledModal from '../../../components/StyledModal/StyledModal'
+import EditSlideForm from './EditSlideForm'
+import StyledDialog from '../../../components/StyledDialog/StyledDialog'
 
 type Props = {
   slide: Slide
@@ -26,11 +30,27 @@ const SlideItem: React.FC<Props> = ({ slide }) => {
   return (
     <SlideLayout slide={slide}>
       <div className="admin-slider__toolbar">
-        <EditSlide slide={slide} />
+        <StyledModal
+          icon={
+            <IconButton type="button" sx={{ p: '6px' }}>
+              <Svg id="pencil" width={30} height={30} />
+            </IconButton>
+          }
+          title="Редактировать слайд"
+        >
+          <EditSlideForm record={slide} />
+        </StyledModal>
 
-        <IconButton className="product-item__delete" onClick={handleDeleteSlide} type="button" sx={{ p: '6px' }}>
-          <Svg id="trash" width={30} height={30} />
-        </IconButton>
+        <StyledDialog
+          title="Удалить"
+          icon={
+            <IconButton className="product-item__delete" type="button" sx={{ p: '6px' }}>
+              <Svg id="trash" width={30} height={30} />
+            </IconButton>
+          }
+          text="Вы точно хотите удалить слайд?"
+          handleSubmit={handleDeleteSlide}
+        />
       </div>
     </SlideLayout>
   )

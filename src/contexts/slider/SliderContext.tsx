@@ -1,7 +1,7 @@
 import React, { ReactNode, useContext, useState } from 'react'
 import axios from 'axios'
 
-import { CreateSlide, DeleteSlide, EditSlide, Slide, SliderContextProps } from './types'
+import { CreateSlide, DeleteSlide, EditSlide, GetSlides, Slide, SliderContextProps } from './types'
 import { requestUrl } from '../../env'
 
 const SliderContext = React.createContext<SliderContextProps>({} as SliderContextProps)
@@ -15,7 +15,7 @@ type Props = {
 export const SliderProvider: React.FC<Props> = ({ children }) => {
   const [slides, setSlides] = useState<Slide[]>([])
 
-  const getSlides = () => {
+  const getSlides: GetSlides = () => {
     return axios.get<Slide[]>(`${requestUrl}/slider`)
       .then((response) => {
         setSlides(response.data)

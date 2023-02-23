@@ -14,6 +14,10 @@ const tabs: TabProps[] = [
     label: 'Слайдер',
     to: '/admin/slider',
   },
+  {
+    label: 'Категории товаров',
+    to: '/admin/categories',
+  },
 ]
 
 const AdminPage: React.FC = () => {
