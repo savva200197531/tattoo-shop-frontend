@@ -8,6 +8,7 @@ import { useProductsFilters } from '../../../contexts/productsFilters/ProductsFi
 import StyledModal from '../../../components/StyledModal/StyledModal'
 import EditCategoryForm from './EditCategoryForm'
 import StyledDialog from '../../../components/StyledDialog/StyledDialog'
+import CategoryLayout from '../../../components/CategoryLayout/CategoryLayout'
 
 type Props = {
   category: Category
@@ -27,31 +28,31 @@ const CategoryItem: React.FC<Props> = ({ category }) => {
   }
 
   return (
-    <div>
-      {category.name}
+    <CategoryLayout category={category}>
+      <div className="admin-category__toolbar">
+        <StyledModal
+          icon={
+            <IconButton type="button" sx={{ p: '6px' }}>
+              <Svg fill="white" id="pencil" width={30} height={30} />
+            </IconButton>
+          }
+          title="Редактировать категорию"
+        >
+          <EditCategoryForm record={category} />
+        </StyledModal>
 
-      <StyledModal
-        icon={
-          <IconButton type="button" sx={{ p: '6px' }}>
-            <Svg id="pencil" width={30} height={30} />
-          </IconButton>
-        }
-        title="Редактировать категорию"
-      >
-        <EditCategoryForm record={category} />
-      </StyledModal>
-
-      <StyledDialog
-        icon={
-          <IconButton className="product-item__delete" type="button" sx={{ p: '6px' }}>
-            <Svg id="trash" width={30} height={30} />
-          </IconButton>
-        }
-        title="Удалить категорию"
-        text="Вы точно хотите удалить категорию?"
-        handleSubmit={handleDeleteCategory}
-      />
-    </div>
+        <StyledDialog
+          icon={
+            <IconButton className="product-item__delete" type="button" sx={{ p: '6px' }}>
+              <Svg fill="white" id="trash" width={30} height={30} />
+            </IconButton>
+          }
+          title="Удалить категорию"
+          text="Вы точно хотите удалить категорию?"
+          handleSubmit={handleDeleteCategory}
+        />
+      </div>
+    </CategoryLayout>
   )
 }
 

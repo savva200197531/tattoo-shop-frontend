@@ -46,7 +46,7 @@ const ProductItem: React.FC<Props> = ({ product }) => {
           </StyledModal>
 
           <StyledDialog
-            title="Удалить"
+            title="Удалить товар"
             icon={
               <IconButton className="product-item__delete" type="button" sx={{ p: '6px' }}>
                 <Svg id="trash" width={30} height={30} />

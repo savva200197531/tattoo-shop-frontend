@@ -15,8 +15,12 @@ const tabs: TabProps[] = [
     to: '/admin/slider',
   },
   {
-    label: 'Категории товаров',
+    label: 'Категории',
     to: '/admin/categories',
+  },
+  {
+    label: 'Бренды',
+    to: '/admin/brands',
   },
 ]
 

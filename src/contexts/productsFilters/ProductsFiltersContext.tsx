@@ -19,13 +19,12 @@ type Props = {
   children: ReactNode
 }
 
-const baseRequestUrl = `${requestUrl}/products-filters`
-
 export const ProductsFiltersProvider: React.FC<Props> = ({ children }) => {
   const [categories, setCategories] = useState<Category[]>([])
 
+  // CATEGORIES
   const getCategories: BaseGetFilters = () => {
-    return axios.get<Category[]>(`${baseRequestUrl}/category`)
+    return axios.get<Category[]>(`${requestUrl}/categories`)
       .then((response) => {
         setCategories(response.data)
       })
@@ -35,20 +34,20 @@ export const ProductsFiltersProvider: React.FC<Props> = ({ children }) => {
   }
 
   const createCategory: CreateCategory = (payload) => {
-    return axios.post(`${baseRequestUrl}/category`, payload)
+    return axios.post(`${requestUrl}/categories`, payload)
       .catch(error => {
         console.log(error)
       })
   }
 
   const editCategory: EditCategory = (id, payload) => {
-    return axios.patch(`${baseRequestUrl}/category/${id}`, payload)
+    return axios.patch(`${requestUrl}/categories/${id}`, payload)
       .catch(error => {
         console.log(error)
       })
   }
 
-  const deleteCategory: BaseDeleteFilter = (id) => axios.delete(`${baseRequestUrl}/category/${id}`)
+  const deleteCategory: BaseDeleteFilter = (id) => axios.delete(`${requestUrl}/categories/${id}`)
 
   const value = {
     getCategories,

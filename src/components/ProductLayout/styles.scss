@@ -1,5 +1,18 @@
 @import "../../styles/variables";
 
+.products-list {
+  //display: flex;
+  //flex-wrap: wrap;
+  //width: 100%;
+  //gap: 20px;
+  //justify-content: center;
+
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-column-gap: 40px;
+  grid-row-gap: 20px;
+}
+
 .product-layout {
   position: relative;
   border: 1px solid $border;
@@ -13,8 +26,9 @@
   //flex-direction: column;
   //justify-content: end;
   max-width: 300px;
-  width: 100%;
-  margin-bottom: 20px;
+  //width: 100%;
+  //margin: 0 20px 20px 0;
+  margin: 0 auto;
 }
 
 .product-header {
@@ -24,6 +38,7 @@
 
 .product-slider {
   margin-top: 10px;
+  min-height: 300px;
 
   .carousel {
     .control-dots {
@@ -38,7 +53,6 @@
 }
 
 .product-slide {
-  height: 400px;
   display: flex;
   align-items: center;
   padding-bottom: 40px;

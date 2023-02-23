@@ -3,7 +3,7 @@ import { any, number, object, string, TypeOf } from 'zod'
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Box, TextField, Typography } from '@mui/material'
+import { Box, FormControl, FormHelperText, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material'
 
 import { useProducts } from '../../../contexts/products/ProductsContext'
 import FileInput from '../../../components/FileInput/FileInput'
@@ -11,6 +11,7 @@ import { StyledLoadingButton } from '../../../components/StyledButtons'
 import { validationErrors } from '../../../helpers/validationErrors'
 import { ACCEPTED_IMAGE_TYPES, CreateFilesPayload } from '../../../contexts/files/types'
 import { useFiles } from '../../../contexts/files/FilesContext'
+import { useProductsFilters } from '../../../contexts/productsFilters/ProductsFiltersContext'
 
 const createProductSchema = object({
   name: string()
@@ -29,6 +30,11 @@ const createProductSchema = object({
     },
   })
     .min(0, validationErrors.min('цена', 0)),
+  category_id: number({
+    errorMap: () => {
+      return { message: validationErrors.required('категория товара') }
+    },
+  }),
   img_ids: any().optional(),
 })
 
@@ -38,6 +44,7 @@ const CreateProductForm: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false)
 
   const { createProduct, getProducts } = useProducts()
+  const { getCategories, categories } = useProductsFilters()
   const { createFiles } = useFiles()
 
   const methods = useForm<CreateProductInput>({
@@ -54,10 +61,10 @@ const CreateProductForm: React.FC = () => {
     handleSubmit,
   } = methods
 
-  const onSubmitHandler: SubmitHandler<CreateProductInput> = (payload) => {
+  const onSubmitHandler: SubmitHandler<CreateProductInput> = (data) => {
     setLoading(true)
 
-    createProduct(payload).finally(() => {
+    createProduct(data).finally(() => {
       setLoading(false)
       getProducts()
     })
@@ -78,6 +85,10 @@ const CreateProductForm: React.FC = () => {
       // reset()
     }
   }, [isSubmitSuccessful, reset])
+
+  useEffect(() => {
+    getCategories()
+  }, [])
 
   useEffect(() => {
     console.log(errors)
@@ -129,6 +140,20 @@ const CreateProductForm: React.FC = () => {
           helperText={errors['price'] ? errors['price'].message : ''}
           {...register('price', { valueAsNumber: true })}
         />
+
+        <FormControl fullWidth>
+          <InputLabel>Категория товара</InputLabel>
+          <Select
+            error={!!errors['category_id']}
+            label="Категория товара"
+            {...register('category_id', { valueAsNumber: true })}
+          >
+            {categories.map(category => (
+              <MenuItem key={category.id} value={category.id}>{category.name}</MenuItem>
+            ))}
+          </Select>
+          <FormHelperText error>{errors['category_id'] ? errors['category_id'].message : ''}</FormHelperText>
+        </FormControl>
 
         <FormProvider {...methods}>
           <FileInput

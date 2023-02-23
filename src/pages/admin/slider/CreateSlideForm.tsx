@@ -16,7 +16,7 @@ import { useFiles } from '../../../contexts/files/FilesContext'
 const createSlideSchema = object({
   link: string()
     .max(200, validationErrors.max('ссылка', 200)),
-  img_ids: any().refine((data) => data.length, { message: validationErrors.required('файл') }),
+  img_ids: any().refine((data) => data.length, { message: validationErrors.required('изображение') }),
 })
 
 type CreateSlideInput = TypeOf<typeof createSlideSchema>;
@@ -30,7 +30,6 @@ const CreateSlideForm: React.FC = () => {
   const methods = useForm<CreateSlideInput>({
     resolver: zodResolver(createSlideSchema),
     defaultValues: {
-      link: '',
       img_ids: [],
     },
   })

@@ -24,7 +24,9 @@ const TabCategories: React.FC = () => {
 
   return (
     <>
-      {loading ? <Spinner/> : categories.map(category => <CategoryItem key={category.id} category={category}/>)}
+      {loading ? <Spinner/> : (
+        <div className="categories-list">{categories.map(category => <CategoryItem key={category.id} category={category}/>)}</div>
+      )}
 
       <StyledModal
         icon={

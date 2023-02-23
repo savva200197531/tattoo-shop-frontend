@@ -14,7 +14,8 @@ export type CreateProductPayload = {
   name: string
   price: number
   count: number
-  images?: number[]
+  category_id: number
+  img_ids?: number[]
 }
 
 export type CreateProduct = (payload: CreateProductPayload) => Promise<any>

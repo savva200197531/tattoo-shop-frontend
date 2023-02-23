@@ -1,15 +1,5 @@
 @import "../../styles/variables";
 
-.products-list {
-  //display: grid;
-  //grid-template-columns: repeat(var(--columns, 4), minmax(0, 1fr));
-  //grid-column-gap: 50px;
-  //grid-row-gap: 30px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-}
-
 .product-item__favorite {
   margin-left: auto;
 }
