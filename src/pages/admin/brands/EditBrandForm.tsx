@@ -9,7 +9,7 @@ import { StyledLoadingButton } from '../../../components/StyledButtons'
 import { validationErrors } from '../../../helpers/validationErrors'
 import { Brand } from '../../../contexts/productsFilters/types'
 import { useProductsFilters } from '../../../contexts/productsFilters/ProductsFiltersContext'
-import MultiSelect from '../../../components/MultiSelect'
+import MultiSelect from '../../../components/Selects/MultiSelect'
 
 const editCategorySchema = object({
   name: string().nonempty(validationErrors.required('название')).max(30, validationErrors.max('название', 30)),
@@ -87,6 +87,7 @@ const EditBrandForm: React.FC<Props> = ({ record }) => {
 
         <FormProvider {...methods}>
           <MultiSelect
+            label="Категории"
             name="category_ids"
             options={categories}
           />

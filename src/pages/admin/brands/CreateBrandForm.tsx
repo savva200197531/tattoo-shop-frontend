@@ -8,7 +8,7 @@ import { Box, TextField, Typography } from '@mui/material'
 import { StyledLoadingButton } from '../../../components/StyledButtons'
 import { validationErrors } from '../../../helpers/validationErrors'
 import { useProductsFilters } from '../../../contexts/productsFilters/ProductsFiltersContext'
-import MultiSelect from '../../../components/MultiSelect'
+import MultiSelect from '../../../components/Selects/MultiSelect'
 
 const createCategorySchema = object({
   name: string().nonempty(validationErrors.required('название')).max(30, validationErrors.max('название', 30)),
@@ -81,6 +81,7 @@ const CreateBrandForm: React.FC = () => {
 
         <FormProvider {...methods}>
           <MultiSelect
+            label="Категории"
             name="category_ids"
             options={categories}
           />

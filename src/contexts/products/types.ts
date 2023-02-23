@@ -3,6 +3,8 @@ export type Product = {
   name: string
   price: number
   count: number
+  brand_id: number
+  category_id: number
   img_ids: number[] | null
 }
 
@@ -20,14 +22,17 @@ export type CreateProductPayload = {
 
 export type CreateProduct = (payload: CreateProductPayload) => Promise<any>
 
-export type DeleteProduct = (id: number) => Promise<any>
+export type EditProductPayload = Partial<CreateProductPayload> & {}
 
-export type CreateProductImg = (img: File) => Promise<any>
+export type EditProduct = (id: number, payload: EditProductPayload) => Promise<any>
+
+export type DeleteProduct = (id: number) => Promise<any>
 
 export type ProductsContextProps = {
   getProducts: GetProducts
   getProduct: GetProduct
   products: Product[]
   createProduct: CreateProduct
+  editProduct: EditProduct
   deleteProduct: DeleteProduct
 }

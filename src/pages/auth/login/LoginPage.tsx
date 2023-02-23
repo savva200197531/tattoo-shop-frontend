@@ -67,7 +67,6 @@ const LoginPage = () => {
       <TextField
         sx={{ mb: 2 }}
         label="Почта"
-        defaultValue="yakikbutovski353@gmail.com"
         fullWidth
         required
         type="email"
@@ -78,7 +77,6 @@ const LoginPage = () => {
       <TextField
         sx={{ mb: 2 }}
         label="Пароль"
-        defaultValue="123123123"
         fullWidth
         required
         type="password"

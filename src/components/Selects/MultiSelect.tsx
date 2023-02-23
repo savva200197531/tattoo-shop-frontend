@@ -2,18 +2,9 @@ import React, { useRef } from 'react'
 import { FormControl, FormHelperText, InputLabel, ListItemText, MenuItem, Select } from '@mui/material'
 import Checkbox from '@mui/material/Checkbox'
 import { useFormContext } from 'react-hook-form'
+import { BaseSelectProps } from './types'
 
-export type Option = {
-  name: string
-  id: number
-}
-
-type Props = {
-  options: Option[]
-  name: string
-}
-
-const MultiSelect: React.FC<Props> = ({ options, name }) => {
+const MultiSelect: React.FC<BaseSelectProps> = ({ options, name, label }) => {
   const {
     register,
     formState: { errors },
@@ -26,11 +17,11 @@ const MultiSelect: React.FC<Props> = ({ options, name }) => {
   const selectedValues = watch(name)
 
   return (
-    <FormControl fullWidth>
-      <InputLabel>Категория товара</InputLabel>
+    <FormControl fullWidth sx={{ mb: 2 }}>
+      <InputLabel>{label}</InputLabel>
       <Select
-        error={!!errors['category_ids']}
-        label="Категория товара"
+        error={!!errors[name]}
+        label={label}
         multiple
         defaultValue={defaultValues.current}
         renderValue={(selected) => {

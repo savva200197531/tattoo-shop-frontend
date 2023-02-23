@@ -89,7 +89,6 @@ const CreateSlideForm: React.FC = () => {
         <TextField
           sx={{ mb: 2 }}
           label="Ссылка"
-          defaultValue="Ссылка"
           fullWidth
           error={!!errors['link']}
           helperText={errors['link'] ? errors['link'].message : ''}

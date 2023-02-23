@@ -13,8 +13,9 @@ import { ACCEPTED_IMAGE_TYPES, CreateFilesPayload } from '../../../contexts/file
 import { useFiles } from '../../../contexts/files/FilesContext'
 import { useProductsFilters } from '../../../contexts/productsFilters/ProductsFiltersContext'
 import Select from '../../../components/Selects/Select'
+import { Product } from '../../../contexts/products/types'
 
-const createProductSchema = object({
+const editProductSchema = object({
   name: string()
     .nonempty(validationErrors.required('название товара'))
     .min(2, validationErrors.min('название товара', 2))
@@ -44,20 +45,22 @@ const createProductSchema = object({
   img_ids: any().optional(),
 })
 
-type CreateProductInput = TypeOf<typeof createProductSchema>;
+type EditProductInput = TypeOf<typeof editProductSchema>;
 
-const CreateProductForm: React.FC = () => {
+type Props = {
+  record: Product
+}
+
+const EditProductForm: React.FC<Props> = ({ record }) => {
   const [loading, setLoading] = useState<boolean>(false)
 
-  const { createProduct, getProducts } = useProducts()
+  const { editProduct, getProducts } = useProducts()
   const { getCategories, categories, getBrands, brands } = useProductsFilters()
   const { createFiles } = useFiles()
 
-  const methods = useForm<CreateProductInput>({
-    resolver: zodResolver(createProductSchema),
-    defaultValues: {
-      img_ids: [],
-    },
+  const methods = useForm<EditProductInput>({
+    resolver: zodResolver(editProductSchema),
+    defaultValues: record,
   })
 
   const {
@@ -67,10 +70,10 @@ const CreateProductForm: React.FC = () => {
     handleSubmit,
   } = methods
 
-  const onSubmitHandler: SubmitHandler<CreateProductInput> = (data) => {
+  const onSubmitHandler: SubmitHandler<EditProductInput> = (data) => {
     setLoading(true)
 
-    createProduct(data).finally(() => {
+    editProduct(record.id, data).finally(() => {
       setLoading(false)
       getProducts()
     })
@@ -104,7 +107,7 @@ const CreateProductForm: React.FC = () => {
   return (
     <Box className="product-form">
       <Typography variant="h4" component="h1" sx={{ mb: '2rem' }}>
-        Создать товар
+        Редактировать товар
       </Typography>
       <Box
         component="form"
@@ -179,11 +182,11 @@ const CreateProductForm: React.FC = () => {
           loading={loading}
           sx={{ py: '0.8rem', mt: '1rem' }}
         >
-          Создать
+          Сохранить
         </StyledLoadingButton>
       </Box>
     </Box>
   )
 }
 
-export default CreateProductForm
+export default EditProductForm

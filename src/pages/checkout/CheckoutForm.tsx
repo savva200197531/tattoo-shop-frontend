@@ -126,7 +126,6 @@ const CreateProductForm: React.FC = () => {
         <TextField
           sx={{ mb: 2 }}
           label="Фамилия"
-          defaultValue="Кашин"
           fullWidth
           error={!!errors['surname']}
           helperText={errors['surname'] ? errors['surname'].message : ''}
@@ -136,7 +135,6 @@ const CreateProductForm: React.FC = () => {
         <TextField
           sx={{ mb: 2 }}
           label="Имя"
-          defaultValue={user.name}
           fullWidth
           error={!!errors['name']}
           helperText={errors['name'] ? errors['name'].message : ''}
@@ -146,7 +144,6 @@ const CreateProductForm: React.FC = () => {
         <TextField
           sx={{ mb: 2 }}
           label="Отчество"
-          defaultValue="Игоревич"
           fullWidth
           error={!!errors['lastname']}
           helperText={errors['lastname'] ? errors['lastname'].message : ''}
@@ -156,7 +153,6 @@ const CreateProductForm: React.FC = () => {
         <TextField
           sx={{ mb: 2 }}
           label="Email"
-          defaultValue={user.email}
           fullWidth
           error={!!errors['email']}
           helperText={errors['email'] ? errors['email'].message : ''}
@@ -180,7 +176,6 @@ const CreateProductForm: React.FC = () => {
         <TextField
           sx={{ mb: 2 }}
           label="Регион"
-          defaultValue="Новосибирск"
           fullWidth
           error={!!errors['region']}
           helperText={errors['region'] ? errors['region'].message : ''}
@@ -190,7 +185,6 @@ const CreateProductForm: React.FC = () => {
         <TextField
           sx={{ mb: 2 }}
           label="Город"
-          defaultValue="Новосибирск"
           fullWidth
           error={!!errors['city']}
           helperText={errors['city'] ? errors['city'].message : ''}
@@ -200,7 +194,6 @@ const CreateProductForm: React.FC = () => {
         <TextField
           sx={{ mb: 2 }}
           label="Адрес"
-          defaultValue="Мичурина 43"
           fullWidth
           error={!!errors['address']}
           helperText={errors['address'] ? errors['address'].message : ''}
@@ -210,7 +203,6 @@ const CreateProductForm: React.FC = () => {
         <TextField
           sx={{ mb: 2 }}
           label="Комментарий"
-          defaultValue="Комментарий"
           fullWidth
           rows={4}
           multiline

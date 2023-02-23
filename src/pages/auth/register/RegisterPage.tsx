@@ -87,7 +87,6 @@ const RegisterPage: React.FC = () => {
       <TextField
         sx={{ mb: 2 }}
         label='Имя'
-        defaultValue="Savva"
         fullWidth
         // required
         error={!!errors['name']}
@@ -97,7 +96,6 @@ const RegisterPage: React.FC = () => {
       <TextField
         sx={{ mb: 2 }}
         label='Почта'
-        defaultValue="yakikbutovski353@gmail.com"
         fullWidth
         required
         type='email'
@@ -108,7 +106,6 @@ const RegisterPage: React.FC = () => {
       <TextField
         sx={{ mb: 2 }}
         label='Пароль'
-        defaultValue="123123123"
         fullWidth
         required
         type='password'
@@ -119,7 +116,6 @@ const RegisterPage: React.FC = () => {
       <TextField
         sx={{ mb: 2 }}
         label='Подтверждение пароля'
-        defaultValue="123123123"
         fullWidth
         required
         type='password'
@@ -132,7 +128,7 @@ const RegisterPage: React.FC = () => {
 
       <FormGroup>
         <FormControlLabel
-          control={<Checkbox defaultChecked={true} required />}
+          control={<Checkbox required />}
           {...register('terms')}
           label={
             <Typography color={errors['terms'] ? 'error' : 'inherit'}>

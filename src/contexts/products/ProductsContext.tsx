@@ -1,7 +1,7 @@
 import React, { ReactNode, useContext, useState } from 'react'
 import axios from 'axios'
 
-import { CreateProduct, DeleteProduct, GetProduct, Product, ProductsContextProps } from './types'
+import { CreateProduct, DeleteProduct, EditProduct, GetProduct, Product, ProductsContextProps } from './types'
 import { requestUrl } from '../../env'
 
 const ProductsContext = React.createContext<ProductsContextProps>({} as ProductsContextProps)
@@ -34,6 +34,13 @@ export const ProductsProvider: React.FC<Props> = ({ children }) => {
       })
   }
 
+  const editProduct: EditProduct = (id, payload) => {
+    return axios.patch(`${requestUrl}/products/${id}`, payload)
+      .catch(error => {
+        console.log(error)
+      })
+  }
+
   const deleteProduct: DeleteProduct = (id) => axios.delete(`${requestUrl}/products/${id}`)
 
   const value = {
@@ -42,6 +49,7 @@ export const ProductsProvider: React.FC<Props> = ({ children }) => {
     products,
     deleteProduct,
     getProduct,
+    editProduct,
   }
 
   return <ProductsContext.Provider value={value}>{children}</ProductsContext.Provider>

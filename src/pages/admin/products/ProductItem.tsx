@@ -9,6 +9,7 @@ import { useAuth } from '../../../contexts/auth/AuthContext'
 import ProductLayout from '../../../components/ProductLayout/ProductLayout'
 import StyledDialog from '../../../components/StyledDialog/StyledDialog'
 import StyledModal from '../../../components/StyledModal/StyledModal'
+import EditProductForm from './EditProductForm'
 
 type Props = {
   product: Product
@@ -42,7 +43,7 @@ const ProductItem: React.FC<Props> = ({ product }) => {
             }
             title="Редактировать товар"
           >
-            <div>Редактировать товар</div>
+            <EditProductForm record={product} />
           </StyledModal>
 
           <StyledDialog
