@@ -1,3 +1,9 @@
+export type GetProductsResponse = {
+  data: Product[]
+  links: ProductsLinks
+  meta: ProductsMeta
+}
+
 export type Product = {
   id: number
   name: string
@@ -8,7 +14,36 @@ export type Product = {
   img_ids: number[] | null
 }
 
-export type GetProducts = () => Promise<any>
+export type ProductsMeta = {
+  itemsPerPage: number;
+  totalItems: number;
+  currentPage: number;
+  totalPages: number;
+  sortBy: any;
+  searchBy: any;
+  search: string;
+  filter?: ProductsFilter;
+}
+
+export type ProductsLinks = {
+  first?: string;
+  previous?: string;
+  current: string;
+  next?: string;
+  last?: string;
+}
+
+export type ProductsParams = {
+  limit?: string | null
+  page?: string | null
+  route?: string
+}
+
+export type ProductsFilter = {
+  category_id?: string | null
+}
+
+export type GetProducts = (params?: ProductsParams, filter?: ProductsFilter) => Promise<any>
 
 export type GetProduct = (id: number) => Promise<any>
 
@@ -32,6 +67,8 @@ export type ProductsContextProps = {
   getProducts: GetProducts
   getProduct: GetProduct
   products: Product[]
+  productsLinks: ProductsLinks
+  productsMeta: ProductsMeta
   createProduct: CreateProduct
   editProduct: EditProduct
   deleteProduct: DeleteProduct

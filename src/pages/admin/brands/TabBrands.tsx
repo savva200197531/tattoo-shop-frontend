@@ -25,7 +25,7 @@ const TabBrands: React.FC = () => {
   return (
     <>
       {loading ? <Spinner/> : (
-        <div className="categories-list">{brands.map(brand => <BrandItem key={brand.id} brand={brand}/>)}</div>
+        <div className="brands-list">{brands.map(brand => <BrandItem key={brand.id} brand={brand}/>)}</div>
       )}
 
       <StyledModal

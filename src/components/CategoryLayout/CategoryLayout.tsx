@@ -3,15 +3,29 @@ import { Category } from '../../contexts/productsFilters/types'
 import { imgSrc } from '../../helpers/imgSrc'
 import './styles.scss'
 import { Typography } from '@mui/material'
+import { createSearchParams, useNavigate } from 'react-router-dom'
 
 type Props = {
   category: Category
-  children: React.ReactElement
+  children?: React.ReactElement
 }
 
 const CategoryLayout: React.FC<Props> = ({ category, children }) => {
+  const navigate = useNavigate()
+
+  const handleClick = () => {
+    navigate({
+      pathname: '/products',
+      search: createSearchParams({
+        page: '1',
+        limit: '10',
+        category: category.id.toString(),
+      }).toString(),
+    })
+  }
+
   return (
-    <div className="category" style={{ backgroundImage: `url(${imgSrc(category.img_id)})` }}>
+    <div onClick={handleClick} className="category" style={{ backgroundImage: `url(${imgSrc(category.img_id)})` }}>
       {children}
       <Typography className="category-title" variant="h5" component="h6" textAlign="center">
         {category.name}

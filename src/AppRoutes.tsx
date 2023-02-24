@@ -17,49 +17,85 @@ import PaymentSuccess from './pages/payment/PaymentSuccess'
 import PaymentPage from './pages/payment/PaymentPage'
 import OrderPage from './pages/order/OrderPage'
 import CheckoutPage from './pages/checkout/CheckoutPage'
-import TabProducts from './pages/admin/products/TabProducts'
 import TabSlider from './pages/admin/slider/TabSlider'
 import TabOrders from './pages/profile/orders/TabOrders'
 import TabInfo from './pages/profile/info/TabInfo'
 import ThanksPage from './pages/thanks/ThanksPage'
 import TabCategories from './pages/admin/categories/TabCategories'
 import TabBrands from './pages/admin/brands/TabBrands'
+import CatalogPage from './pages/catalog/CatalogPage'
+import ProductsHeader from './pages/products/ProductsHeader'
+import ProductsFilters from './pages/products/ProductsFilters'
+import ProductItem from './pages/products/ProductItem'
+import AdminProductItem from './pages/admin/products/ProductItem'
+import { Fab } from '@mui/material'
+import AddIcon from '@mui/icons-material/Add'
+import CreateProductForm from './pages/admin/products/CreateProductForm'
+import StyledModal from './components/StyledModal/StyledModal'
 
 const AppRoutes = () => {
   return (
     <Routes>
-      <Route path="/" element={<MainPage />} />
-      <Route path="/products" element={<ProductsPage />} />
-      <Route path="/products/:id" element={<ProductPage />} />
-      <Route path="/cart" element={<CartPage />} />
-      <Route path="/profile" element={<ProfilePage />}>
-        <Route path="/profile/info" element={<TabInfo />} />
-        <Route path="/profile/orders" element={<TabOrders />} />
-        <Route path="/profile/orders/:id" element={<OrderPage />} />
+      <Route path="/" element={<MainPage/>}/>
+      <Route
+        path="/products"
+        element={(
+          <ProductsPage ProductItem={ProductItem}>
+            <>
+              <ProductsHeader/>
+
+              <ProductsFilters/>
+            </>
+          </ProductsPage>
+        )}
+      />
+      <Route path="/products/:id" element={<ProductPage/>}/>
+      <Route path="/cart" element={<CartPage/>}/>
+      <Route path="/catalog" element={<CatalogPage/>}/>
+      <Route path="/profile" element={<ProfilePage/>}>
+        <Route path="/profile/info" element={<TabInfo/>}/>
+        <Route path="/profile/orders" element={<TabOrders/>}/>
+        <Route path="/profile/orders/:id" element={<OrderPage/>}/>
       </Route>
-      <Route path="/favorite" element={<FavoritePage />} />
-      <Route path="/checkout" element={<CheckoutPage />} />
-      <Route path="/thanks" element={<ThanksPage />} />
-      <Route path="/payment" element={<PaymentPage />} />
-      <Route path="/payment-success" element={<PaymentSuccess />} />
+      <Route path="/favorite" element={<FavoritePage/>}/>
+      <Route path="/checkout" element={<CheckoutPage/>}/>
+      <Route path="/thanks" element={<ThanksPage/>}/>
+      <Route path="/payment" element={<PaymentPage/>}/>
+      <Route path="/payment-success" element={<PaymentSuccess/>}/>
       <Route
         path="/admin"
         element={(
           <AdminGuard>
-            <AdminPage />
+            <AdminPage/>
           </AdminGuard>
         )}
       >
-        <Route path="/admin/products" element={<TabProducts />} />
-        <Route path="/admin/slider" element={<TabSlider />} />
-        <Route path="/admin/categories" element={<TabCategories />} />
-        <Route path="/admin/brands" element={<TabBrands />} />
+        <Route
+          path="/admin/products"
+          element={
+            <ProductsPage ProductItem={AdminProductItem}>
+              <StyledModal
+                title="Создать товар"
+                icon={
+                  <Fab sx={{ position: 'fixed', bottom: 16, right: 16 }} color="primary" aria-label="add">
+                    <AddIcon/>
+                  </Fab>
+                }
+              >
+                <CreateProductForm/>
+              </StyledModal>
+            </ProductsPage>
+          }
+        />
+        <Route path="/admin/slider" element={<TabSlider/>}/>
+        <Route path="/admin/categories" element={<TabCategories/>}/>
+        <Route path="/admin/brands" element={<TabBrands/>}/>
         {/*<Route path="/admin/filters" element={<TabFilters />} />*/}
       </Route>
-      <Route element={<AuthPage />}>
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/confirmation/:token" element={<ConfirmationPage />} />
+      <Route element={<AuthPage/>}>
+        <Route path="/login" element={<LoginPage/>}/>
+        <Route path="/register" element={<RegisterPage/>}/>
+        <Route path="/confirmation/:token" element={<ConfirmationPage/>}/>
       </Route>
     </Routes>
   )

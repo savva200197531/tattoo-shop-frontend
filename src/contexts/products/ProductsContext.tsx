@@ -1,7 +1,15 @@
 import React, { ReactNode, useContext, useState } from 'react'
 import axios from 'axios'
 
-import { CreateProduct, DeleteProduct, EditProduct, GetProduct, Product, ProductsContextProps } from './types'
+import {
+  CreateProduct,
+  DeleteProduct,
+  EditProduct,
+  GetProduct,
+  GetProducts,
+  Product, ProductsMeta,
+  ProductsContextProps, ProductsLinks, GetProductsResponse,
+} from './types'
 import { requestUrl } from '../../env'
 
 const ProductsContext = React.createContext<ProductsContextProps>({} as ProductsContextProps)
@@ -14,11 +22,20 @@ type Props = {
 
 export const ProductsProvider: React.FC<Props> = ({ children }) => {
   const [products, setProducts] = useState<Product[]>([])
+  const [productsMeta, setProductsMeta] = useState<ProductsMeta>({} as ProductsMeta)
+  const [productsLinks, setProductsLinks] = useState<ProductsLinks>({} as ProductsLinks)
 
-  const getProducts = () => {
-    return axios.get<Product[]>(`${requestUrl}/products`)
+  const getProducts: GetProducts = (params, filters) => {
+    return axios.get<GetProductsResponse>(`${requestUrl}/products`, {
+      params: {
+        ...params,
+        [`filter.category_id`]: filters?.category_id,
+      },
+    })
       .then(({ data }) => {
-        setProducts(data)
+        setProducts(data.data)
+        setProductsLinks(data.links)
+        setProductsMeta(data.meta)
       })
       .catch(error => {
         console.log(error)
@@ -44,9 +61,11 @@ export const ProductsProvider: React.FC<Props> = ({ children }) => {
   const deleteProduct: DeleteProduct = (id) => axios.delete(`${requestUrl}/products/${id}`)
 
   const value = {
+    products,
+    productsMeta,
+    productsLinks,
     getProducts,
     createProduct,
-    products,
     deleteProduct,
     getProduct,
     editProduct,

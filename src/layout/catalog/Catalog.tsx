@@ -1,14 +1,22 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Button } from '@mui/material'
 import './styles.scss'
 import Hamburger from '../../components/Hamburger/Hamburger'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 const Catalog: React.FC = () => {
-  const [open, setOpen] = useState(false)
+  const navigate = useNavigate()
+  const location = useLocation()
 
   return (
     <div className="catalog">
-      <Button color="secondary" onClick={() => setOpen(!open)} startIcon={<Hamburger isActive={open} />}>Каталог</Button>
+      <Button
+        color="secondary"
+        onClick={() => navigate('/catalog')}
+        startIcon={<Hamburger isActive={location.pathname === '/catalog'}/>}
+      >
+        Каталог
+      </Button>
     </div>
   )
 }

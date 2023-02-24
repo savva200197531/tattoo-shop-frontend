@@ -1,15 +1,11 @@
 @import "../../styles/variables";
 
 .categories-list {
-  .products-list {
-    //display: grid;
-    //grid-template-columns: repeat(var(--columns, 4), minmax(0, 1fr));
-    //grid-column-gap: 50px;
-    //grid-row-gap: 30px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-  }
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 250px);
+  grid-column-gap: 30px;
+  grid-row-gap: 15px;
+  justify-content: center;
 }
 
 .category {
@@ -25,6 +21,11 @@
   justify-content: center;
   color: white;
   cursor: pointer;
+
+  &:hover {
+    transition: 0.2s ease;
+    transform: translateY(-10px);
+  }
 
   &:before {
     content: '';
