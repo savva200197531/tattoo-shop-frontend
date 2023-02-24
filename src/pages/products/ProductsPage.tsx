@@ -6,14 +6,16 @@ import './styles.scss'
 import { useSearchParams } from 'react-router-dom'
 import { Product, ProductsFilter, ProductsParams } from '../../contexts/products/types'
 import { productsUrl } from '../../env'
-import ProductsPagination from '../../components/ProductsPagination'
+import ProductsPagination from '../../components/ProductsPagination/ProductsPagination'
+import ProductsHeader from './ProductsHeader'
 
 type Props = {
-  children?: React.ReactNode
   ProductItem: React.FC<{ product: Product }>
+  Filters: React.FC<{ products: Product[] }>
+  children?: React.ReactElement
 }
 
-const ProductsPage: React.FC<Props> = ({ children, ProductItem }) => {
+const ProductsPage: React.FC<Props> = ({ ProductItem, Filters, children }) => {
   const [loading, setLoading] = useState<boolean>(false)
 
   const [searchParams, setSearchParams] = useSearchParams()
@@ -25,11 +27,13 @@ const ProductsPage: React.FC<Props> = ({ children, ProductItem }) => {
     const params: ProductsParams = {
       limit: searchParams.get('limit'),
       page: searchParams.get('page'),
+      sortBy: searchParams.get('sort'),
       route: productsUrl,
     }
 
     const filters: ProductsFilter = {
       category_id: searchParams.get('category'),
+      brand_id: searchParams.get('brand'),
     }
 
     getProducts(params, filters).finally(() => {
@@ -48,18 +52,23 @@ const ProductsPage: React.FC<Props> = ({ children, ProductItem }) => {
     <div className="products">
       <div className="container">
         <div className="products-content">
-          {children}
+          <ProductsHeader />
 
           {loading ? <Spinner /> : (
             <>
+              <div className="">
+                <Filters products={products} />
 
-              <div className="products-list">
-                {products.map(product => <ProductItem key={product.id} product={product} />)}
+                <div className="products-list">
+                  {products.map(product => <ProductItem key={product.id} product={product} />)}
+                </div>
               </div>
 
               <ProductsPagination page={productsMeta.currentPage} count={productsMeta.totalPages} />
             </>
           )}
+
+          {children}
         </div>
       </div>
     </div>

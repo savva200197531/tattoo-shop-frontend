@@ -1,36 +1,49 @@
-import React, { useRef } from 'react'
-import { FormControl, FormHelperText, InputLabel, ListItemText, MenuItem, Select } from '@mui/material'
+import React, { useEffect, useState } from 'react'
+import {
+  FormControl,
+  InputLabel,
+  ListItemText,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+} from '@mui/material'
 import Checkbox from '@mui/material/Checkbox'
-import { useFormContext } from 'react-hook-form'
 import { BaseSelectProps } from './types'
 
-const MultiSelect: React.FC<BaseSelectProps> = ({ options, name, label }) => {
-  const {
-    register,
-    formState: { errors },
-    getValues,
-    watch,
-  } = useFormContext()
+type Props = BaseSelectProps & {
+  onChange: (value: number[]) => void
+  defaultValue?: number[]
+}
 
-  const defaultValues = useRef(getValues(name))
+const MultiSelect: React.FC<Props> = ({ options, label, onChange, defaultValue = [] }) => {
+  const [selectedValues, setSelectedValues] = useState<number[]>(defaultValue)
 
-  const selectedValues = watch(name)
+  const handleChange = (event: SelectChangeEvent<number[]>) => {
+    const {
+      target: { value },
+    } = event
+
+    setSelectedValues(value as number[])
+  }
+
+  useEffect(() => {
+    onChange(selectedValues)
+  }, [selectedValues])
 
   return (
     <FormControl fullWidth sx={{ mb: 2 }}>
       <InputLabel>{label}</InputLabel>
       <Select
-        error={!!errors[name]}
         label={label}
         multiple
-        defaultValue={defaultValues.current}
+        onChange={handleChange}
+        value={selectedValues}
         renderValue={(selected) => {
           return options
             .filter(option => selected.some((item: number) => item === option.id))
             .map(category => category.name)
             .join(', ')
         }}
-        {...register(name)}
       >
         {options.map(option => (
           <MenuItem key={option.id} value={option.id}>
@@ -39,10 +52,6 @@ const MultiSelect: React.FC<BaseSelectProps> = ({ options, name, label }) => {
           </MenuItem>
         ))}
       </Select>
-
-      <FormHelperText error>
-        <>{errors[name] ? errors[name]?.message : ''}</>
-      </FormHelperText>
     </FormControl>
   )
 }

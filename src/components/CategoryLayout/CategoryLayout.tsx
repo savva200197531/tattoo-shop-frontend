@@ -8,12 +8,14 @@ import { createSearchParams, useNavigate } from 'react-router-dom'
 type Props = {
   category: Category
   children?: React.ReactElement
+  disabled?: boolean
 }
 
-const CategoryLayout: React.FC<Props> = ({ category, children }) => {
+const CategoryLayout: React.FC<Props> = ({ category, children, disabled = false }) => {
   const navigate = useNavigate()
 
   const handleClick = () => {
+    if (disabled) return
     navigate({
       pathname: '/products',
       search: createSearchParams({

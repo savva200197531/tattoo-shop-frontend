@@ -24,7 +24,6 @@ import ThanksPage from './pages/thanks/ThanksPage'
 import TabCategories from './pages/admin/categories/TabCategories'
 import TabBrands from './pages/admin/brands/TabBrands'
 import CatalogPage from './pages/catalog/CatalogPage'
-import ProductsHeader from './pages/products/ProductsHeader'
 import ProductsFilters from './pages/products/ProductsFilters'
 import ProductItem from './pages/products/ProductItem'
 import AdminProductItem from './pages/admin/products/ProductItem'
@@ -40,13 +39,10 @@ const AppRoutes = () => {
       <Route
         path="/products"
         element={(
-          <ProductsPage ProductItem={ProductItem}>
-            <>
-              <ProductsHeader/>
-
-              <ProductsFilters/>
-            </>
-          </ProductsPage>
+          <ProductsPage
+            ProductItem={ProductItem}
+            Filters={ProductsFilters}
+          />
         )}
       />
       <Route path="/products/:id" element={<ProductPage/>}/>
@@ -73,7 +69,7 @@ const AppRoutes = () => {
         <Route
           path="/admin/products"
           element={
-            <ProductsPage ProductItem={AdminProductItem}>
+            <ProductsPage ProductItem={AdminProductItem} Filters={ProductsFilters}>
               <StyledModal
                 title="Создать товар"
                 icon={

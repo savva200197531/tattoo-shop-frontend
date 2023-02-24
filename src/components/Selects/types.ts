@@ -4,7 +4,10 @@ export type Option = {
 }
 
 export type BaseSelectProps = {
-  options: Option[]
-  name: string
   label: string
+  options: Option[]
+}
+
+export type BaseSelectInputProps = BaseSelectProps & {
+  name: string
 }

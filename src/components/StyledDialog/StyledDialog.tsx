@@ -27,11 +27,13 @@ const StyledDialog: React.FC<Props> = ({
 }) => {
   const [open, setOpen] = React.useState<boolean>(false)
 
-  const handleClickOpen = () => {
+  const handleClickOpen = (event: React.MouseEvent<HTMLElement>) => {
+    event.stopPropagation()
     setOpen(true)
   }
 
-  const handleClose = () => {
+  const handleClose = (event: React.MouseEvent<HTMLElement>) => {
+    event.stopPropagation()
     setOpen(false)
   }
 
@@ -50,9 +52,9 @@ const StyledDialog: React.FC<Props> = ({
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <StyledButton variant="contained" onClick={() => {
+          <StyledButton variant="contained" onClick={event => {
             handleSubmit()
-            handleClose()
+            handleClose(event)
           }} autoFocus>
             {submitButtonTitle}
           </StyledButton>

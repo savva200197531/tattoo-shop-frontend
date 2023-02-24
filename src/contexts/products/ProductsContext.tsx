@@ -30,6 +30,7 @@ export const ProductsProvider: React.FC<Props> = ({ children }) => {
       params: {
         ...params,
         [`filter.category_id`]: filters?.category_id,
+        [`filter.brand_id`]: filters?.brand_id,
       },
     })
       .then(({ data }) => {

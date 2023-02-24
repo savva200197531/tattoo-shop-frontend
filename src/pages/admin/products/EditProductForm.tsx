@@ -12,7 +12,7 @@ import { validationErrors } from '../../../helpers/validationErrors'
 import { ACCEPTED_IMAGE_TYPES, CreateFilesPayload } from '../../../contexts/files/types'
 import { useFiles } from '../../../contexts/files/FilesContext'
 import { useProductsFilters } from '../../../contexts/productsFilters/ProductsFiltersContext'
-import Select from '../../../components/Selects/Select'
+import SelectInput from '../../../components/Selects/SelectInput'
 import { Product } from '../../../contexts/products/types'
 
 const editProductSchema = object({
@@ -149,7 +149,7 @@ const EditProductForm: React.FC<Props> = ({ record }) => {
         />
 
         <FormProvider {...methods}>
-          <Select
+          <SelectInput
             label="Категория товара"
             name="category_id"
             options={categories}
@@ -157,7 +157,7 @@ const EditProductForm: React.FC<Props> = ({ record }) => {
         </FormProvider>
 
         <FormProvider {...methods}>
-          <Select
+          <SelectInput
             label="Бренд"
             name="brand_id"
             options={brands}

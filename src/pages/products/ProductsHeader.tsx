@@ -1,11 +1,36 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, Typography } from '@mui/material'
+import { useSearchParams } from 'react-router-dom'
+
+const options = [
+  {
+    name: 'Обычная',
+    value: 'id:DESC',
+  },
+  {
+    name: 'Сначала новые',
+    value: 'created_at:DESC',
+  },
+  {
+    name: 'Сначала старые',
+    value: 'created_at:ASC',
+  },
+  {
+    name: 'Сначала дорогие',
+    value: 'price:DESC',
+  },
+  {
+    name: 'Сначала дешевые',
+    value: 'price:ASC',
+  },
+]
 
 const ProductsHeader: React.FC = () => {
-  const [sort, setSort] = useState<string>()
+  const [searchParams, setSearchParams] = useSearchParams()
 
   const handleChange = (event: SelectChangeEvent) => {
-    setSort(event.target.value)
+    searchParams.set('sort', event.target.value)
+    setSearchParams(searchParams)
   }
 
   return (
@@ -14,21 +39,16 @@ const ProductsHeader: React.FC = () => {
         Товары
       </Typography>
 
-      <FormControl style={{ marginLeft: 'auto' }} sx={{ m: 1, minWidth: 120 }} size="small">
-        <InputLabel id="demo-select-small">Age</InputLabel>
+      <FormControl style={{ marginLeft: 'auto' }} sx={{ m: 1, minWidth: 200 }} size="medium">
+        <InputLabel id="demo-select-small">Сортировка</InputLabel>
         <Select
-          labelId="demo-select-small"
-          id="demo-select-small"
-          value={sort}
-          label="Age"
+          value={searchParams.get('sort') || options[0].value}
+          label="Сортировка"
           onChange={handleChange}
         >
-          <MenuItem value="">
-            <em>None</em>
-          </MenuItem>
-          <MenuItem value={10}>Ten</MenuItem>
-          <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem>
+          {options.map((option, index) => (
+            <MenuItem key={index} value={option.value}>{option.name}</MenuItem>
+          ))}
         </Select>
       </FormControl>
     </div>

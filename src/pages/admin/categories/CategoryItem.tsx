@@ -28,7 +28,7 @@ const CategoryItem: React.FC<Props> = ({ category }) => {
   }
 
   return (
-    <CategoryLayout category={category}>
+    <CategoryLayout disabled category={category}>
       <div className="admin-category__toolbar">
         <StyledModal
           icon={

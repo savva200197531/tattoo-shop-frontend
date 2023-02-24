@@ -1,6 +1,7 @@
 import React from 'react'
 import { Pagination, Stack } from '@mui/material'
 import { useSearchParams } from 'react-router-dom'
+import './styles.scss'
 
 type Props = {
   count: number
@@ -16,7 +17,7 @@ const ProductsPagination: React.FC<Props> = ({ count, page }) => {
   }
 
   return (
-    <Stack spacing={2}>
+    <Stack spacing={2} className="products-pagination" sx={{ mt: 2, mb: 2 }}>
       <Pagination
         count={count}
         showFirstButton

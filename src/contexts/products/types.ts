@@ -12,6 +12,7 @@ export type Product = {
   brand_id: number
   category_id: number
   img_ids: number[] | null
+  created_at: string
 }
 
 export type ProductsMeta = {
@@ -36,11 +37,13 @@ export type ProductsLinks = {
 export type ProductsParams = {
   limit?: string | null
   page?: string | null
+  sortBy?: string | null
   route?: string
 }
 
 export type ProductsFilter = {
   category_id?: string | null
+  brand_id?: string | null
 }
 
 export type GetProducts = (params?: ProductsParams, filter?: ProductsFilter) => Promise<any>

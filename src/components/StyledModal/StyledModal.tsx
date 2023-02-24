@@ -27,11 +27,13 @@ type Props = {
 const StyledModal: React.FC<Props> = ({ title, children, className, icon }) => {
   const [open, setOpen] = useState<boolean>(false)
 
-  const handleOpen = () => {
+  const handleOpen = (event: React.MouseEvent<HTMLElement>) => {
+    event.stopPropagation()
     setOpen(true)
   }
 
-  const handleClose = () => {
+  const handleClose = (event: React.MouseEvent<HTMLElement>) => {
+    event.stopPropagation()
     setOpen(false)
   }
 
