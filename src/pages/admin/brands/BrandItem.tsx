@@ -6,21 +6,28 @@ import Svg from '../../../components/Svg'
 import { Brand } from '../../../contexts/productsFilters/types'
 import { useProductsFilters } from '../../../contexts/productsFilters/ProductsFiltersContext'
 import StyledModal from '../../../components/StyledModal/StyledModal'
-import EditBrandForm from './EditBrandForm'
 import StyledDialog from '../../../components/StyledDialog/StyledDialog'
+import BrandForm, { BrandInput } from './BrandForm'
 
 type Props = {
   brand: Brand
+  loadBrands: () => void
 }
 
-const BrandItem: React.FC<Props> = ({ brand }) => {
-  const { deleteBrand, getBrands } = useProductsFilters()
+const BrandItem: React.FC<Props> = ({ brand, loadBrands }) => {
+  const { deleteBrand, editBrand } = useProductsFilters()
+
+  const handleSubmit = (data: BrandInput) => {
+    return editBrand(brand.id, data)
+      .then(() => loadBrands())
+      .catch(error => {
+        console.log(error)
+      })
+  }
 
   const handleDeleteBrand = () => {
     deleteBrand(brand.id)
-      .then(() => {
-        getBrands()
-      })
+      .then(() => loadBrands())
       .catch(error => {
         console.log(error)
       })
@@ -33,18 +40,18 @@ const BrandItem: React.FC<Props> = ({ brand }) => {
       <StyledModal
         icon={
           <IconButton type="button" sx={{ p: '6px' }}>
-            <Svg id="pencil" width={30} height={30} />
+            <Svg id="pencil" width={30} height={30}/>
           </IconButton>
         }
         title="Редактировать бренд"
       >
-        <EditBrandForm record={brand} />
+        <BrandForm record={brand} onSubmit={handleSubmit} title="Редактировать бренд" buttonTitle="Сохранить"/>
       </StyledModal>
 
       <StyledDialog
         icon={
           <IconButton className="product-item__delete" type="button" sx={{ p: '6px' }}>
-            <Svg id="trash" width={30} height={30} />
+            <Svg id="trash" width={30} height={30}/>
           </IconButton>
         }
         title="Удалить бренд"

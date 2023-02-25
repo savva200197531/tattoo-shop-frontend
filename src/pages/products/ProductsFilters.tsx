@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { all } from 'axios'
 
 import { useProductsFilters } from '../../contexts/productsFilters/ProductsFiltersContext'
 import Select from '../../components/Selects/Select'
@@ -9,6 +8,7 @@ import { Product } from '../../contexts/products/types'
 import { useProducts } from '../../contexts/products/ProductsContext'
 import Spinner from '../../components/Spinner/Spinner'
 import { Option, OptionId } from '../../components/Selects/types'
+import { Brand } from '../../contexts/productsFilters/types'
 
 const sortOptions: Option[] = [
   {
@@ -39,8 +39,9 @@ type Props = {
 
 const ProductsFilters: React.FC<Props> = () => {
   const [loading, setLoading] = useState<boolean>(false)
+  const [brands, setBrands] = useState<Brand[]>([])
 
-  const { brands, getBrands } = useProductsFilters()
+  const { getBrands } = useProductsFilters()
   const { getPriceRange, priceRange } = useProducts()
   const [searchParams, setSearchParams] = useSearchParams()
 
@@ -73,15 +74,18 @@ const ProductsFilters: React.FC<Props> = () => {
 
     const category_id = searchParams.get('category')
 
-    all([getBrands(category_id), getPriceRange(category_id)])
-      .finally(() => {
-        setLoading(false)
-      })
+    getBrands(category_id).then(data => setBrands(data)).catch(error => {
+      console.log(error)
+    })
+
+    getPriceRange(category_id).finally(() => {
+      setLoading(false)
+    })
   }, [])
 
   return (
     <div className="products-filters">
-      {loading ? <Spinner /> : (
+      {loading ? <Spinner/> : (
         <Select
           defaultValue={searchParams.get('sort') || 0}
           onChange={onSortChange}
@@ -90,7 +94,7 @@ const ProductsFilters: React.FC<Props> = () => {
         />
       )}
 
-      {loading ? <Spinner /> : (
+      {loading ? <Spinner/> : (
         <Select
           defaultValue={Number(searchParams.get('brand')) || 0}
           onChange={onBrandChange}
@@ -99,7 +103,7 @@ const ProductsFilters: React.FC<Props> = () => {
         />
       )}
 
-      {loading ? <Spinner /> : (
+      {loading ? <Spinner/> : (
         <RangeSlider
           label="Цена"
           defaultValue={[

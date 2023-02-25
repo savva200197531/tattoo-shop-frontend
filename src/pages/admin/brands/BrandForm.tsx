@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { any, object, string, TypeOf } from 'zod'
+import { number, object, string, TypeOf } from 'zod'
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
 
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -8,28 +8,34 @@ import { Box, TextField, Typography } from '@mui/material'
 import { StyledLoadingButton } from '../../../components/StyledButtons'
 import { validationErrors } from '../../../helpers/validationErrors'
 import { useProductsFilters } from '../../../contexts/productsFilters/ProductsFiltersContext'
-import { ACCEPTED_IMAGE_TYPES, CreateFilesPayload } from '../../../contexts/files/types'
-import { useFiles } from '../../../contexts/files/FilesContext'
-import FileInput from '../../../components/FileInput/FileInput'
-import { CreateCategoryPayload } from '../../../contexts/productsFilters/types'
+import MultiSelectInput from '../../../components/Selects/MultiSelectInput'
+import { Brand, Category } from '../../../contexts/productsFilters/types'
 
-const createCategorySchema = object({
+const CategorySchema = object({
   name: string().nonempty(validationErrors.required('название')).max(30, validationErrors.max('название', 30)),
-  img_ids: any().refine((data) => data.length, { message: validationErrors.required('изображение') }),
+  category_ids: number().array(),
 })
 
-type CreateCategoryInput = TypeOf<typeof createCategorySchema>;
+export type BrandInput = TypeOf<typeof CategorySchema>;
 
-const CreateCategoryForm: React.FC = () => {
+type Props = {
+  record?: Brand
+  onSubmit: (data: BrandInput) => Promise<any>
+  title: string
+  buttonTitle: string
+}
+
+const BrandForm: React.FC<Props> = ({ record, onSubmit, buttonTitle, title }) => {
   const [loading, setLoading] = useState<boolean>(false)
+  const [categories, setCategories] = useState<Category[]>([])
 
-  const { createCategory, getCategories } = useProductsFilters()
-  const { createFiles } = useFiles()
+  const { getCategories } = useProductsFilters()
 
-  const methods = useForm<CreateCategoryInput>({
-    resolver: zodResolver(createCategorySchema),
+  const methods = useForm<BrandInput>({
+    resolver: zodResolver(CategorySchema),
     defaultValues: {
-      img_ids: [],
+      ...record,
+      category_ids: record?.category_ids || [],
     },
   })
 
@@ -40,28 +46,12 @@ const CreateCategoryForm: React.FC = () => {
     handleSubmit,
   } = methods
 
-  const onSubmitHandler: SubmitHandler<CreateCategoryInput> = ({ name, img_ids }) => {
+  const onSubmitHandler: SubmitHandler<BrandInput> = (data) => {
     setLoading(true)
 
-    const payload: CreateCategoryPayload = {
-      name,
-      img_id: img_ids[0],
-    }
-
-    createCategory(payload).finally(() => {
+    onSubmit(data).finally(() => {
       setLoading(false)
-      getCategories()
     })
-  }
-
-  const handleCreateCategoryImg = (files: File[]) => {
-    const payload: CreateFilesPayload = {
-      files,
-      path: 'categories/upload-img',
-      key: 'img',
-    }
-
-    return createFiles(payload)
   }
 
   useEffect(() => {
@@ -74,10 +64,16 @@ const CreateCategoryForm: React.FC = () => {
     console.log('errors', errors)
   }, [errors])
 
+  useEffect(() => {
+    getCategories().then(data => setCategories(data)).catch(error => {
+      console.log(error)
+    })
+  }, [])
+
   return (
     <Box className="product-form">
       <Typography variant="h5" component="h5" sx={{ mb: '2rem' }} textAlign="center">
-        Создать категорию
+        {title}
       </Typography>
       <Box
         component="form"
@@ -95,12 +91,10 @@ const CreateCategoryForm: React.FC = () => {
         />
 
         <FormProvider {...methods}>
-          <FileInput
-            onDropPromise={handleCreateCategoryImg}
-            name="img_ids"
-            accept={{
-              'image/png': ACCEPTED_IMAGE_TYPES,
-            }}
+          <MultiSelectInput
+            label="Категории"
+            name="category_ids"
+            options={categories}
           />
         </FormProvider>
 
@@ -111,11 +105,11 @@ const CreateCategoryForm: React.FC = () => {
           loading={loading}
           sx={{ py: '0.8rem', mt: '1rem' }}
         >
-          Создать
+          {buttonTitle}
         </StyledLoadingButton>
       </Box>
     </Box>
   )
 }
 
-export default CreateCategoryForm
+export default BrandForm

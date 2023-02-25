@@ -9,15 +9,21 @@ import { useAuth } from '../../../contexts/auth/AuthContext'
 import ProductLayout from '../../../components/ProductLayout/ProductLayout'
 import StyledDialog from '../../../components/StyledDialog/StyledDialog'
 import StyledModal from '../../../components/StyledModal/StyledModal'
-import EditProductForm from './EditProductForm'
+import ProductForm, { ProductInput } from './ProductForm'
 
 type Props = {
   product: Product
 }
 
 const ProductItem: React.FC<Props> = ({ product }) => {
-  const { deleteProduct, getProducts } = useProducts()
+  const { deleteProduct, getProducts, editProduct } = useProducts()
   const { getUser, user } = useAuth()
+
+  const handleSubmit = (data: ProductInput) => {
+    return editProduct(product.id, data).catch(error => {
+      console.log(error)
+    })
+  }
 
   const handleDeleteProduct = () => {
     deleteProduct(product.id)
@@ -38,19 +44,19 @@ const ProductItem: React.FC<Props> = ({ product }) => {
           <StyledModal
             icon={
               <IconButton type="button" sx={{ p: '6px' }}>
-                <Svg id="pencil" width={30} height={30} />
+                <Svg id="pencil" width={30} height={30}/>
               </IconButton>
             }
             title="Редактировать товар"
           >
-            <EditProductForm record={product} />
+            <ProductForm record={product} onSubmit={handleSubmit} title="Редактировать товар" buttonTitle="Сохранить"/>
           </StyledModal>
 
           <StyledDialog
             title="Удалить товар"
             icon={
               <IconButton className="product-item__delete" type="button" sx={{ p: '6px' }}>
-                <Svg id="trash" width={30} height={30} />
+                <Svg id="trash" width={30} height={30}/>
               </IconButton>
             }
             text="Вы точно хотите удалить товар?"

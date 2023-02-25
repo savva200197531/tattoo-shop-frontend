@@ -1,4 +1,4 @@
-import React, { ReactNode, useContext, useState } from 'react'
+import React, { ReactNode, useContext } from 'react'
 import axios from 'axios'
 
 import { requestUrl } from '../../env'
@@ -20,18 +20,9 @@ type Props = {
 }
 
 export const ProductsFiltersProvider: React.FC<Props> = ({ children }) => {
-  const [categories, setCategories] = useState<Category[]>([])
-  const [brands, setBrands] = useState<Brand[]>([])
-
   // CATEGORIES
   const getCategories: BaseGetFilters = () => {
-    return axios.get<Category[]>(`${requestUrl}/categories`)
-      .then((response) => {
-        setCategories(response.data)
-      })
-      .catch(error => {
-        console.log(error)
-      })
+    return axios.get<Category[]>(`${requestUrl}/categories`).then(({ data }) => data)
   }
 
   const createCategory: CreateCategory = (payload) => {
@@ -52,20 +43,11 @@ export const ProductsFiltersProvider: React.FC<Props> = ({ children }) => {
 
   // BRANDS
   const getBrands: GetBrands = (category_id) => {
-    return axios.get<Brand[]>(`${requestUrl}/brands`, { params: { category_id } })
-      .then((response) => {
-        setBrands(response.data)
-      })
-      .catch(error => {
-        console.log(error)
-      })
+    return axios.get<Brand[]>(`${requestUrl}/brands`, { params: { category_id } }).then(({ data }) => data)
   }
 
   const createBrand: CreateBrand = (payload) => {
-    return axios.post(`${requestUrl}/brands`, payload)
-      .catch(error => {
-        console.log(error)
-      })
+    return axios.post<Brand>(`${requestUrl}/brands`, payload)
   }
 
   const editBrand: EditBrand = (id, payload) => {
@@ -83,14 +65,12 @@ export const ProductsFiltersProvider: React.FC<Props> = ({ children }) => {
     createCategory,
     editCategory,
     deleteCategory,
-    categories,
 
     // BRANDS
     getBrands,
     createBrand,
     editBrand,
     deleteBrand,
-    brands,
   }
 
   return <ProductsFiltersContext.Provider value={value}>{children}</ProductsFiltersContext.Provider>

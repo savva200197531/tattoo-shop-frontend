@@ -6,26 +6,42 @@ import { Fab } from '@mui/material'
 import { useProductsFilters } from '../../../contexts/productsFilters/ProductsFiltersContext'
 import Spinner from '../../../components/Spinner/Spinner'
 import BrandItem from './BrandItem'
-import CreateBrandForm from './CreateBrandForm'
 import StyledModal from '../../../components/StyledModal/StyledModal'
+import { Brand } from '../../../contexts/productsFilters/types'
+import BrandForm, { BrandInput } from './BrandForm'
 
 const TabBrands: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false)
+  const [brands, setBrands] = useState<Brand[]>([])
 
-  const { brands, getBrands } = useProductsFilters()
+  const { getBrands, createBrand } = useProductsFilters()
 
-  useEffect(() => {
+  const handleSubmit = (data: BrandInput) => {
+    return createBrand(data)
+      .then(() => loadBrands())
+      .catch(error => {
+        console.log(error)
+      })
+  }
+
+  const loadBrands = () => {
     setLoading(true)
 
-    getBrands().finally(() => {
-      setLoading(false)
-    })
+    getBrands()
+      .then(data => setBrands(data))
+      .finally(() => {
+        setLoading(false)
+      })
+  }
+
+  useEffect(() => {
+    loadBrands()
   }, [])
 
   return (
     <>
       {loading ? <Spinner/> : (
-        <div className="brands-list">{brands.map(brand => <BrandItem key={brand.id} brand={brand}/>)}</div>
+        <div className="brands-list">{brands.map(brand => <BrandItem key={brand.id} brand={brand} loadBrands={loadBrands} />)}</div>
       )}
 
       <StyledModal
@@ -36,7 +52,7 @@ const TabBrands: React.FC = () => {
         }
         title="Создать бренд"
       >
-        <CreateBrandForm />
+        <BrandForm onSubmit={handleSubmit} title="Создать бренд" buttonTitle="Создать"/>
       </StyledModal>
     </>
   )

@@ -5,7 +5,6 @@ import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Box, TextField, Typography } from '@mui/material'
 
-import { useProducts } from '../../../contexts/products/ProductsContext'
 import FileInput from '../../../components/FileInput/FileInput'
 import { StyledLoadingButton } from '../../../components/StyledButtons'
 import { validationErrors } from '../../../helpers/validationErrors'
@@ -13,9 +12,11 @@ import { ACCEPTED_IMAGE_TYPES, CreateFilesPayload } from '../../../contexts/file
 import { useFiles } from '../../../contexts/files/FilesContext'
 import { useProductsFilters } from '../../../contexts/productsFilters/ProductsFiltersContext'
 import SelectInput from '../../../components/Selects/SelectInput'
+import { Brand, Category } from '../../../contexts/productsFilters/types'
 import { Product } from '../../../contexts/products/types'
+import { useProducts } from '../../../contexts/products/ProductsContext'
 
-const editProductSchema = object({
+const ProductSchema = object({
   name: string()
     .nonempty(validationErrors.required('название товара'))
     .min(2, validationErrors.min('название товара', 2))
@@ -45,22 +46,30 @@ const editProductSchema = object({
   img_ids: any().optional(),
 })
 
-type EditProductInput = TypeOf<typeof editProductSchema>;
+export type ProductInput = TypeOf<typeof ProductSchema>;
 
 type Props = {
-  record: Product
+  record?: Product
+  onSubmit: (data: ProductInput) => Promise<any>
+  title: string
+  buttonTitle: string
 }
 
-const EditProductForm: React.FC<Props> = ({ record }) => {
+const ProductForm: React.FC<Props> = ({ record, onSubmit, buttonTitle, title }) => {
   const [loading, setLoading] = useState<boolean>(false)
+  const [brands, setBrands] = useState<Brand[]>([])
+  const [categories, setCategories] = useState<Category[]>([])
 
-  const { editProduct, getProducts } = useProducts()
-  const { getCategories, categories, getBrands, brands } = useProductsFilters()
+  const { getCategories, getBrands } = useProductsFilters()
+  const { getProducts } = useProducts()
   const { createFiles } = useFiles()
 
-  const methods = useForm<EditProductInput>({
-    resolver: zodResolver(editProductSchema),
-    defaultValues: record,
+  const methods = useForm<ProductInput>({
+    resolver: zodResolver(ProductSchema),
+    defaultValues: {
+      ...record,
+      img_ids: record?.img_ids || [],
+    },
   })
 
   const {
@@ -68,15 +77,19 @@ const EditProductForm: React.FC<Props> = ({ record }) => {
     formState: { errors, isSubmitSuccessful },
     reset,
     handleSubmit,
+    watch,
   } = methods
 
-  const onSubmitHandler: SubmitHandler<EditProductInput> = (data) => {
+  const category_id = watch('category_id')
+
+  const onSubmitHandler: SubmitHandler<ProductInput> = (data) => {
     setLoading(true)
 
-    editProduct(record.id, data).finally(() => {
-      setLoading(false)
-      getProducts()
-    })
+    onSubmit(data)
+      .then(() => getProducts())
+      .finally(() => {
+        setLoading(false)
+      })
   }
 
   const handleCreateProductImg = (files: File[]) => {
@@ -96,9 +109,23 @@ const EditProductForm: React.FC<Props> = ({ record }) => {
   }, [isSubmitSuccessful, reset])
 
   useEffect(() => {
-    getCategories()
-    getBrands()
+    getCategories().then(data => setCategories(data)).catch(error => {
+      console.log(error)
+    })
   }, [])
+
+  useEffect(() => {
+    if (category_id) {
+      getBrands(category_id)
+        .then(data => {
+          setBrands(data)
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    }
+  }, [category_id])
+
 
   useEffect(() => {
     console.log(errors)
@@ -107,7 +134,7 @@ const EditProductForm: React.FC<Props> = ({ record }) => {
   return (
     <Box className="product-form">
       <Typography variant="h4" component="h1" sx={{ mb: '2rem' }}>
-        Редактировать товар
+        {title}
       </Typography>
       <Box
         component="form"
@@ -182,11 +209,11 @@ const EditProductForm: React.FC<Props> = ({ record }) => {
           loading={loading}
           sx={{ py: '0.8rem', mt: '1rem' }}
         >
-          Сохранить
+          {buttonTitle}
         </StyledLoadingButton>
       </Box>
     </Box>
   )
 }
 
-export default EditProductForm
+export default ProductForm

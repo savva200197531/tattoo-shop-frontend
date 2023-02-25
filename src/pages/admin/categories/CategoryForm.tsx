@@ -7,34 +7,36 @@ import { Box, TextField, Typography } from '@mui/material'
 
 import { StyledLoadingButton } from '../../../components/StyledButtons'
 import { validationErrors } from '../../../helpers/validationErrors'
-import { Category, EditCategoryPayload } from '../../../contexts/productsFilters/types'
-import { useProductsFilters } from '../../../contexts/productsFilters/ProductsFiltersContext'
-import FileInput from '../../../components/FileInput/FileInput'
 import { ACCEPTED_IMAGE_TYPES, CreateFilesPayload } from '../../../contexts/files/types'
 import { useFiles } from '../../../contexts/files/FilesContext'
+import FileInput from '../../../components/FileInput/FileInput'
+import { Category } from '../../../contexts/productsFilters/types'
 
-const editCategorySchema = object({
+const CategorySchema = object({
   name: string().nonempty(validationErrors.required('название')).max(30, validationErrors.max('название', 30)),
   img_ids: any().refine((data) => data.length, { message: validationErrors.required('изображение') }),
 })
 
-type EditCategoryInput = TypeOf<typeof editCategorySchema>;
+export type CategoryInput = TypeOf<typeof CategorySchema>;
 
 type Props = {
-  record: Category
+  record?: Category
+  onSubmit: (data: CategoryInput) => Promise<any>
+  title: string
+  buttonTitle: string
 }
 
-const EditCategoryForm: React.FC<Props> = ({ record }) => {
+const CategoryForm: React.FC<Props> = ({ record, onSubmit, buttonTitle, title }) => {
+  console.log(record)
   const [loading, setLoading] = useState<boolean>(false)
 
-  const { editCategory, getCategories } = useProductsFilters()
   const { createFiles } = useFiles()
 
-  const methods = useForm<EditCategoryInput>({
-    resolver: zodResolver(editCategorySchema),
+  const methods = useForm<CategoryInput>({
+    resolver: zodResolver(CategorySchema),
     defaultValues: {
-      name: record.name,
-      img_ids: [record.img_id],
+      ...record,
+      img_ids: record?.img_id ? [record?.img_id] : [],
     },
   })
 
@@ -45,17 +47,11 @@ const EditCategoryForm: React.FC<Props> = ({ record }) => {
     handleSubmit,
   } = methods
 
-  const onSubmitHandler: SubmitHandler<EditCategoryInput> = ({ name, img_ids }) => {
+  const onSubmitHandler: SubmitHandler<CategoryInput> = (data) => {
     setLoading(true)
 
-    const payload: EditCategoryPayload = {
-      name,
-      img_id: img_ids[0],
-    }
-
-    editCategory(record.id, payload).finally(() => {
+    onSubmit(data).finally(() => {
       setLoading(false)
-      getCategories()
     })
   }
 
@@ -82,7 +78,7 @@ const EditCategoryForm: React.FC<Props> = ({ record }) => {
   return (
     <Box className="product-form">
       <Typography variant="h5" component="h5" sx={{ mb: '2rem' }} textAlign="center">
-        Редактировать категорию
+        {title}
       </Typography>
       <Box
         component="form"
@@ -116,11 +112,11 @@ const EditCategoryForm: React.FC<Props> = ({ record }) => {
           loading={loading}
           sx={{ py: '0.8rem', mt: '1rem' }}
         >
-          Сохранить
+          {buttonTitle}
         </StyledLoadingButton>
       </Box>
     </Box>
   )
 }
 
-export default EditCategoryForm
+export default CategoryForm

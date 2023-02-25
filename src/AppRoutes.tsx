@@ -29,10 +29,19 @@ import ProductItem from './pages/products/ProductItem'
 import AdminProductItem from './pages/admin/products/ProductItem'
 import { Fab } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
-import CreateProductForm from './pages/admin/products/CreateProductForm'
+import CreateProductForm, { ProductInput } from './pages/admin/products/ProductForm'
 import StyledModal from './components/StyledModal/StyledModal'
+import { useProducts } from './contexts/products/ProductsContext'
 
 const AppRoutes = () => {
+  const { createProduct } = useProducts()
+
+  const handleSubmit = (data: ProductInput) => {
+    return createProduct(data).catch(error => {
+      console.log(error)
+    })
+  }
+
   return (
     <Routes>
       <Route path="/" element={<MainPage/>}/>
@@ -78,7 +87,7 @@ const AppRoutes = () => {
                   </Fab>
                 }
               >
-                <CreateProductForm/>
+                <CreateProductForm buttonTitle="Создать" title="Создать товар" onSubmit={handleSubmit}/>
               </StyledModal>
             </ProductsPage>
           }
