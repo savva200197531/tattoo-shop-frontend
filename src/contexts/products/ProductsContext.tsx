@@ -8,7 +8,7 @@ import {
   GetProduct,
   GetProducts,
   Product,
-  ProductsContextProps, GetProductsResponse, GetPriceRange,
+  ProductsContextProps, GetProductsResponse, GetPriceRange, GetProductsWithSearch,
 } from './types'
 import { requestUrl } from '../../env'
 
@@ -30,6 +30,12 @@ export const ProductsProvider: React.FC<Props> = ({ children }) => {
         [`filter.price_min`]: filters?.price_min,
         [`filter.price_max`]: filters?.price_max,
       },
+    }).then(({ data }) => data)
+  }
+
+  const getProductsWithSearch: GetProductsWithSearch = (search) => {
+    return axios.get<Product[]>(`${requestUrl}/products/search`, {
+      params: { search },
     }).then(({ data }) => data)
   }
 
@@ -65,6 +71,7 @@ export const ProductsProvider: React.FC<Props> = ({ children }) => {
     getProduct,
     editProduct,
     getPriceRange,
+    getProductsWithSearch,
   }
 
   return <ProductsContext.Provider value={value}>{children}</ProductsContext.Provider>

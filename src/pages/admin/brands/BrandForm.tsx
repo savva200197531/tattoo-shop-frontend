@@ -11,12 +11,12 @@ import { useProductsFilters } from '../../../contexts/productsFilters/ProductsFi
 import MultiSelectInput from '../../../components/Selects/MultiSelectInput'
 import { Brand, Category } from '../../../contexts/productsFilters/types'
 
-const CategorySchema = object({
+const BrandSchema = object({
   name: string().nonempty(validationErrors.required('название')).max(30, validationErrors.max('название', 30)),
   category_ids: number().array(),
 })
 
-export type BrandInput = TypeOf<typeof CategorySchema>;
+export type BrandInput = TypeOf<typeof BrandSchema>;
 
 type Props = {
   record?: Brand
@@ -32,7 +32,7 @@ const BrandForm: React.FC<Props> = ({ record, onSubmit, buttonTitle, title }) =>
   const { getCategories } = useProductsFilters()
 
   const methods = useForm<BrandInput>({
-    resolver: zodResolver(CategorySchema),
+    resolver: zodResolver(BrandSchema),
     defaultValues: {
       ...record,
       category_ids: record?.category_ids || [],

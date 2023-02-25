@@ -50,6 +50,8 @@ export type ProductsFilter = {
 
 export type GetProducts = (params?: ProductsParams, filter?: ProductsFilter) => Promise<GetProductsResponse>
 
+export type GetProductsWithSearch = (search: string) => Promise<Product[]>
+
 export type GetProduct = (id: number) => Promise<any>
 
 export type CreateProductPayload = {
@@ -79,4 +81,5 @@ export type ProductsContextProps = {
   editProduct: EditProduct
   deleteProduct: DeleteProduct
   getPriceRange: GetPriceRange
+  getProductsWithSearch: GetProductsWithSearch
 }

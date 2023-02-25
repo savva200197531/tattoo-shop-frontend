@@ -5,22 +5,58 @@
   height: 24px;
 }
 
+.svg-cross {
+  width: 30px;
+  height: 30px;
+}
+
 .search-field {
   position: relative;
   align-items: center;
   height: 38px;
   border: 1px solid $border;
-  box-shadow: none;
+  //box-shadow: none;
   display: flex;
   padding: 2px 4px;
+
+  &.open {
+    border-bottom: none;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    box-shadow: $shadow;
+  }
 }
 
 .search-field__container {
   position: absolute;
   top: 100%;
-  left: 0;
-  right: 0;
+  left: -1px;
+  right: -1px;
   background: white;
   border: 1px solid $border;
+  border-top: none;
   z-index: 1;
+  box-shadow: $shadow;
+  padding: 2px 11px;
+}
+
+.search-field__item {
+  display: flex;
+  align-items: center;
+  height: 70px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  color: black;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.search-field__item-img {
+  height: 100%;
+}
+
+.search-field__item-name {
+  margin-left: 5px;
 }
