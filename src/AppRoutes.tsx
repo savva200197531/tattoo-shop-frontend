@@ -27,21 +27,9 @@ import CatalogPage from './pages/catalog/CatalogPage'
 import ProductsFilters from './pages/products/ProductsFilters'
 import ProductItem from './pages/products/ProductItem'
 import AdminProductItem from './pages/admin/products/ProductItem'
-import { Fab } from '@mui/material'
-import AddIcon from '@mui/icons-material/Add'
-import CreateProductForm, { ProductInput } from './pages/admin/products/ProductForm'
-import StyledModal from './components/StyledModal/StyledModal'
-import { useProducts } from './contexts/products/ProductsContext'
+import CreateProduct from './pages/admin/products/CreateProduct'
 
 const AppRoutes = () => {
-  const { createProduct } = useProducts()
-
-  const handleSubmit = (data: ProductInput) => {
-    return createProduct(data).catch(error => {
-      console.log(error)
-    })
-  }
-
   return (
     <Routes>
       <Route path="/" element={<MainPage/>}/>
@@ -78,18 +66,11 @@ const AppRoutes = () => {
         <Route
           path="/admin/products"
           element={
-            <ProductsPage ProductItem={AdminProductItem} Filters={ProductsFilters}>
-              <StyledModal
-                title="Создать товар"
-                icon={
-                  <Fab sx={{ position: 'fixed', bottom: 16, right: 16 }} color="primary" aria-label="add">
-                    <AddIcon/>
-                  </Fab>
-                }
-              >
-                <CreateProductForm buttonTitle="Создать" title="Создать товар" onSubmit={handleSubmit}/>
-              </StyledModal>
-            </ProductsPage>
+            <ProductsPage
+              ProductItem={AdminProductItem}
+              Filters={ProductsFilters}
+              CreateProduct={CreateProduct}
+            />
           }
         />
         <Route path="/admin/slider" element={<TabSlider/>}/>

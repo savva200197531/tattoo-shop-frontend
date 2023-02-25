@@ -4,7 +4,7 @@ import { useSearchParams } from 'react-router-dom'
 import { useProductsFilters } from '../../contexts/productsFilters/ProductsFiltersContext'
 import Select from '../../components/Selects/Select'
 import RangeSlider from '../../components/RangeSlider/RangeSlider'
-import { Product } from '../../contexts/products/types'
+import { PriceRange, Product } from '../../contexts/products/types'
 import { useProducts } from '../../contexts/products/ProductsContext'
 import Spinner from '../../components/Spinner/Spinner'
 import { Option, OptionId } from '../../components/Selects/types'
@@ -40,9 +40,10 @@ type Props = {
 const ProductsFilters: React.FC<Props> = () => {
   const [loading, setLoading] = useState<boolean>(false)
   const [brands, setBrands] = useState<Brand[]>([])
+  const [priceRange, setPriceRange] = useState<PriceRange>({} as PriceRange)
 
   const { getBrands } = useProductsFilters()
-  const { getPriceRange, priceRange } = useProducts()
+  const { getPriceRange } = useProducts()
   const [searchParams, setSearchParams] = useSearchParams()
 
   const onSortChange = (value: OptionId) => {
@@ -78,9 +79,11 @@ const ProductsFilters: React.FC<Props> = () => {
       console.log(error)
     })
 
-    getPriceRange(category_id).finally(() => {
-      setLoading(false)
-    })
+    getPriceRange(category_id)
+      .then(data => setPriceRange(data))
+      .finally(() => {
+        setLoading(false)
+      })
   }, [])
 
   return (

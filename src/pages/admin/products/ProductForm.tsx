@@ -14,7 +14,6 @@ import { useProductsFilters } from '../../../contexts/productsFilters/ProductsFi
 import SelectInput from '../../../components/Selects/SelectInput'
 import { Brand, Category } from '../../../contexts/productsFilters/types'
 import { Product } from '../../../contexts/products/types'
-import { useProducts } from '../../../contexts/products/ProductsContext'
 
 const ProductSchema = object({
   name: string()
@@ -61,7 +60,6 @@ const ProductForm: React.FC<Props> = ({ record, onSubmit, buttonTitle, title }) 
   const [categories, setCategories] = useState<Category[]>([])
 
   const { getCategories, getBrands } = useProductsFilters()
-  const { getProducts } = useProducts()
   const { createFiles } = useFiles()
 
   const methods = useForm<ProductInput>({
@@ -86,7 +84,6 @@ const ProductForm: React.FC<Props> = ({ record, onSubmit, buttonTitle, title }) 
     setLoading(true)
 
     onSubmit(data)
-      .then(() => getProducts())
       .finally(() => {
         setLoading(false)
       })

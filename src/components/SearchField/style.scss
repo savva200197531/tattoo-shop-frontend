@@ -1,4 +1,26 @@
+@import "../../styles/variables";
+
 .svg-search {
   width: 24px;
   height: 24px;
+}
+
+.search-field {
+  position: relative;
+  align-items: center;
+  height: 38px;
+  border: 1px solid $border;
+  box-shadow: none;
+  display: flex;
+  padding: 2px 4px;
+}
+
+.search-field__container {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1px solid $border;
+  z-index: 1;
 }

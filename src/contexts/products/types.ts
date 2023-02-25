@@ -48,7 +48,7 @@ export type ProductsFilter = {
   price_max?: string | null
 }
 
-export type GetProducts = (params?: ProductsParams, filter?: ProductsFilter) => Promise<any>
+export type GetProducts = (params?: ProductsParams, filter?: ProductsFilter) => Promise<GetProductsResponse>
 
 export type GetProduct = (id: number) => Promise<any>
 
@@ -75,12 +75,8 @@ export type PriceRange = { min: number, max: number }
 export type ProductsContextProps = {
   getProducts: GetProducts
   getProduct: GetProduct
-  products: Product[]
-  productsLinks: ProductsLinks
-  productsMeta: ProductsMeta
   createProduct: CreateProduct
   editProduct: EditProduct
   deleteProduct: DeleteProduct
   getPriceRange: GetPriceRange
-  priceRange: PriceRange
 }

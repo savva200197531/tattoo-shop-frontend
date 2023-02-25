@@ -1,4 +1,4 @@
-import React, { ReactNode, useContext, useState } from 'react'
+import React, { ReactNode, useContext } from 'react'
 import axios from 'axios'
 
 import {
@@ -7,8 +7,8 @@ import {
   EditProduct,
   GetProduct,
   GetProducts,
-  Product, ProductsMeta,
-  ProductsContextProps, ProductsLinks, GetProductsResponse, GetPriceRange, PriceRange,
+  Product,
+  ProductsContextProps, GetProductsResponse, GetPriceRange,
 } from './types'
 import { requestUrl } from '../../env'
 
@@ -21,11 +21,6 @@ type Props = {
 }
 
 export const ProductsProvider: React.FC<Props> = ({ children }) => {
-  const [products, setProducts] = useState<Product[]>([])
-  const [priceRange, setPriceRange] = useState<PriceRange>({} as PriceRange)
-  const [productsMeta, setProductsMeta] = useState<ProductsMeta>({} as ProductsMeta)
-  const [productsLinks, setProductsLinks] = useState<ProductsLinks>({} as ProductsLinks)
-
   const getProducts: GetProducts = (params, filters) => {
     return axios.get<GetProductsResponse>(`${requestUrl}/products`, {
       params: {
@@ -35,15 +30,7 @@ export const ProductsProvider: React.FC<Props> = ({ children }) => {
         [`filter.price_min`]: filters?.price_min,
         [`filter.price_max`]: filters?.price_max,
       },
-    })
-      .then(({ data }) => {
-        setProducts(data.data)
-        setProductsLinks(data.links)
-        setProductsMeta(data.meta)
-      })
-      .catch(error => {
-        console.log(error)
-      })
+    }).then(({ data }) => data)
   }
 
   const getProduct: GetProduct = (id) => axios.get<Product>(`${requestUrl}/products/${id}`)
@@ -69,19 +56,15 @@ export const ProductsProvider: React.FC<Props> = ({ children }) => {
       params: {
         category_id,
       },
-    }).then(({ data }) => setPriceRange(data))
+    }).then(({ data }) => data)
 
   const value = {
-    products,
-    productsMeta,
-    productsLinks,
     getProducts,
     createProduct,
     deleteProduct,
     getProduct,
     editProduct,
     getPriceRange,
-    priceRange,
   }
 
   return <ProductsContext.Provider value={value}>{children}</ProductsContext.Provider>

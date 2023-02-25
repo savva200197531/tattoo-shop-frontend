@@ -4,7 +4,7 @@ import { useProducts } from '../../contexts/products/ProductsContext'
 import Spinner from '../../components/Spinner/Spinner'
 import './styles.scss'
 import { useSearchParams } from 'react-router-dom'
-import { Product, ProductsFilter, ProductsParams } from '../../contexts/products/types'
+import { Product, ProductsFilter, ProductsMeta, ProductsParams } from '../../contexts/products/types'
 import { productsUrl } from '../../env'
 import ProductsPagination from '../../components/ProductsPagination/ProductsPagination'
 import { Typography } from '@mui/material'
@@ -12,16 +12,18 @@ import { Typography } from '@mui/material'
 type Props = {
   ProductItem: React.FC<{ product: Product }>
   Filters: React.FC<{ products: Product[] }>
-  children?: React.ReactElement
+  CreateProduct?: React.FC<{ loadProducts: () => void }>
 }
 
-const ProductsPage: React.FC<Props> = ({ ProductItem, Filters, children }) => {
+const ProductsPage: React.FC<Props> = ({ ProductItem, Filters, CreateProduct }) => {
   const [loading, setLoading] = useState<boolean>(false)
+  const [products, setProducts] = useState<Product[]>([])
+  const [productsMeta, setProductsMeta] = useState<ProductsMeta>({} as ProductsMeta)
 
   const [searchParams, setSearchParams] = useSearchParams()
-  const { getProducts, products, productsMeta } = useProducts()
+  const { getProducts } = useProducts()
 
-  useEffect(() => {
+  const loadProducts = () => {
     setLoading(true)
 
     const params: ProductsParams = {
@@ -38,9 +40,21 @@ const ProductsPage: React.FC<Props> = ({ ProductItem, Filters, children }) => {
       price_max: searchParams.get('price_max'),
     }
 
-    getProducts(params, filters).finally(() => {
-      setLoading(false)
-    })
+    getProducts(params, filters)
+      .then(data => {
+        setProducts(data.data)
+        setProductsMeta(data.meta)
+      })
+      .catch(error => {
+        console.log(error)
+      })
+      .finally(() => {
+        setLoading(false)
+      })
+  }
+
+  useEffect(() => {
+    loadProducts()
   }, [searchParams])
 
   useEffect(() => {
@@ -59,7 +73,7 @@ const ProductsPage: React.FC<Props> = ({ ProductItem, Filters, children }) => {
     <div className="products">
       <div className="container">
         <div className="products-content">
-          <Typography variant='h4' component='h1' fontWeight={500} textAlign="center" sx={{ mt: '50px', mb: '70px' }}>
+          <Typography variant="h4" component="h1" fontWeight={500} textAlign="center" sx={{ mt: '50px', mb: '70px' }}>
             Товары
           </Typography>
 
@@ -77,7 +91,7 @@ const ProductsPage: React.FC<Props> = ({ ProductItem, Filters, children }) => {
             </div>
           )}
 
-          {children}
+          {CreateProduct && <CreateProduct loadProducts={loadProducts} />}
         </div>
       </div>
     </div>
