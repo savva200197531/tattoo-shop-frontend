@@ -7,7 +7,7 @@ import { useSearchParams } from 'react-router-dom'
 import { Product, ProductsFilter, ProductsParams } from '../../contexts/products/types'
 import { productsUrl } from '../../env'
 import ProductsPagination from '../../components/ProductsPagination/ProductsPagination'
-import ProductsHeader from './ProductsHeader'
+import { Typography } from '@mui/material'
 
 type Props = {
   ProductItem: React.FC<{ product: Product }>
@@ -34,6 +34,8 @@ const ProductsPage: React.FC<Props> = ({ ProductItem, Filters, children }) => {
     const filters: ProductsFilter = {
       category_id: searchParams.get('category'),
       brand_id: searchParams.get('brand'),
+      price_min: searchParams.get('price_min'),
+      price_max: searchParams.get('price_max'),
     }
 
     getProducts(params, filters).finally(() => {
@@ -44,28 +46,35 @@ const ProductsPage: React.FC<Props> = ({ ProductItem, Filters, children }) => {
   useEffect(() => {
     if (!searchParams.get('page')) {
       searchParams.set('page', '1')
-      setSearchParams(searchParams)
     }
+
+    if (!searchParams.get('limit')) {
+      searchParams.set('limit', '10')
+    }
+
+    setSearchParams(searchParams)
   }, [])
 
   return (
     <div className="products">
       <div className="container">
         <div className="products-content">
-          <ProductsHeader />
+          <Typography variant='h4' component='h1' fontWeight={500} textAlign="center" sx={{ mt: '50px', mb: '70px' }}>
+            Товары
+          </Typography>
 
-          {loading ? <Spinner /> : (
-            <>
-              <div className="">
-                <Filters products={products} />
+          {loading ? <Spinner/> : (
+            <div className="products-main">
+              <Filters products={products}/>
 
+              <div className="products-main__products">
                 <div className="products-list">
-                  {products.map(product => <ProductItem key={product.id} product={product} />)}
+                  {products.map(product => <ProductItem key={product.id} product={product}/>)}
                 </div>
-              </div>
 
-              <ProductsPagination page={productsMeta.currentPage} count={productsMeta.totalPages} />
-            </>
+                <ProductsPagination page={productsMeta.currentPage} count={productsMeta.totalPages}/>
+              </div>
+            </div>
           )}
 
           {children}

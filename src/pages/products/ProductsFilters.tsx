@@ -1,21 +1,59 @@
-import React, { useEffect, useRef } from 'react'
-import { useProductsFilters } from '../../contexts/productsFilters/ProductsFiltersContext'
+import React, { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
+import { all } from 'axios'
+
+import { useProductsFilters } from '../../contexts/productsFilters/ProductsFiltersContext'
 import Select from '../../components/Selects/Select'
 import RangeSlider from '../../components/RangeSlider/RangeSlider'
 import { Product } from '../../contexts/products/types'
+import { useProducts } from '../../contexts/products/ProductsContext'
+import Spinner from '../../components/Spinner/Spinner'
+import { Option, OptionId } from '../../components/Selects/types'
+
+const sortOptions: Option[] = [
+  {
+    name: 'Обычная',
+    id: 'id:DESC',
+  },
+  {
+    name: 'Сначала новые',
+    id: 'created_at:DESC',
+  },
+  {
+    name: 'Сначала старые',
+    id: 'created_at:ASC',
+  },
+  {
+    name: 'Сначала дорогие',
+    id: 'price:DESC',
+  },
+  {
+    name: 'Сначала дешевые',
+    id: 'price:ASC',
+  },
+]
 
 type Props = {
   products: Product[]
 }
 
-const ProductsFilters: React.FC<Props> = ({ products }) => {
-  const prices = useRef(products.map(product => product.price))
+const ProductsFilters: React.FC<Props> = () => {
+  const [loading, setLoading] = useState<boolean>(false)
 
   const { brands, getBrands } = useProductsFilters()
+  const { getPriceRange, priceRange } = useProducts()
   const [searchParams, setSearchParams] = useSearchParams()
 
-  const onBrandChange = (value: number) => {
+  const onSortChange = (value: OptionId) => {
+    if (value) {
+      searchParams.set('sort', value.toString())
+    } else {
+      searchParams.delete('sort')
+    }
+    setSearchParams(searchParams)
+  }
+
+  const onBrandChange = (value: OptionId) => {
     if (value) {
       searchParams.set('brand', value.toString())
     } else {
@@ -24,31 +62,55 @@ const ProductsFilters: React.FC<Props> = ({ products }) => {
     setSearchParams(searchParams)
   }
 
-  const onPriceChange = (value: number[]) => {
-    console.log(value)
+  const onPriceChange = (value: OptionId[]) => {
+    searchParams.set('price_min', value[0].toString())
+    searchParams.set('price_max', value[1].toString())
+    setSearchParams(searchParams)
   }
 
   useEffect(() => {
-    getBrands()
+    setLoading(true)
+
+    const category_id = searchParams.get('category')
+
+    all([getBrands(category_id), getPriceRange(category_id)])
+      .finally(() => {
+        setLoading(false)
+      })
   }, [])
 
   return (
     <div className="products-filters">
-      <RangeSlider
-        label="Цена"
-        defaultValue={[
-          Math.min(...prices.current),
-          Math.max(...prices.current),
-        ]}
-        onChange={onPriceChange}
-      />
+      {loading ? <Spinner /> : (
+        <Select
+          defaultValue={searchParams.get('sort') || 0}
+          onChange={onSortChange}
+          label="Сортировка"
+          options={sortOptions}
+        />
+      )}
 
-      <Select
-        defaultValue={Number(searchParams.get('brand')) || 0}
-        onChange={onBrandChange}
-        label="Бренд"
-        options={brands}
-      />
+      {loading ? <Spinner /> : (
+        <Select
+          defaultValue={Number(searchParams.get('brand')) || 0}
+          onChange={onBrandChange}
+          label="Бренд"
+          options={brands}
+        />
+      )}
+
+      {loading ? <Spinner /> : (
+        <RangeSlider
+          label="Цена"
+          defaultValue={[
+            Number(searchParams.get('price_min')) || priceRange.min,
+            Number(searchParams.get('price_max')) || priceRange.max,
+          ]}
+          min={priceRange.min}
+          max={priceRange.max}
+          onChange={onPriceChange}
+        />
+      )}
     </div>
   )
 }

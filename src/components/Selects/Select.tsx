@@ -6,22 +6,22 @@ import {
   Select as MuiSelect,
   SelectChangeEvent,
 } from '@mui/material'
-import { BaseSelectProps } from './types'
+import { BaseSelectProps, OptionId } from './types'
 
 type Props = BaseSelectProps & {
-  onChange: (value: number) => void
-  defaultValue?: number
+  onChange: (value: OptionId) => void
+  defaultValue?: OptionId
 }
 
 const Select: React.FC<Props> = ({ options, label, defaultValue = 0, onChange }) => {
-  const [selectedValue, setSelectedValue] = useState<number>(defaultValue)
+  const [selectedValue, setSelectedValue] = useState<OptionId>(defaultValue)
 
-  const handleChange = (event: SelectChangeEvent<number>) => {
+  const handleChange = (event: SelectChangeEvent) => {
     const {
       target: { value },
     } = event
 
-    setSelectedValue(value as number)
+    setSelectedValue(value)
   }
 
   useEffect(() => {
@@ -33,7 +33,7 @@ const Select: React.FC<Props> = ({ options, label, defaultValue = 0, onChange })
       <InputLabel>{label}</InputLabel>
       <MuiSelect
         label={label}
-        value={selectedValue}
+        value={selectedValue as any}
         onChange={handleChange}
       >
         <MenuItem value={0}>

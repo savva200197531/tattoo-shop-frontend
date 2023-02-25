@@ -7,7 +7,7 @@ import {
   BaseGetFilters, Brand,
   Category, CreateBrand,
   CreateCategory, EditBrand,
-  EditCategory,
+  EditCategory, GetBrands,
   ProductsFiltersContextProps,
 } from './types'
 
@@ -51,8 +51,8 @@ export const ProductsFiltersProvider: React.FC<Props> = ({ children }) => {
   const deleteCategory: BaseDeleteFilter = (id) => axios.delete(`${requestUrl}/categories/${id}`)
 
   // BRANDS
-  const getBrands: BaseGetFilters = () => {
-    return axios.get<Brand[]>(`${requestUrl}/brands`)
+  const getBrands: GetBrands = (category_id) => {
+    return axios.get<Brand[]>(`${requestUrl}/brands`, { params: { category_id } })
       .then((response) => {
         setBrands(response.data)
       })

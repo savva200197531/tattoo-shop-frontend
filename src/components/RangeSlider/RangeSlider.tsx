@@ -10,11 +10,13 @@ type Props = {
   onChange: (value: number[]) => void
   label: string
   defaultValue: number[]
+  min: number
+  max: number
 }
 
 const minDistance = 100
 
-const RangeSlider: React.FC<Props> = ({ onChange, label, defaultValue }) => {
+const RangeSlider: React.FC<Props> = ({ onChange, label, defaultValue, min, max }) => {
   const [value, setValue] = React.useState<number[]>(defaultValue)
 
   const handleChange = (
@@ -28,7 +30,7 @@ const RangeSlider: React.FC<Props> = ({ onChange, label, defaultValue }) => {
 
     if (newValue[1] - newValue[0] < minDistance) {
       if (activeThumb === 0) {
-        const clamped = Math.min(newValue[0], defaultValue[1] - minDistance)
+        const clamped = Math.min(newValue[0], max - minDistance)
         setValue([clamped, clamped + minDistance])
       } else {
         const clamped = Math.max(newValue[1], minDistance)
@@ -49,18 +51,20 @@ const RangeSlider: React.FC<Props> = ({ onChange, label, defaultValue }) => {
 
   const handleMinBlur = () => {
     if (value[0] < defaultValue[0]) {
-      setValue([defaultValue[0], value[1]])
+      setValue([min, value[1]])
     }
+    onChange(value)
   }
 
   const handleMaxBlur = () => {
     if (value[1] > defaultValue[1]) {
-      setValue([value[0], defaultValue[1]])
+      setValue([value[0], max])
     }
+    onChange(value)
   }
 
   return (
-    <Box>
+    <Box sx={{ mb: 2 }}>
       <Typography id="input-slider" gutterBottom>
         {label}
       </Typography>
@@ -73,8 +77,8 @@ const RangeSlider: React.FC<Props> = ({ onChange, label, defaultValue }) => {
             onBlur={handleMinBlur}
             inputProps={{
               'step': 10,
-              'min': defaultValue[0],
-              'max': defaultValue[1],
+              'min': min,
+              'max': max,
               'type': 'number',
               'aria-labelledby': 'input-slider',
             }}
@@ -82,12 +86,11 @@ const RangeSlider: React.FC<Props> = ({ onChange, label, defaultValue }) => {
         </Grid>
         <Grid item xs>
           <Slider
-            // getAriaLabel={() => 'Temperature range'}
             value={value}
             onChange={handleChange}
             onChangeCommitted={() => onChange(value)}
-            min={defaultValue[0]}
-            max={defaultValue[1]}
+            min={min}
+            max={max}
             valueLabelDisplay="auto"
             getAriaValueText={valuetext}
             disableSwap
@@ -101,8 +104,8 @@ const RangeSlider: React.FC<Props> = ({ onChange, label, defaultValue }) => {
             onBlur={handleMaxBlur}
             inputProps={{
               'step': 10,
-              'min': defaultValue[0],
-              'max': defaultValue[1],
+              'min': min,
+              'max': max,
               'type': 'number',
               'aria-labelledby': 'input-slider',
             }}

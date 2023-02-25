@@ -4,14 +4,6 @@
   margin-left: auto;
 }
 
-.products-header {
-  margin-top: 50px;
-  margin-bottom: 70px;
-  display: flex;
-  align-items: center;
-  //justify-content: center;
-}
-
 .product-cart-counter {
   padding: 0 5px;
 }
@@ -20,5 +12,10 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-column-gap: 30px;
+}
+
+.products-main {
+  display: grid;
+  grid-template-columns: 3fr 10fr;
 }
 

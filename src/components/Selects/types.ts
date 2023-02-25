@@ -1,6 +1,8 @@
+export type OptionId = (number | string)
+
 export type Option = {
   name: string
-  id: number
+  id: OptionId
 }
 
 export type BaseSelectProps = {

@@ -8,7 +8,7 @@ import {
   GetProduct,
   GetProducts,
   Product, ProductsMeta,
-  ProductsContextProps, ProductsLinks, GetProductsResponse,
+  ProductsContextProps, ProductsLinks, GetProductsResponse, GetPriceRange, PriceRange,
 } from './types'
 import { requestUrl } from '../../env'
 
@@ -22,6 +22,7 @@ type Props = {
 
 export const ProductsProvider: React.FC<Props> = ({ children }) => {
   const [products, setProducts] = useState<Product[]>([])
+  const [priceRange, setPriceRange] = useState<PriceRange>({} as PriceRange)
   const [productsMeta, setProductsMeta] = useState<ProductsMeta>({} as ProductsMeta)
   const [productsLinks, setProductsLinks] = useState<ProductsLinks>({} as ProductsLinks)
 
@@ -31,6 +32,8 @@ export const ProductsProvider: React.FC<Props> = ({ children }) => {
         ...params,
         [`filter.category_id`]: filters?.category_id,
         [`filter.brand_id`]: filters?.brand_id,
+        [`filter.price_min`]: filters?.price_min,
+        [`filter.price_max`]: filters?.price_max,
       },
     })
       .then(({ data }) => {
@@ -61,6 +64,13 @@ export const ProductsProvider: React.FC<Props> = ({ children }) => {
 
   const deleteProduct: DeleteProduct = (id) => axios.delete(`${requestUrl}/products/${id}`)
 
+  const getPriceRange: GetPriceRange = (category_id) =>
+    axios.get(`${requestUrl}/products/price-range`, {
+      params: {
+        category_id,
+      },
+    }).then(({ data }) => setPriceRange(data))
+
   const value = {
     products,
     productsMeta,
@@ -70,6 +80,8 @@ export const ProductsProvider: React.FC<Props> = ({ children }) => {
     deleteProduct,
     getProduct,
     editProduct,
+    getPriceRange,
+    priceRange,
   }
 
   return <ProductsContext.Provider value={value}>{children}</ProductsContext.Provider>

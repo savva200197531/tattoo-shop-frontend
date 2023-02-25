@@ -44,6 +44,8 @@ export type ProductsParams = {
 export type ProductsFilter = {
   category_id?: string | null
   brand_id?: string | null
+  price_min?: string | null
+  price_max?: string | null
 }
 
 export type GetProducts = (params?: ProductsParams, filter?: ProductsFilter) => Promise<any>
@@ -66,6 +68,10 @@ export type EditProduct = (id: number, payload: EditProductPayload) => Promise<a
 
 export type DeleteProduct = (id: number) => Promise<any>
 
+export type GetPriceRange = (category_id: string | null) => Promise<any>
+
+export type PriceRange = { min: number, max: number }
+
 export type ProductsContextProps = {
   getProducts: GetProducts
   getProduct: GetProduct
@@ -75,4 +81,6 @@ export type ProductsContextProps = {
   createProduct: CreateProduct
   editProduct: EditProduct
   deleteProduct: DeleteProduct
+  getPriceRange: GetPriceRange
+  priceRange: PriceRange
 }

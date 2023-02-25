@@ -8,22 +8,22 @@ import {
   SelectChangeEvent,
 } from '@mui/material'
 import Checkbox from '@mui/material/Checkbox'
-import { BaseSelectProps } from './types'
+import { BaseSelectProps, OptionId } from './types'
 
 type Props = BaseSelectProps & {
-  onChange: (value: number[]) => void
-  defaultValue?: number[]
+  onChange: (value: OptionId[]) => void
+  defaultValue?: OptionId[]
 }
 
 const MultiSelect: React.FC<Props> = ({ options, label, onChange, defaultValue = [] }) => {
-  const [selectedValues, setSelectedValues] = useState<number[]>(defaultValue)
+  const [selectedValues, setSelectedValues] = useState<OptionId[]>(defaultValue)
 
   const handleChange = (event: SelectChangeEvent<number[]>) => {
     const {
       target: { value },
     } = event
 
-    setSelectedValues(value as number[])
+    setSelectedValues(value as OptionId[])
   }
 
   useEffect(() => {
@@ -37,7 +37,7 @@ const MultiSelect: React.FC<Props> = ({ options, label, onChange, defaultValue =
         label={label}
         multiple
         onChange={handleChange}
-        value={selectedValues}
+        value={selectedValues as any}
         renderValue={(selected) => {
           return options
             .filter(option => selected.some((item: number) => item === option.id))
