@@ -1,5 +1,9 @@
 @import "../../styles/variables";
 
+.products {
+  margin-bottom: 50px;
+}
+
 .product-item__favorite {
   margin-left: auto;
 }
@@ -8,14 +12,24 @@
   padding: 0 5px;
 }
 
+.products-main {
+  display: grid;
+  grid-template-columns: 3fr 10fr;
+}
+
 .product-content {
+  margin-top: 50px;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-column-gap: 30px;
 }
 
-.products-main {
-  display: grid;
-  grid-template-columns: 3fr 10fr;
+.product-info {
+  border: 1px solid $border;
+  padding: 10px 20px;
+
+  > *:not(:last-child) {
+    margin-bottom: 20px;
+  }
 }
 

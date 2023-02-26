@@ -1,0 +1,25 @@
+.checkout-form {
+  margin-bottom: 30px;
+}
+
+.checkout-form__user {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+  grid-column-gap: 20px;
+}
+
+.checkout-form__delivery {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: repeat(2, auto);
+  grid-column-gap: 20px;
+}
+
+.checkout-form__delivery-comment {
+  grid-column-start: 1;
+  grid-column-end: 4;
+}
+
+.checkout-form__button {
+  max-width: 300px;
+}

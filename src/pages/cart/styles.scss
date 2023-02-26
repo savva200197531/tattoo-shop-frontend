@@ -26,10 +26,25 @@
   }
 }
 
+.cart-item__middle {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+.cart-empty {
+  //display: flex;
+  text-align: center;
+}
+
 .cart-total {
   background: white;
   border-radius: $border-radius;
   border: 1px solid $border;
   height: fit-content;
   padding: 27px 27px 35px 27px;
+
+  > *:not(:last-child) {
+    margin-bottom: 10px;
+  }
 }

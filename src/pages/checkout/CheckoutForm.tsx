@@ -1,20 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import { object, string, TypeOf } from 'zod'
-import { SubmitHandler, useForm } from 'react-hook-form'
+import { Controller, SubmitHandler, useForm } from 'react-hook-form'
+import InputMask from 'react-input-mask'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Box, TextField, Typography } from '@mui/material'
 
-import { PhoneMaskCustom } from '../../components/PhoneMaskCustom'
 import { useAuth } from '../../contexts/auth/AuthContext'
-import Spinner from '../../components/Spinner/Spinner'
 import { useOrders } from '../../contexts/orders/OrdersContext'
 import { CreateOrderPayload } from '../../contexts/orders/types'
 import { useCart } from '../../contexts/cart/CartContext'
 import { StyledLoadingButton } from '../../components/StyledButtons'
-import { usePayment } from '../../contexts/payment/PaymentContext'
-import { CreatePaymentPayload } from '../../contexts/payment/types'
 import { validationErrors } from '../../helpers/validationErrors'
+import ListWithTitle from '../../components/ListWithTitle/ListWithTitle'
+import './styles.scss'
 
 const checkoutSchema = object({
   // user data
@@ -31,7 +30,8 @@ const checkoutSchema = object({
     .min(2, validationErrors.min('отчество', 2))
     .max(32, validationErrors.max('отчество', 32)),
   email: string().nonempty(validationErrors.required('почта')).email(validationErrors.email()),
-  phone: string().nonempty(validationErrors.required('телефон')).regex(new RegExp('^((8|\\+7)[\\- ]?)?(\\(?\\d{3}\\)?[\\- ]?)?[\\d\\- ]{7,10}$')),
+  phone: string({ required_error: validationErrors.required('телефон') })
+    .regex(new RegExp('^((8|\\+7)[\\- ]?)?(\\(?\\d{3}\\)?[\\- ]?)?[\\d\\- ]{7,10}$'), 'Телефон указан неверно'),
   // address
   region: string()
     .nonempty(validationErrors.required('регион'))
@@ -47,29 +47,33 @@ const checkoutSchema = object({
 
 type CheckoutInput = TypeOf<typeof checkoutSchema>;
 
-const CreateProductForm: React.FC = () => {
+const CheckoutForm: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false)
-  const [phoneValue, setPhoneValue] = useState<string>('9132537745')
 
   const { createOrder } = useOrders()
-  const { createPayment } = usePayment()
-  const { user, isUserExist, getUser } = useAuth()
+  const { user, getUser } = useAuth()
   const { cart } = useCart()
 
   const {
     register,
+    control,
     formState: { errors, isSubmitSuccessful },
     reset,
     handleSubmit,
   } = useForm<CheckoutInput>({
     resolver: zodResolver(checkoutSchema),
+    defaultValues: {
+      surname: 'Кашин',
+      name: 'Савва',
+      lastname: 'Игоревич',
+      email: 'savva@mail.ru',
+      phone: '79132537745',
+      region: 'Новосибирск',
+      city: 'Новосибирск',
+      address: 'Мичурина 43',
+      comment: `Тестовый комментарий`,
+    },
   })
-
-  const handleCreatePayment = (data: CreatePaymentPayload) => {
-    createPayment(data).finally(() => {
-      setLoading(false)
-    })
-  }
 
   const onSubmitHandler: SubmitHandler<CheckoutInput> = (data) => {
     const payload: CreateOrderPayload = {
@@ -77,25 +81,23 @@ const CreateProductForm: React.FC = () => {
       price: cart.totalPrice,
       user_id: user.id,
       payment_method: 'bank_card',
+      phone: data.phone.replace(/\D/g, ''),
+      return_url: 'http://localhost:3000/thanks',
     }
-
-    setLoading(true)
 
     createOrder(payload)
       .then(() => {
         getUser(user.id)
-        handleCreatePayment({
-          price: cart.totalPrice,
-          description: data.comment,
-          return_url: 'http://localhost:3000/thanks',
-        })
+        // handleCreatePayment({
+        //   price: cart.totalPrice,
+        //   description: data.comment,
+        //   return_url: 'http://localhost:3000/thanks',
+        // })
       })
-      .catch(error => {
-        console.log(error)
+      .finally(() => {
+        setLoading(false)
       })
   }
-
-  const handlePhoneChange = (event: React.ChangeEvent<HTMLInputElement>) => setPhoneValue(event.target.value)
 
   useEffect(() => {
     if (isSubmitSuccessful) {
@@ -107,22 +109,19 @@ const CreateProductForm: React.FC = () => {
     console.log(errors)
   }, [errors])
 
-  if (!isUserExist) {
-    return <Spinner/>
-  }
-
   return (
-    <Box className="checkout-form">
-      <Typography variant="h4" component="h1" sx={{ mb: '2rem' }}>
-        Оформление заказа
+    <Box
+      component="form"
+      className="checkout-form"
+      noValidate
+      autoComplete="off"
+      onSubmit={handleSubmit(onSubmitHandler)}
+    >
+      <Typography variant="h5" component="h3" fontWeight={500} sx={{ mt: '50px', mb: '70px' }}>
+        Информация о покупателе
       </Typography>
-      <Box
-        component="form"
-        noValidate
-        autoComplete="off"
-        onSubmit={handleSubmit(onSubmitHandler)}
-      >
-        {/*user data*/}
+
+      <div className="checkout-form__user">
         <TextField
           sx={{ mb: 2 }}
           label="Фамилия"
@@ -159,20 +158,32 @@ const CreateProductForm: React.FC = () => {
           {...register('email')}
         />
 
-        <TextField
-          sx={{ mb: 2 }}
-          label="Телефон"
-          fullWidth
-          InputProps={{
-            inputComponent: PhoneMaskCustom as any,
-          }}
-          error={!!errors['phone']}
-          helperText={errors['phone'] ? errors['phone'].message : ''}
-          {...register('phone')}
-          onChange={handlePhoneChange}
-          value={phoneValue}
+        <Controller
+          control={control}
+          name="phone"
+          render={({ field }) => (
+            <InputMask
+              sx={{ mb: 2 }}
+              mask="+7\ (999) 999-99-99"
+              label="Телефон"
+              fullWidth
+              error={!!errors['phone']}
+              helperText={errors['phone'] ? errors['phone'].message : ''}
+              onChange={field.onChange}
+              value={field.value}
+            >
+              {/*// @ts-ignore*/}
+              {(props) => <TextField {...props} />}
+            </InputMask>
+          )}
         />
+      </div>
 
+      <Typography variant="h5" component="h3" fontWeight={500} sx={{ mt: '50px', mb: '70px' }}>
+        Доставка
+      </Typography>
+
+      <div className="checkout-form__delivery">
         <TextField
           sx={{ mb: 2 }}
           label="Регион"
@@ -203,6 +214,7 @@ const CreateProductForm: React.FC = () => {
         <TextField
           sx={{ mb: 2 }}
           label="Комментарий"
+          className="checkout-form__delivery-comment"
           fullWidth
           rows={4}
           multiline
@@ -210,19 +222,29 @@ const CreateProductForm: React.FC = () => {
           helperText={errors['comment'] ? errors['comment'].message : ''}
           {...register('comment')}
         />
+      </div>
 
-        <StyledLoadingButton
-          variant="contained"
-          fullWidth
-          type="submit"
-          loading={loading}
-          sx={{ py: '0.8rem', mt: '1rem' }}
-        >
-          Перейти к оплате
-        </StyledLoadingButton>
-      </Box>
+      <ListWithTitle
+        options={[
+          {
+            title: 'Итого',
+            text: `${cart.totalPrice} Р`,
+          },
+        ]}
+      />
+
+      <StyledLoadingButton
+        variant="contained"
+        className="checkout-form__button"
+        fullWidth
+        type="submit"
+        loading={loading}
+        sx={{ py: '0.8rem', mt: '1rem' }}
+      >
+        Перейти к оплате
+      </StyledLoadingButton>
     </Box>
   )
 }
 
-export default CreateProductForm
+export default CheckoutForm

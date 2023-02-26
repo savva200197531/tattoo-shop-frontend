@@ -28,6 +28,8 @@ import ProductsFilters from './pages/products/ProductsFilters'
 import ProductItem from './pages/products/ProductItem'
 import AdminProductItem from './pages/admin/products/ProductItem'
 import CreateProduct from './pages/admin/products/CreateProduct'
+import AboutPage from './pages/about/AboutPage'
+import DeliveryPage from './pages/delivery/DeliveryPage'
 
 const AppRoutes = () => {
   return (
@@ -44,6 +46,8 @@ const AppRoutes = () => {
       />
       <Route path="/products/:id" element={<ProductPage/>}/>
       <Route path="/cart" element={<CartPage/>}/>
+      <Route path="/about" element={<AboutPage/>}/>
+      <Route path="/delivery" element={<DeliveryPage/>}/>
       <Route path="/catalog" element={<CatalogPage/>}/>
       <Route path="/profile" element={<ProfilePage/>}>
         <Route path="/profile/info" element={<TabInfo/>}/>

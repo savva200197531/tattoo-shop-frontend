@@ -44,7 +44,7 @@ const CartCounter: React.FC<Props> = ({ count = 0, product_id, onSubmit, user_id
         (
           <div className="cart-counter__active">
             <StyledButton variant="contained" onClick={() => handleAddToCart(count - 1)}>-</StyledButton>
-            <div>{count}</div>
+            <div className="cart-counter__count">{count}</div>
             <StyledButton variant="contained" onClick={() => handleAddToCart(count + 1)}>+</StyledButton>
           </div>
         )

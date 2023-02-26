@@ -29,6 +29,7 @@ export const ProductsProvider: React.FC<Props> = ({ children }) => {
         [`filter.brand_id`]: filters?.brand_id,
         [`filter.price_min`]: filters?.price_min,
         [`filter.price_max`]: filters?.price_max,
+        [`filter.search`]: filters?.search,
       },
     }).then(({ data }) => data)
   }
@@ -39,7 +40,9 @@ export const ProductsProvider: React.FC<Props> = ({ children }) => {
     }).then(({ data }) => data)
   }
 
-  const getProduct: GetProduct = (id) => axios.get<Product>(`${requestUrl}/products/${id}`)
+  const getProduct: GetProduct = (id) => {
+    return axios.get<Product>(`${requestUrl}/products/${id}`).then(({ data }) => data)
+  }
 
   const createProduct: CreateProduct = (payload) => {
     return axios.post(`${requestUrl}/products`, payload)
@@ -57,11 +60,9 @@ export const ProductsProvider: React.FC<Props> = ({ children }) => {
 
   const deleteProduct: DeleteProduct = (id) => axios.delete(`${requestUrl}/products/${id}`)
 
-  const getPriceRange: GetPriceRange = (category_id) =>
+  const getPriceRange: GetPriceRange = (filter) =>
     axios.get(`${requestUrl}/products/price-range`, {
-      params: {
-        category_id,
-      },
+      params: filter,
     }).then(({ data }) => data)
 
   const value = {

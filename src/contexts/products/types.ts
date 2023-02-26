@@ -46,13 +46,14 @@ export type ProductsFilter = {
   brand_id?: string | null
   price_min?: string | null
   price_max?: string | null
+  search?: string | null
 }
 
 export type GetProducts = (params?: ProductsParams, filter?: ProductsFilter) => Promise<GetProductsResponse>
 
 export type GetProductsWithSearch = (search: string) => Promise<Product[]>
 
-export type GetProduct = (id: number) => Promise<any>
+export type GetProduct = (id: number) => Promise<Product>
 
 export type CreateProductPayload = {
   name: string
@@ -70,7 +71,12 @@ export type EditProduct = (id: number, payload: EditProductPayload) => Promise<a
 
 export type DeleteProduct = (id: number) => Promise<any>
 
-export type GetPriceRange = (category_id: string | null) => Promise<any>
+export type GetPriceRangeFilter = {
+  category_id?: string | null
+  search?: string | null
+}
+
+export type GetPriceRange = (filter: GetPriceRangeFilter) => Promise<any>
 
 export type PriceRange = { min: number, max: number }
 

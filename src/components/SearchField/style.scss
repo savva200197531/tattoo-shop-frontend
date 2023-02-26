@@ -37,19 +37,20 @@
   border-top: none;
   z-index: 1;
   box-shadow: $shadow;
-  padding: 2px 11px;
+  //padding: 2px 11px;
 }
 
 .search-field__item {
   display: flex;
   align-items: center;
-  height: 70px;
+  height: 30px;
   margin-bottom: 8px;
   cursor: pointer;
   color: black;
 
   &:hover {
-    opacity: 0.8;
+    //opacity: 0.8;
+    background-color: rgba(255, 136, 0, 0.85)
   }
 }
 

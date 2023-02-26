@@ -3,7 +3,7 @@ import axios from 'axios'
 
 import { requestUrl } from '../../env'
 import {
-  BaseDeleteFilter,
+  BaseDeleteFilter, BaseGetFilter,
   BaseGetFilters, Brand,
   Category, CreateBrand,
   CreateCategory, EditBrand,
@@ -41,6 +41,8 @@ export const ProductsFiltersProvider: React.FC<Props> = ({ children }) => {
 
   const deleteCategory: BaseDeleteFilter = (id) => axios.delete(`${requestUrl}/categories/${id}`)
 
+  const getCategory: BaseGetFilter = (id) => axios.get<Category[]>(`${requestUrl}/categories/${id}`).then(({ data }) => data)
+
   // BRANDS
   const getBrands: GetBrands = (category_id) => {
     return axios.get<Brand[]>(`${requestUrl}/brands`, { params: { category_id } }).then(({ data }) => data)
@@ -65,6 +67,7 @@ export const ProductsFiltersProvider: React.FC<Props> = ({ children }) => {
     createCategory,
     editCategory,
     deleteCategory,
+    getCategory,
 
     // BRANDS
     getBrands,

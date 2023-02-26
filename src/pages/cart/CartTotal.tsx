@@ -2,6 +2,7 @@ import React from 'react'
 import { useCart } from '../../contexts/cart/CartContext'
 import { StyledButton } from '../../components/StyledButtons'
 import { useNavigate } from 'react-router-dom'
+import ListWithTitle from '../../components/ListWithTitle/ListWithTitle'
 
 const CartTotal: React.FC = () => {
   const navigate = useNavigate()
@@ -9,9 +10,18 @@ const CartTotal: React.FC = () => {
 
   return (
     <div className="cart-total">
-      <p>Товары ({cart.totalProductsCount})</p>
-
-      <p>Итого {cart.totalPrice}Р</p>
+      <ListWithTitle
+        options={[
+          {
+            title: 'Товары',
+            text: `(${cart.totalProductsCount})`,
+          },
+          {
+            title: 'Итого',
+            text: `${cart.totalPrice} Р`,
+          },
+        ]}
+      />
 
       <StyledButton
         variant="contained"

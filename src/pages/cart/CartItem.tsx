@@ -8,6 +8,9 @@ import Svg from '../../components/Svg'
 import { useCart } from '../../contexts/cart/CartContext'
 import { useAuth } from '../../contexts/auth/AuthContext'
 import { imgSrc } from '../../helpers/imgSrc'
+import emptyImg from '../../assets/images/empty-product-image.svg'
+import ListWithTitle from '../../components/ListWithTitle/ListWithTitle'
+import StyledDialog from '../../components/StyledDialog/StyledDialog'
 
 type Props = {
   cartItem: CartItemType
@@ -49,17 +52,36 @@ const CartItem: React.FC<Props> = ({ cartItem }) => {
 
   return (
     <div className="cart-item">
-      <img src={imgSrc(product.img_ids?.[0] as number)} alt=""/>
+      <img src={product.img_ids?.length ? imgSrc(product.img_ids?.[0] as number) : emptyImg} alt=""/>
       <div className="cart-item__middle">
-        <p>{product.name}</p>
-        <p>{product.count} в наличии</p>
+        <ListWithTitle
+          options={[
+            {
+              title: 'Название',
+              text: product.name,
+            },
+            {
+              title: 'В наличии',
+              text: product.count,
+            },
+          ]}
+        />
         <CartCounter product_id={product.id} count={count} onSubmit={handleUpdate} user_id={user.id}/>
       </div>
       <div className="cart-item__right">
         <p>{price}Р</p>
-        <IconButton onClick={handleDeleteFromCart} type="button" sx={{ p: '6px' }}>
-          <Svg id="trash" width={30} height={30}/>
-        </IconButton>
+
+        <StyledDialog
+          icon={
+            <IconButton type="button" sx={{ p: '6px' }}>
+              <Svg id="trash" width={30} height={30}/>
+            </IconButton>
+          }
+          title="Удалить товар"
+          text="Вы точно хотите удалить товар из корзины?"
+          handleSubmit={handleDeleteFromCart}
+        />
+
       </div>
     </div>
   )

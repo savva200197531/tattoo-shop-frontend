@@ -18,34 +18,38 @@ const ProductLayout: React.FC<Props> = ({ product, headerContent, footerContent 
 
   const navigate = useNavigate()
 
+  const goToProduct = () => {
+    navigate(`/products/${id}`)
+  }
+
   return (
     <div className="product-layout">
-      <div className="product-header">{headerContent}</div>
+      <div className="product-layout-header">{headerContent}</div>
 
       {img_ids?.length ? (
-        <Carousel onClickItem={() => navigate(`/products/${id}`)} showStatus={false} className="product-slider" showThumbs={false} showArrows={true}>
+        <Carousel onClickItem={goToProduct} showStatus={false} className="product-layout-slider" showThumbs={false} showArrows={true}>
           {img_ids?.map(id => (
-            <div className="product-slide" key={id}>
-              <img className="product-slide__img" src={imgSrc(id)} alt=""/>
+            <div className="product-layout-slide" key={id}>
+              <img className="product-layout-slide__img" src={imgSrc(id)} alt=""/>
             </div>
           ))}
         </Carousel>
       ) : (
-        <div className="product-slide">
-          <img className="product-slide__img" src={emptyImgSrc} alt=""/>
+        <div onClick={goToProduct} className="product-layout-slide">
+          <img className="product-layout-slide__img" src={emptyImgSrc} alt=""/>
         </div>
       )}
 
-      <div className="product-info">
+      <div className="product-layout-info">
         <div>{name}</div>
         <div>{price} Р</div>
-        <div className="product-info__count">
+        <div className="product-layout-info__count">
           <p>5шт</p>
           <p>{count}шт</p>
         </div>
       </div>
 
-      <div className="product-footer">{footerContent}</div>
+      <div className="product-layout-footer">{footerContent}</div>
     </div>
   )
 }

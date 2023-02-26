@@ -4,6 +4,7 @@ import { useFavorite } from '../../contexts/favorite/FavoriteContext'
 import { Typography } from '@mui/material'
 import Spinner from '../../components/Spinner/Spinner'
 import FavoriteItem from './FavoriteItem'
+import './styles.scss'
 
 const FavoritePage: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false)

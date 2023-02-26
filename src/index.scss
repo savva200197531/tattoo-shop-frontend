@@ -7,7 +7,6 @@
 
 body {
   //position: relative;
-  min-height: 100vh;
 
   //&:before {
   //  content: ' ';
@@ -26,6 +25,12 @@ body {
   //}
 }
 
+#root {
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: auto auto 1fr auto;
+}
+
 .container {
   max-width: 1500px;
   margin: 0 auto;
@@ -42,6 +47,7 @@ ul, li {
 
 a {
   text-decoration: none;
+  color: black;
 }
 
 h1, h2, h3 {}

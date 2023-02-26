@@ -2,8 +2,11 @@ import React from 'react'
 import { ListItem } from '../../types/list-item'
 import { Button } from '@mui/material'
 import Catalog from '../catalog/Catalog'
+import { createSearchParams, useNavigate } from 'react-router-dom'
 
 const HeaderBottom = () => {
+  const navigate = useNavigate()
+
   const items: ListItem[] = [
     {
       element: <Catalog />,
@@ -11,15 +14,27 @@ const HeaderBottom = () => {
     },
     {
       element: 'Новинки',
+      onClick: () => {
+        navigate({
+          pathname: '/products',
+          search: createSearchParams({
+            page: '1',
+            limit: '10',
+            sort: 'created_at:DESC',
+          }).toString(),
+        })
+      },
     },
-    {
-      element: 'Отзывы',
-    },
+    // {
+    //   element: 'Отзывы',
+    // },
     {
       element: 'Доставка и оплата',
+      onClick: () => navigate('/delivery'),
     },
     {
       element: 'О нас',
+      onClick: () => navigate('/about'),
     },
   ]
 

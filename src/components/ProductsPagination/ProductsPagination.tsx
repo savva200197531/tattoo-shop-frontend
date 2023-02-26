@@ -17,7 +17,7 @@ const ProductsPagination: React.FC<Props> = ({ count, page }) => {
   }
 
   return (
-    <Stack spacing={2} className="products-pagination" sx={{ mt: 2, mb: 2 }}>
+    <Stack spacing={2} className="products-pagination" sx={{ mt: 4, mb: 2 }}>
       <Pagination
         count={count}
         showFirstButton

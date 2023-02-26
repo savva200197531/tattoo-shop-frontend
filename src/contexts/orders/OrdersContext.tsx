@@ -1,8 +1,9 @@
 import React, { ReactNode, useContext, useState } from 'react'
 
-import { CreateOrder, GetOrders, Order, OrdersContextProps } from './types'
+import { CreateOrder, CreateOrderResponse, GetOrder, GetOrders, Order, OrdersContextProps } from './types'
 import axios from 'axios'
 import { requestUrl } from '../../env'
+import { useNavigate } from 'react-router-dom'
 
 const OrdersContext = React.createContext<OrdersContextProps>({} as OrdersContextProps)
 
@@ -14,11 +15,21 @@ type Props = {
 
 export const OrdersProvider: React.FC<Props> = ({ children }) => {
   const [orders, setOrders] = useState<Order[]>([])
+  const navigate = useNavigate()
 
-  const createOrder: CreateOrder = (payload) => axios.post(`${requestUrl}/orders`, payload)
+  const createOrder: CreateOrder = (payload) => {
+    return axios.post<CreateOrderResponse>(`${requestUrl}/orders`, payload)
+      .then(({ data }) => {
+        navigate(`/profile/orders/${data.order.id}`)
+        window.open(data.payment.confirmation.confirmation_url, '_blank')
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }
 
   const getOrders: GetOrders = (user_id) => {
-    return axios.get<Order[]>(`${requestUrl}/orders/${user_id}`)
+    return axios.get<Order[]>(`${requestUrl}/orders`, { params: { user_id } })
       .then(({ data }) => {
         setOrders(data)
       })
@@ -27,10 +38,15 @@ export const OrdersProvider: React.FC<Props> = ({ children }) => {
       })
   }
 
+  const getOrder: GetOrder = (id) => {
+    return axios.get<Order>(`${requestUrl}/orders/${id}`).then(({ data }) => data)
+  }
+
   const value = {
     createOrder,
     getOrders,
     orders,
+    getOrder,
   }
 
   return <OrdersContext.Provider value={value}>{children}</OrdersContext.Provider>

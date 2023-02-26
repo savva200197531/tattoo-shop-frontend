@@ -13,22 +13,25 @@ import ProductForm, { ProductInput } from './ProductForm'
 
 type Props = {
   product: Product
+  loadProducts: () => void
 }
 
-const ProductItem: React.FC<Props> = ({ product }) => {
-  const { deleteProduct, getProducts, editProduct } = useProducts()
+const ProductItem: React.FC<Props> = ({ product, loadProducts }) => {
+  const { deleteProduct, editProduct } = useProducts()
   const { getUser, user } = useAuth()
 
   const handleSubmit = (data: ProductInput) => {
-    return editProduct(product.id, data).catch(error => {
-      console.log(error)
-    })
+    return editProduct(product.id, data)
+      .then(() => loadProducts())
+      .catch(error => {
+        console.log(error)
+      })
   }
 
   const handleDeleteProduct = () => {
     deleteProduct(product.id)
       .then(() => {
-        getProducts()
+        loadProducts()
         getUser(user.id)
       })
       .catch(error => {

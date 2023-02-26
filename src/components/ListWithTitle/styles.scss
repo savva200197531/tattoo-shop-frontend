@@ -1,0 +1,16 @@
+.list-with-title__option {
+  display: flex;
+  align-items: baseline;
+
+  > *:not(:last-child) {
+    margin-bottom: 8px;
+  }
+}
+
+.list-with-title__option-title {
+  font-weight: 700;
+}
+
+.list-with-title__option-text {
+  margin-left: 5px;
+}

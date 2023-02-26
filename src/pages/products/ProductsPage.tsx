@@ -10,7 +10,7 @@ import ProductsPagination from '../../components/ProductsPagination/ProductsPagi
 import { Typography } from '@mui/material'
 
 type Props = {
-  ProductItem: React.FC<{ product: Product }>
+  ProductItem: React.FC<{ product: Product, loadProducts: () => void }>
   Filters: React.FC<{ products: Product[] }>
   CreateProduct?: React.FC<{ loadProducts: () => void }>
 }
@@ -38,6 +38,7 @@ const ProductsPage: React.FC<Props> = ({ ProductItem, Filters, CreateProduct }) 
       brand_id: searchParams.get('brand'),
       price_min: searchParams.get('price_min'),
       price_max: searchParams.get('price_max'),
+      search: searchParams.get('search'),
     }
 
     getProducts(params, filters)
@@ -83,7 +84,7 @@ const ProductsPage: React.FC<Props> = ({ ProductItem, Filters, CreateProduct }) 
 
               <div className="products-main__products">
                 <div className="products-list">
-                  {products.map(product => <ProductItem key={product.id} product={product}/>)}
+                  {products.map(product => <ProductItem key={product.id} product={product} loadProducts={loadProducts} />)}
                 </div>
 
                 <ProductsPagination page={productsMeta.currentPage} count={productsMeta.totalPages}/>

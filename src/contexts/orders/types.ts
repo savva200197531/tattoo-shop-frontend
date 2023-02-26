@@ -1,5 +1,6 @@
 import { Product } from '../products/types'
 import { User } from '../auth/types'
+import { Payment } from '../payment/types'
 
 export type Order = {
   id: number
@@ -50,14 +51,23 @@ export type CreateOrderPayload = {
   address: string
   comment?: string
   payment_method: IPaymentMethodType
+  return_url: string
+}
+
+export type CreateOrderResponse = {
+  order: Order
+  payment: Payment
 }
 
 export type CreateOrder = (payload: CreateOrderPayload) => Promise<any>
 
 export type GetOrders = (user_id: number) => Promise<any>
 
+export type GetOrder = (id: number) => Promise<Order>
+
 export type OrdersContextProps = {
   createOrder: CreateOrder
   getOrders: GetOrders
   orders: Order[]
+  getOrder: GetOrder
 }

@@ -74,15 +74,19 @@ const ProductsFilters: React.FC<Props> = () => {
     setLoading(true)
 
     const category_id = searchParams.get('category')
+    const search = searchParams.get('search')
 
     getBrands(category_id).then(data => setBrands(data)).catch(error => {
       console.log(error)
     })
 
-    getPriceRange(category_id)
+    getPriceRange({ category_id, search })
       .then(data => setPriceRange(data))
       .finally(() => {
         setLoading(false)
+      })
+      .catch(error => {
+        console.log(error)
       })
   }, [])
 

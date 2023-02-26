@@ -11,6 +11,8 @@ export type BaseFilterPayload = {
 
 export type BaseGetFilters = () => Promise<any>
 
+export type BaseGetFilter = (id: number) => Promise<any>
+
 export type BaseDeleteFilter = (id: number) => Promise<any>
 
 // CATEGORIES
@@ -55,6 +57,7 @@ export type ProductsFiltersContextProps = {
   createCategory: CreateCategory
   editCategory: EditCategory
   deleteCategory: BaseDeleteFilter
+  getCategory: BaseGetFilter
   // categories: Category[]
 
   // BRANDS

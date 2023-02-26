@@ -1,3 +1,9 @@
+export type Payment = {
+  confirmation: {
+    confirmation_url: string
+  }
+}
+
 export type CreatePaymentPayload = {
   price: number
   return_url: string

@@ -15,7 +15,7 @@ import { Product } from '../../contexts/products/types'
 import { useProducts } from '../../contexts/products/ProductsContext'
 import './style.scss'
 import classNames from 'classnames'
-import { createSearchParams, useNavigate } from 'react-router-dom'
+import { createSearchParams, useNavigate, useSearchParams } from 'react-router-dom'
 
 const SearchSchema = object({
   search: string(),
@@ -30,16 +30,16 @@ const SearchField: React.FC = () => {
 
   const { getProductsWithSearch } = useProducts()
   const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
 
   const methods = useForm<SearchInput>({
     resolver: zodResolver(SearchSchema),
     defaultValues: {
-      search: '',
+      search: searchParams.get('search') || '',
     },
   })
 
   const {
-    formState: { isSubmitSuccessful },
     reset,
     register,
     handleSubmit,
@@ -83,20 +83,27 @@ const SearchField: React.FC = () => {
     setOpen(false)
   }
 
+  const handleReset = () => {
+    setProducts([])
+    reset()
+  }
+
   useEffect(() => {
-    if (search.length) {
+    if (search?.length) {
       handleOpen()
       loadProducts()
-    } else {
-      handleClose()
     }
   }, [search])
 
+  // useEffect(() => {
+  //   if (isSubmitSuccessful) {
+  //     reset()
+  //   }
+  // }, [isSubmitSuccessful, reset])
+
   useEffect(() => {
-    if (isSubmitSuccessful) {
-      reset()
-    }
-  }, [isSubmitSuccessful, reset])
+
+  }, [])
 
   return (
     <ClickAwayListener onClickAway={handleClose}>
@@ -131,7 +138,7 @@ const SearchField: React.FC = () => {
 
             <div className="search-field__toolbar">
               <Button type="submit">Все результаты</Button>
-              <Button type="reset">Очистить</Button>
+              <Button onClick={handleReset}>Очистить</Button>
             </div>
           </div>
         )}
