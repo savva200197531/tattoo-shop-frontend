@@ -1,3 +1,5 @@
+@import "./styles/variables";
+
 *, *:before, *:after {
   box-sizing: border-box;
   margin: 0;
@@ -60,6 +62,16 @@ h1 {
 .tab-outlet {
   width: 100%;
   padding-left: 40px;
+}
+
+.text-bold {
+  font-weight: 700;
+}
+
+.bordered-box {
+  padding: 10px 20px;
+  border: 1px solid $border;
+  border-radius: $border-radius;
 }
 
 //.img-wrapper {

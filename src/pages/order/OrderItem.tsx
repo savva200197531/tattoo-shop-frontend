@@ -2,8 +2,8 @@ import React from 'react'
 import { Order } from '../../contexts/orders/types'
 import { Typography } from '@mui/material'
 import ListWithTitle from '../../components/ListWithTitle/ListWithTitle'
-import { imgSrc } from '../../helpers/imgSrc'
-import emptyImg from '../../assets/images/empty-product-image.svg'
+import { dateFormat } from '../../helpers/dateFormat'
+import ProductLayout from '../../components/ProductLayout/ProductLayout'
 
 type Props = {
   order: Order
@@ -12,17 +12,19 @@ type Props = {
 const OrderItem: React.FC<Props> = ({ order }) => {
   return (
     <div className="order-layout">
-      <Typography variant='h4' component='h1' fontWeight={500} textAlign="center" sx={{ mb: '60px' }}>
+      <Typography variant="h4" component="h1" fontWeight={500} textAlign="center" sx={{ mb: '60px', mt: '70px' }}>
         Заказ №{order.id}
       </Typography>
-      <p className="order-layout__date">{order.date}</p>
+      <p className="order-layout__date">
+        от {dateFormat(order.date)}
+      </p>
 
       <div className="order-layout__content">
 
         <div className="order-layout__column">
           <div>
-            <p>Доставка в ...</p>
-            <p>{order.region} {order.city} {order.address}</p>
+            <p className="order-layout__column-destination text-bold">Доставка в ...</p>
+            <p className="order-layout__column-address text-bold">{order.region}, {order.city}, {order.address}</p>
           </div>
 
           <ListWithTitle
@@ -49,10 +51,10 @@ const OrderItem: React.FC<Props> = ({ order }) => {
               title: 'Товары',
               text: order.price,
             },
-            {
-              title: 'Доставка',
-              text: order.price,
-            },
+            // {
+            //   title: 'Доставка',
+            //   text: order.price,
+            // },
             {
               title: 'Итого',
               text: order.price,
@@ -62,13 +64,30 @@ const OrderItem: React.FC<Props> = ({ order }) => {
 
       </div>
 
-      <div className="order-layout__products">
+      <div className="products-list">
         {order.products?.map(product => (
-          <div key={product.id} className="order-layout__product">
-            <img src={product.img_ids?.length ? imgSrc(product.img_ids[0]) : emptyImg} alt=""/>
-            <p>{product.name}</p>
-            <p>{product.price}</p>
-          </div>
+          <ProductLayout
+            key={product.id}
+            product={product}
+            disabled={true}
+            // headerContent={(
+            //   <AddToFavorite
+            //     id={product.id}
+            //     product_id={product.id}
+            //     user_id={order.user.id}
+            //     onSubmit={handleUpdateFavorite}
+            //     isFavorite={!!user.favorite?.find(favoriteProduct => favoriteProduct.product?.id === product.id)}
+            //   />
+            // )}
+            // footerContent={(
+            //   <CartCounter
+            //     product_id={product.id}
+            //     count={user.cart?.find(cartItem => cartItem.product?.id === product.id)?.count}
+            //     onSubmit={handleUpdateCart}
+            //     user_id={user.id}
+            //   />
+            // )}
+          />
         ))}
       </div>
     </div>

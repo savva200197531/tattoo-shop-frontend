@@ -11,14 +11,16 @@ type Props = {
   product: Product
   headerContent?: ReactElement
   footerContent?: ReactElement
+  disabled?: boolean
 }
 
-const ProductLayout: React.FC<Props> = ({ product, headerContent, footerContent }) => {
+const ProductLayout: React.FC<Props> = ({ product, headerContent, footerContent, disabled = false }) => {
   const { name, price, count, img_ids, id } = product
 
   const navigate = useNavigate()
 
   const goToProduct = () => {
+    if (disabled) return
     navigate(`/products/${id}`)
   }
 

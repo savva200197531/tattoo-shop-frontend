@@ -30,9 +30,9 @@ const registerSchema = object({
     .min(8, validationErrors.min('пароль', 8))
     .max(32, validationErrors.max('пароль', 32)),
   passwordConfirm: string().nonempty(validationErrors.required('подтверждение пароля')),
-  terms: literal(true, {
-    invalid_type_error: 'Accept Terms is required',
-  }),
+  // terms: literal(true, {
+  //   invalid_type_error: 'Accept Terms is required',
+  // }),
 }).refine((data) => data.password === data.passwordConfirm, {
   path: ['passwordConfirm'],
   message: 'Пароли не совпадают',
@@ -126,23 +126,23 @@ const RegisterPage: React.FC = () => {
         {...register('passwordConfirm')}
       />
 
-      <FormGroup>
-        <FormControlLabel
-          control={<Checkbox required />}
-          {...register('terms')}
-          label={
-            <Typography color={errors['terms'] ? 'error' : 'inherit'}>
-              Accept Terms and Conditions
-            </Typography>
-          }
-        />
-        <FormHelperText error={!!errors['terms']}>
-          {errors['terms'] ? errors['terms'].message : ''}
-        </FormHelperText>
-      </FormGroup>
+      {/*<FormGroup>*/}
+      {/*  <FormControlLabel*/}
+      {/*    control={<Checkbox required />}*/}
+      {/*    {...register('terms')}*/}
+      {/*    label={*/}
+      {/*      <Typography color={errors['terms'] ? 'error' : 'inherit'}>*/}
+      {/*        Accept Terms and Conditions*/}
+      {/*      </Typography>*/}
+      {/*    }*/}
+      {/*  />*/}
+      {/*  <FormHelperText error={!!errors['terms']}>*/}
+      {/*    {errors['terms'] ? errors['terms'].message : ''}*/}
+      {/*  </FormHelperText>*/}
+      {/*</FormGroup>*/}
 
       <Link to="/login">
-        Вход
+        Войти
       </Link>
 
       <StyledLoadingButton

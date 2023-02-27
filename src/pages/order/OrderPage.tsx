@@ -34,7 +34,7 @@ const OrderPage = () => {
 
   return (
     <div className="order">
-      <div className="container">
+      <div className="container order-container">
         <div className="order-content">
           {loading ? <Spinner/> : <OrderItem order={order}/>}
         </div>

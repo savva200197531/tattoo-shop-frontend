@@ -3,7 +3,7 @@ import { object, string, TypeOf } from 'zod'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Button, ClickAwayListener } from '@mui/material'
+import { ClickAwayListener } from '@mui/material'
 import InputBase from '@mui/material/InputBase'
 import IconButton from '@mui/material/IconButton'
 import Paper from '@mui/material/Paper'
@@ -16,6 +16,7 @@ import { useProducts } from '../../contexts/products/ProductsContext'
 import './style.scss'
 import classNames from 'classnames'
 import { createSearchParams, useNavigate, useSearchParams } from 'react-router-dom'
+import { StyledButton } from '../StyledButtons'
 
 const SearchSchema = object({
   search: string(),
@@ -92,6 +93,8 @@ const SearchField: React.FC = () => {
     if (search?.length) {
       handleOpen()
       loadProducts()
+    } else {
+      setProducts([])
     }
   }, [search])
 
@@ -137,8 +140,8 @@ const SearchField: React.FC = () => {
             </div>
 
             <div className="search-field__toolbar">
-              <Button type="submit">Все результаты</Button>
-              <Button onClick={handleReset}>Очистить</Button>
+              <StyledButton type="submit">Все результаты</StyledButton>
+              <StyledButton onClick={handleReset}>Очистить</StyledButton>
             </div>
           </div>
         )}

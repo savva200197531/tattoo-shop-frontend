@@ -5,6 +5,7 @@ import { Typography } from '@mui/material'
 import Spinner from '../../components/Spinner/Spinner'
 import FavoriteItem from './FavoriteItem'
 import './styles.scss'
+import AuthButton from '../../components/AuthButton'
 
 const FavoritePage: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false)
@@ -34,9 +35,13 @@ const FavoritePage: React.FC = () => {
             Избранное
           </Typography>
 
-          <div className="products-list">
-            {loading ? <Spinner /> : favoriteProducts.map(favoriteProduct => <FavoriteItem key={favoriteProduct.id} favoriteProduct={favoriteProduct} />)}
-          </div>
+          {isUserExist ? (
+            <div className="products-list">
+              {loading ? <Spinner /> : favoriteProducts.map(favoriteProduct => <FavoriteItem key={favoriteProduct.id} favoriteProduct={favoriteProduct} />)}
+            </div>
+          ) : (
+            <AuthButton />
+          )}
         </div>
       </div>
     </div>

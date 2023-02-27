@@ -6,6 +6,9 @@ import Svg from '../../components/Svg'
 import './styles.scss'
 import classNames from 'classnames'
 import { StyledButton } from '../StyledButtons'
+import { ShowAlertPayload } from '../../contexts/alert/types'
+import { useAuth } from '../../contexts/auth/AuthContext'
+import { useAlert } from '../../contexts/alert/AlertContext'
 
 type Props = {
   count?: number
@@ -17,8 +20,19 @@ type Props = {
 
 const CartCounter: React.FC<Props> = ({ count = 0, product_id, onSubmit, user_id, className }) => {
   const { addToCart } = useCart()
+  const { isUserExist } = useAuth()
+  const { showAlert } = useAlert()
 
   const handleAddToCart = (count: number) => {
+    if (!isUserExist) {
+      const payload: ShowAlertPayload = {
+        text: 'Невозможно добавить в корзину, зарегистрируйтесь',
+        severity: 'warning',
+      }
+
+      return showAlert(payload)
+    }
+
     const payload: AddToCartPayload = {
       user_id,
       count,

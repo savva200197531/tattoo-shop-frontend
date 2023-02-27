@@ -4,6 +4,7 @@ import { imgSrc } from '../../../helpers/imgSrc'
 import ListWithTitle from '../../../components/ListWithTitle/ListWithTitle'
 import emptyImg from '../../../assets/images/empty-product-image.svg'
 import { useNavigate } from 'react-router-dom'
+import { dateFormat } from '../../../helpers/dateFormat'
 
 type Props = {
   order: Order
@@ -13,12 +14,12 @@ const OrderItem: React.FC<Props> = ({ order }) => {
   const navigate = useNavigate()
 
   return (
-    <div onClick={() => navigate(`/profile/orders/${order.id}`)} className="order-item">
+    <div onClick={() => navigate(`/orders/${order.id}`)} className="order-item">
       <ListWithTitle
         options={[
           {
             title: 'Дата заказа',
-            text: order.date,
+            text: dateFormat(order.date),
           },
           {
             title: 'Стоимость',

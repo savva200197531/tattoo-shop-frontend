@@ -10,6 +10,7 @@ import './styles.scss'
 import CartTotal from './CartTotal'
 import { StyledButton } from '../../components/StyledButtons'
 import { useNavigate } from 'react-router-dom'
+import AuthButton from '../../components/AuthButton'
 
 const CartPage: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false)
@@ -40,26 +41,29 @@ const CartPage: React.FC = () => {
             Корзина
           </Typography>
 
-          {loading ?
-            <Spinner/> :
-            cart?.items?.length ? (
-              <div className="cart-main">
-                <div className="cart-items">
-                  {cart.items.map(cartItem => <CartItem key={cartItem.id} cartItem={cartItem}/>)}
+          {isUserExist ? (
+            loading ?
+              <Spinner/> :
+              cart?.items?.length ? (
+                <div className="cart-main">
+                  <div className="cart-items">
+                    {cart.items.map(cartItem => <CartItem key={cartItem.id} cartItem={cartItem}/>)}
+                  </div>
+
+                  <CartTotal/>
                 </div>
+              ) : (
+                <div className="cart-empty">
+                  {/*<Typography variant="h5" component="h3" fontWeight={500} sx={{ mb: '70px' }}>*/}
+                  {/*  Тут пусто(((*/}
+                  {/*</Typography>*/}
 
-                <CartTotal/>
-              </div>
-            ) : (
-              <div className="cart-empty">
-                {/*<Typography variant="h5" component="h3" fontWeight={500} sx={{ mb: '70px' }}>*/}
-                {/*  Тут пусто(((*/}
-                {/*</Typography>*/}
-
-                <StyledButton onClick={() => navigate('/catalog')}>Перейти в каталог</StyledButton>
-              </div>
-            )
-          }
+                  <StyledButton onClick={() => navigate('/catalog')}>Перейти в каталог</StyledButton>
+                </div>
+              )
+          ) : (
+            <AuthButton />
+          )}
         </div>
       </div>
     </div>

@@ -30,10 +30,12 @@ import AdminProductItem from './pages/admin/products/ProductItem'
 import CreateProduct from './pages/admin/products/CreateProduct'
 import AboutPage from './pages/about/AboutPage'
 import DeliveryPage from './pages/delivery/DeliveryPage'
+import NotFoundPage from './pages/notFound/NotFoundPage'
 
 const AppRoutes = () => {
   return (
     <Routes>
+      <Route path='*' element={<NotFoundPage />} />
       <Route path="/" element={<MainPage/>}/>
       <Route
         path="/products"
@@ -52,8 +54,8 @@ const AppRoutes = () => {
       <Route path="/profile" element={<ProfilePage/>}>
         <Route path="/profile/info" element={<TabInfo/>}/>
         <Route path="/profile/orders" element={<TabOrders/>}/>
-        <Route path="/profile/orders/:id" element={<OrderPage/>}/>
       </Route>
+      <Route path="/orders/:id" element={<OrderPage/>}/>
       <Route path="/favorite" element={<FavoritePage/>}/>
       <Route path="/checkout" element={<CheckoutPage/>}/>
       <Route path="/thanks" element={<ThanksPage/>}/>

@@ -18,7 +18,7 @@ const tabs: TabProps[] = [
 ]
 
 const ProfilePage: React.FC = () => {
-  const { logout, user } = useAuth()
+  const { logout, user, isUserExist } = useAuth()
   const navigate = useNavigate()
   const location = useLocation()
 
@@ -50,7 +50,7 @@ const ProfilePage: React.FC = () => {
 
             {user.role === 'Admin' && <StyledButton fullWidth variant="contained" onClick={() => navigate('/admin/products')}>Админка</StyledButton>}
 
-            <StyledButton fullWidth variant="contained" onClick={logout}>Выйти</StyledButton>
+            {isUserExist && <StyledButton fullWidth variant="contained" onClick={logout}>Выйти</StyledButton>}
           </div>
 
           <div className="tab-outlet">
