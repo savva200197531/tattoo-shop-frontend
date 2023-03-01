@@ -1,9 +1,11 @@
+@import "../../styles/variables";
+
 .slide-layout {
   height: 530px;
   background-position: center center;
   background-size: contain;
   background-repeat: no-repeat;
-  background-color: rgba(227, 227, 227, 0.5);
+  background-color: $gray-bg;
 }
 
 .slide-img {

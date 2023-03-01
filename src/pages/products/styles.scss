@@ -16,19 +16,3 @@
   width: 100%;
 }
 
-.product-content {
-  margin-top: 50px;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-column-gap: 30px;
-}
-
-.product-info {
-  border: 1px solid $border;
-  padding: 10px 20px;
-
-  > *:not(:last-child) {
-    margin-bottom: 20px;
-  }
-}
-

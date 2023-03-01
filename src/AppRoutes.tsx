@@ -12,7 +12,7 @@ import LoginPage from './pages/auth/login/LoginPage'
 import RegisterPage from './pages/auth/register/RegisterPage'
 import ConfirmationPage from './pages/auth/confirmation/ConfirmationPage'
 import MainPage from './pages/main/MainPage'
-import ProductPage from './pages/products/ProductPage'
+import ProductPage from './pages/product/ProductPage'
 import PaymentSuccess from './pages/payment/PaymentSuccess'
 import PaymentPage from './pages/payment/PaymentPage'
 import OrderPage from './pages/order/OrderPage'
@@ -46,7 +46,7 @@ const AppRoutes = () => {
           />
         )}
       />
-      <Route path="/products/:id" element={<ProductPage/>}/>
+      <Route path="/product/:id" element={<ProductPage/>}/>
       <Route path="/cart" element={<CartPage/>}/>
       <Route path="/about" element={<AboutPage/>}/>
       <Route path="/delivery" element={<DeliveryPage/>}/>

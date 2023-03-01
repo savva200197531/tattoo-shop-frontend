@@ -21,7 +21,7 @@ const ProductLayout: React.FC<Props> = ({ product, headerContent, footerContent,
 
   const goToProduct = () => {
     if (disabled) return
-    navigate(`/products/${id}`)
+    navigate(`/product/${id}`)
   }
 
   return (

@@ -11,7 +11,7 @@ export type Product = {
   count: number
   brand_id: number
   category_id: number
-  img_ids: number[] | null
+  img_ids: number[]
   created_at: string
 }
 

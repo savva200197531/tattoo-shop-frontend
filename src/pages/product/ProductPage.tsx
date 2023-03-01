@@ -1,22 +1,24 @@
 import React, { useEffect, useState } from 'react'
-import { useProducts } from '../../contexts/products/ProductsContext'
 import { useParams } from 'react-router-dom'
+
+import { Stack, Typography, useMediaQuery } from '@mui/material'
+
+import { useProducts } from '../../contexts/products/ProductsContext'
 import { Product } from '../../contexts/products/types'
-import { Carousel } from 'react-responsive-carousel'
 import CartCounter from '../../components/CartCounter/CartCounter'
 import { useAuth } from '../../contexts/auth/AuthContext'
 import Spinner from '../../components/Spinner/Spinner'
-import { imgSrc } from '../../helpers/imgSrc'
-import emptyImg from '../../assets/images/empty-product-image.svg'
 import { useProductsFilters } from '../../contexts/productsFilters/ProductsFiltersContext'
 import { Category } from '../../contexts/productsFilters/types'
-import { Typography } from '@mui/material'
+import './styles.scss'
+import ProductLayoutSlider from '../../components/ProductLayout/ProductLayoutSlider'
 
 const ProductPage = () => {
   const [loading, setLoading] = useState<boolean>(false)
   const [product, setProduct] = useState<Product>({} as Product)
   const [category, setCategory] = useState<Category>({} as Category)
 
+  const mobile = useMediaQuery('(max-width:750px)')
   const { getProduct } = useProducts()
   const { user, getUser } = useAuth()
   const { getCategory } = useProductsFilters()
@@ -58,22 +60,12 @@ const ProductPage = () => {
   return (
     <div className="product">
       <div className="container">
-        <div className="product-content">
+        <Stack className="product-content" direction={mobile ? 'column' : 'row'} spacing={2}>
           {loading ? <Spinner/> : (
             <>
-              {product.img_ids?.length ? (
-                <Carousel showStatus={false} className="product-slider" showThumbs={false} showArrows={true}>
-                  {product.img_ids?.map(id => (
-                    <div className="product-slide" key={id}>
-                      <img className="product-slide__img" src={imgSrc(id)} alt=""/>
-                    </div>
-                  ))}
-                </Carousel>
-              ) : (
-                <img className="" src={emptyImg} alt=""/>
-              )}
+              <ProductLayoutSlider ids={product.img_ids} className="product-slider__wrapper" />
 
-              <div className="product-info">
+              <div className="product-info bordered-box">
                 <Typography variant="h5" component="h4" fontWeight={300} textAlign="center">
                   {category.name}
                 </Typography>
@@ -97,11 +89,7 @@ const ProductPage = () => {
               </div>
             </>
           )}
-        </div>
-
-        <div>
-
-        </div>
+        </Stack>
       </div>
     </div>
   )
