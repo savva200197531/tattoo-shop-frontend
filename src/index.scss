@@ -61,7 +61,7 @@ h1 {
 
 .tab-outlet {
   width: 100%;
-  padding-left: 40px;
+  //padding-left: 40px;
 }
 
 .text-bold {
@@ -72,6 +72,20 @@ h1 {
   padding: 10px 20px;
   border: 1px solid $border;
   border-radius: $border-radius;
+}
+
+.header, .footer {
+  display: block !important;
+}
+
+header + div {
+  margin-top: 74px;
+  margin-bottom: 104px;
+}
+
+.base-icon {
+  width: 30px;
+  height: 30px;
 }
 
 //.img-wrapper {

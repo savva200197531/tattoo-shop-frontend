@@ -2,7 +2,6 @@ import React from 'react'
 import { Typography } from '@mui/material'
 import ListWithTitle from '../../../components/ListWithTitle/ListWithTitle'
 import { useAuth } from '../../../contexts/auth/AuthContext'
-import { useNavigate } from 'react-router-dom'
 import AuthButton from '../../../components/AuthButton'
 
 const TabInfo = () => {
@@ -10,7 +9,7 @@ const TabInfo = () => {
 
   return (
     <div>
-      <Typography variant="h4" component="h1" fontWeight={500} textAlign="center" sx={{ mb: '70px' }}>
+      <Typography variant="h4" component="h1" fontWeight={500} textAlign="center">
         Личные данные
       </Typography>
 

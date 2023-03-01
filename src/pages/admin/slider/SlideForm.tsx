@@ -3,7 +3,7 @@ import { any, object, string, TypeOf } from 'zod'
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Box, TextField, Typography } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 
 import FileInput from '../../../components/FileInput/FileInput'
 import { StyledLoadingButton } from '../../../components/StyledButtons'
@@ -12,14 +12,15 @@ import { Slide } from '../../../contexts/slider/types'
 import { validationErrors } from '../../../helpers/validationErrors'
 import { ACCEPTED_IMAGE_TYPES, CreateFilesPayload } from '../../../contexts/files/types'
 import { useFiles } from '../../../contexts/files/FilesContext'
+import FormInputText from '../../../components/FormInputs/Text/FormInputText'
 
-const SlideSchema = object({
+const slideSchema = object({
   link: string()
     .max(200, validationErrors.max('ссылка', 200)),
   img_ids: any().refine((data) => data.length, { message: validationErrors.required('изображение') }),
 })
 
-export type SlideInput = TypeOf<typeof SlideSchema>;
+export type SlideInput = TypeOf<typeof slideSchema>;
 
 type Props = {
   record?: Slide
@@ -35,7 +36,7 @@ const SlideForm: React.FC<Props> = ({ record, onSubmit, buttonTitle, title }) =>
   const { createFiles } = useFiles()
 
   const methods = useForm<SlideInput>({
-    resolver: zodResolver(SlideSchema),
+    resolver: zodResolver(slideSchema),
     defaultValues: {
       ...record,
       img_ids: record?.img_id ? [record.img_id] : [],
@@ -43,7 +44,6 @@ const SlideForm: React.FC<Props> = ({ record, onSubmit, buttonTitle, title }) =>
   })
 
   const {
-    register,
     formState: { errors, isSubmitSuccessful },
     reset,
     handleSubmit,
@@ -90,16 +90,9 @@ const SlideForm: React.FC<Props> = ({ record, onSubmit, buttonTitle, title }) =>
         autoComplete="off"
         onSubmit={handleSubmit(onSubmitHandler)}
       >
-        <TextField
-          sx={{ mb: 2 }}
-          label="Ссылка"
-          fullWidth
-          error={!!errors['link']}
-          helperText={errors['link'] ? errors['link'].message : ''}
-          {...register('link')}
-        />
-
         <FormProvider {...methods}>
+          <FormInputText label="Ссылка" name="link"/>
+
           <FileInput
             onDropPromise={handleCreateSlideImg}
             name="img_ids"

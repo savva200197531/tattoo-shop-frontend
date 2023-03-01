@@ -19,7 +19,7 @@ const MainSlider = () => {
 
   return (
     loading ? <Spinner /> : (
-      <Carousel className="main-slider" showThumbs={false} showArrows={true}>
+      <Carousel className="main-slider" showThumbs={false} showArrows={true} showStatus={false}>
         {slides.map((slide) => <SlideLayout key={slide.id} slide={slide} />)}
       </Carousel>
     )

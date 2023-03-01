@@ -3,20 +3,21 @@ import { number, object, string, TypeOf } from 'zod'
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Box, TextField, Typography } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 
 import { StyledLoadingButton } from '../../../components/StyledButtons'
 import { validationErrors } from '../../../helpers/validationErrors'
 import { useProductsFilters } from '../../../contexts/productsFilters/ProductsFiltersContext'
-import MultiSelectInput from '../../../components/Selects/MultiSelectInput'
 import { Brand, Category } from '../../../contexts/productsFilters/types'
+import FormInputText from '../../../components/FormInputs/Text/FormInputText'
+import FormInputSelectMultiple from '../../../components/FormInputs/Select/FormInputSelectMultiple'
 
-const BrandSchema = object({
+const brandSchema = object({
   name: string().nonempty(validationErrors.required('название')).max(30, validationErrors.max('название', 30)),
   category_ids: number().array(),
 })
 
-export type BrandInput = TypeOf<typeof BrandSchema>;
+export type BrandInput = TypeOf<typeof brandSchema>;
 
 type Props = {
   record?: Brand
@@ -32,7 +33,7 @@ const BrandForm: React.FC<Props> = ({ record, onSubmit, buttonTitle, title }) =>
   const { getCategories } = useProductsFilters()
 
   const methods = useForm<BrandInput>({
-    resolver: zodResolver(BrandSchema),
+    resolver: zodResolver(brandSchema),
     defaultValues: {
       ...record,
       category_ids: record?.category_ids || [],
@@ -40,7 +41,6 @@ const BrandForm: React.FC<Props> = ({ record, onSubmit, buttonTitle, title }) =>
   })
 
   const {
-    register,
     formState: { errors, isSubmitSuccessful },
     reset,
     handleSubmit,
@@ -81,21 +81,10 @@ const BrandForm: React.FC<Props> = ({ record, onSubmit, buttonTitle, title }) =>
         autoComplete="off"
         onSubmit={handleSubmit(onSubmitHandler)}
       >
-        <TextField
-          sx={{ mb: 2 }}
-          label="Название"
-          fullWidth
-          error={!!errors['name']}
-          helperText={errors['name'] ? errors['name'].message : ''}
-          {...register('name')}
-        />
-
         <FormProvider {...methods}>
-          <MultiSelectInput
-            label="Категории"
-            name="category_ids"
-            options={categories}
-          />
+          <FormInputText name="name" label="Название"/>
+
+          <FormInputSelectMultiple label="Категории" name="category_ids" options={categories}/>
         </FormProvider>
 
         <StyledLoadingButton

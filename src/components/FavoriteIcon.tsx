@@ -26,7 +26,7 @@ const FavoriteIcon = () => {
         badgeContent={4}
         color="primary"
       >
-        <Svg className="header-icon" id="hearth" />
+        <Svg className="base-icon" id="hearth" />
       </StyledBadge>
     </IconButton>
   )

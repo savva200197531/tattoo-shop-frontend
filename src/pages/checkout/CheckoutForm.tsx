@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { object, string, TypeOf } from 'zod'
-import { Controller, SubmitHandler, useForm } from 'react-hook-form'
-import InputMask from 'react-input-mask'
+import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Box, TextField, Typography } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 
 import { useAuth } from '../../contexts/auth/AuthContext'
 import { useOrders } from '../../contexts/orders/OrdersContext'
@@ -13,6 +12,8 @@ import { useCart } from '../../contexts/cart/CartContext'
 import { StyledLoadingButton } from '../../components/StyledButtons'
 import { validationErrors } from '../../helpers/validationErrors'
 import ListWithTitle from '../../components/ListWithTitle/ListWithTitle'
+import FormInputText from '../../components/FormInputs/Text/FormInputText'
+import FormInputMasked from '../../components/FormInputs/Text/FormInputMasked'
 import './styles.scss'
 
 const checkoutSchema = object({
@@ -54,13 +55,7 @@ const CheckoutForm: React.FC = () => {
   const { user, getUser } = useAuth()
   const { cart } = useCart()
 
-  const {
-    register,
-    control,
-    formState: { errors, isSubmitSuccessful },
-    reset,
-    handleSubmit,
-  } = useForm<CheckoutInput>({
+  const methods = useForm<CheckoutInput>({
     resolver: zodResolver(checkoutSchema),
     defaultValues: {
       surname: 'Кашин',
@@ -74,6 +69,12 @@ const CheckoutForm: React.FC = () => {
       comment: `Тестовый комментарий`,
     },
   })
+
+  const {
+    formState: { errors, isSubmitSuccessful },
+    reset,
+    handleSubmit,
+  } = methods
 
   const onSubmitHandler: SubmitHandler<CheckoutInput> = (data) => {
     const payload: CreateOrderPayload = {
@@ -121,108 +122,39 @@ const CheckoutForm: React.FC = () => {
         Информация о покупателе
       </Typography>
 
-      <div className="checkout-form__user">
-        <TextField
-          sx={{ mb: 2 }}
-          label="Фамилия"
-          fullWidth
-          error={!!errors['surname']}
-          helperText={errors['surname'] ? errors['surname'].message : ''}
-          {...register('surname')}
-        />
+      <FormProvider {...methods}>
+        <div className="checkout-form__user">
+          <FormInputText name="surname" label="Фамилия"/>
 
-        <TextField
-          sx={{ mb: 2 }}
-          label="Имя"
-          fullWidth
-          error={!!errors['name']}
-          helperText={errors['name'] ? errors['name'].message : ''}
-          {...register('name')}
-        />
+          <FormInputText name="name" label="Имя"/>
 
-        <TextField
-          sx={{ mb: 2 }}
-          label="Отчество"
-          fullWidth
-          error={!!errors['lastname']}
-          helperText={errors['lastname'] ? errors['lastname'].message : ''}
-          {...register('lastname')}
-        />
+          <FormInputText name="lastname" label="Отчество"/>
 
-        <TextField
-          sx={{ mb: 2 }}
-          label="Email"
-          fullWidth
-          error={!!errors['email']}
-          helperText={errors['email'] ? errors['email'].message : ''}
-          {...register('email')}
-        />
+          <FormInputText name="email" label="Почта" type="email"/>
 
-        <Controller
-          control={control}
-          name="phone"
-          render={({ field }) => (
-            <InputMask
-              sx={{ mb: 2 }}
-              mask="+7\ (999) 999-99-99"
-              label="Телефон"
-              fullWidth
-              error={!!errors['phone']}
-              helperText={errors['phone'] ? errors['phone'].message : ''}
-              onChange={field.onChange}
-              value={field.value}
-            >
-              {/*// @ts-ignore*/}
-              {(props) => <TextField {...props} />}
-            </InputMask>
-          )}
-        />
-      </div>
+          <FormInputMasked name="phone" label="Телефон" mask="+7\ (999) 999-99-99"/>
+        </div>
 
-      <Typography variant="h5" component="h3" fontWeight={500} sx={{ mt: '50px', mb: '70px' }}>
-        Доставка
-      </Typography>
+        <Typography variant="h5" component="h3" fontWeight={500} sx={{ mt: '50px', mb: '70px' }}>
+          Доставка
+        </Typography>
 
-      <div className="checkout-form__delivery">
-        <TextField
-          sx={{ mb: 2 }}
-          label="Регион"
-          fullWidth
-          error={!!errors['region']}
-          helperText={errors['region'] ? errors['region'].message : ''}
-          {...register('region')}
-        />
+        <div className="checkout-form__delivery">
+          <FormInputText name="region" label="Регион"/>
 
-        <TextField
-          sx={{ mb: 2 }}
-          label="Город"
-          fullWidth
-          error={!!errors['city']}
-          helperText={errors['city'] ? errors['city'].message : ''}
-          {...register('city')}
-        />
+          <FormInputText name="city" label="Город"/>
 
-        <TextField
-          sx={{ mb: 2 }}
-          label="Адрес"
-          fullWidth
-          error={!!errors['address']}
-          helperText={errors['address'] ? errors['address'].message : ''}
-          {...register('address')}
-        />
+          <FormInputText name="address" label="Адрес"/>
 
-        <TextField
-          sx={{ mb: 2 }}
-          label="Комментарий"
-          className="checkout-form__delivery-comment"
-          fullWidth
-          rows={4}
-          multiline
-          error={!!errors['comment']}
-          helperText={errors['comment'] ? errors['comment'].message : ''}
-          {...register('comment')}
-        />
-      </div>
+          <FormInputText
+            name="comment"
+            label="Комментарий"
+            className="checkout-form__delivery-comment"
+            rows={4}
+            multiline
+          />
+        </div>
+      </FormProvider>
 
       <ListWithTitle
         options={[

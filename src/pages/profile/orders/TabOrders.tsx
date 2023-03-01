@@ -8,6 +8,7 @@ import { Typography } from '@mui/material'
 import { StyledButton } from '../../../components/StyledButtons'
 import { useNavigate } from 'react-router-dom'
 import AuthButton from '../../../components/AuthButton'
+import './styles.scss'
 
 const TabOrders: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false)
@@ -35,16 +36,15 @@ const TabOrders: React.FC = () => {
       <Typography variant="h4" component="h1" fontWeight={500} textAlign="center" sx={{ mb: '60px' }}>
         Мои заказы
       </Typography>
-      {
-        isUserExist ?
-          loading ?
-            <Spinner/> :
-            orders.length ?
-              orders.map(order => <OrderItem key={order.id} order={order}/>) : (
-                <StyledButton onClick={() => navigate('/catalog')}>Перейти в каталог</StyledButton>
-              ) :
-          <AuthButton/>
-      }
+
+      <div className="products-list">
+        {isUserExist ? loading ?
+          <Spinner/> :
+          orders.length ?
+            orders.map(order => <OrderItem key={order.id} order={order}/>) : (
+              <StyledButton onClick={() => navigate('/catalog')}>Перейти в каталог</StyledButton>
+            ) : <AuthButton/>}
+      </div>
     </div>
   )
 }

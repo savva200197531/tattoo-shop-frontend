@@ -26,7 +26,7 @@ const CartIcon = () => {
         badgeContent={4}
         color="primary"
       >
-        <Svg className="header-icon" id="cart" />
+        <Svg className="base-icon" id="cart" />
       </StyledBadge>
     </IconButton>
   )

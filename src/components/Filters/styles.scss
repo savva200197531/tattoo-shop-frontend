@@ -1,0 +1,20 @@
+.filters {
+  min-width: 30%;
+}
+
+.filters-form-mobile {
+  z-index: 2;
+  position: fixed;
+  top: 56px;
+  bottom: 63px;
+  left: 0;
+  right: 0;
+  overflow: auto;
+  background: white;
+  padding: 20px;
+}
+
+.filters-form__toolbar {
+  display: flex;
+  justify-content: space-between;
+}

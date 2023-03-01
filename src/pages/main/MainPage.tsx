@@ -11,7 +11,7 @@ const MainPage: React.FC = () => {
         <div className="main-content">
           <MainSlider />
 
-          <Typography variant='h4' component='h1' fontWeight={500} textAlign="center" sx={{ mt: '80px', mb: '60px' }}>
+          <Typography variant='h4' component='h1' fontWeight={500} textAlign="center">
             Новинки
           </Typography>
 

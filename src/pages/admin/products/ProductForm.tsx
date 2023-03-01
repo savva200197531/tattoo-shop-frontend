@@ -3,7 +3,7 @@ import { any, number, object, string, TypeOf } from 'zod'
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Box, TextField, Typography } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 
 import FileInput from '../../../components/FileInput/FileInput'
 import { StyledLoadingButton } from '../../../components/StyledButtons'
@@ -11,15 +11,20 @@ import { validationErrors } from '../../../helpers/validationErrors'
 import { ACCEPTED_IMAGE_TYPES, CreateFilesPayload } from '../../../contexts/files/types'
 import { useFiles } from '../../../contexts/files/FilesContext'
 import { useProductsFilters } from '../../../contexts/productsFilters/ProductsFiltersContext'
-import SelectInput from '../../../components/Selects/SelectInput'
 import { Brand, Category } from '../../../contexts/productsFilters/types'
 import { Product } from '../../../contexts/products/types'
+import FormInputText from '../../../components/FormInputs/Text/FormInputText'
+import FormInputNumber from '../../../components/FormInputs/Text/FormInputNumber'
+import FormInputSelect from '../../../components/FormInputs/Select/FormInputSelect'
 
-const ProductSchema = object({
-  name: string()
+const productSchema = object({
+  name: string({
+    errorMap: () => {
+      return { message: validationErrors.required('название товара') }
+    },
+  })
     .nonempty(validationErrors.required('название товара'))
-    .min(2, validationErrors.min('название товара', 2))
-    .max(32, validationErrors.max('название товара', 32)),
+    .min(2, validationErrors.min('название товара', 2)),
   count: number({
     errorMap: () => {
       return { message: validationErrors.required('количество товара') }
@@ -45,7 +50,7 @@ const ProductSchema = object({
   img_ids: any().optional(),
 })
 
-export type ProductInput = TypeOf<typeof ProductSchema>;
+export type ProductInput = TypeOf<typeof productSchema>;
 
 type Props = {
   record?: Product
@@ -63,7 +68,7 @@ const ProductForm: React.FC<Props> = ({ record, onSubmit, buttonTitle, title }) 
   const { createFiles } = useFiles()
 
   const methods = useForm<ProductInput>({
-    resolver: zodResolver(ProductSchema),
+    resolver: zodResolver(productSchema),
     defaultValues: {
       ...record,
       img_ids: record?.img_ids || [],
@@ -71,7 +76,6 @@ const ProductForm: React.FC<Props> = ({ record, onSubmit, buttonTitle, title }) 
   })
 
   const {
-    register,
     formState: { errors, isSubmitSuccessful },
     reset,
     handleSubmit,
@@ -113,7 +117,7 @@ const ProductForm: React.FC<Props> = ({ record, onSubmit, buttonTitle, title }) 
 
   useEffect(() => {
     if (category_id) {
-      getBrands(category_id)
+      getBrands({ category_id })
         .then(data => {
           setBrands(data)
         })
@@ -139,56 +143,35 @@ const ProductForm: React.FC<Props> = ({ record, onSubmit, buttonTitle, title }) 
         autoComplete="off"
         onSubmit={handleSubmit(onSubmitHandler)}
       >
-        <TextField
-          sx={{ mb: 2 }}
-          label="Название товара"
-          fullWidth
-          required
-          error={!!errors['name']}
-          helperText={errors['name'] ? errors['name'].message : ''}
-          {...register('name')}
-        />
-        <TextField
-          sx={{ mb: 2 }}
-          label="Количество товара"
-          fullWidth
-          inputProps={{ inputMode: 'numeric' }}
-          required
-          type="number"
-          error={!!errors['count']}
-          helperText={errors['count'] ? errors['count'].message : ''}
-          {...register('count', { valueAsNumber: true })}
-        />
-
-        <TextField
-          sx={{ mb: 2 }}
-          label="Цена"
-          fullWidth
-          inputProps={{ inputMode: 'numeric' }}
-          required
-          type="number"
-          error={!!errors['price']}
-          helperText={errors['price'] ? errors['price'].message : ''}
-          {...register('price', { valueAsNumber: true })}
-        />
-
         <FormProvider {...methods}>
-          <SelectInput
+          <FormInputText label="Название товара" name="name" />
+
+          {/*<TextField*/}
+          {/*  sx={{ mb: 2 }}*/}
+          {/*  label=""*/}
+          {/*  fullWidth*/}
+          {/*  required*/}
+          {/*  error={!!errors['']}*/}
+          {/*  helperText={errors['count'] ? errors['count'].message : ''}*/}
+          {/*  {...register('count', { valueAsNumber: true })}*/}
+          {/*/>*/}
+
+          <FormInputNumber label="Количество товара" name="count"/>
+
+          <FormInputNumber label="Цена" name="price"/>
+
+          <FormInputSelect
             label="Категория товара"
             name="category_id"
             options={categories}
           />
-        </FormProvider>
 
-        <FormProvider {...methods}>
-          <SelectInput
+          <FormInputSelect
             label="Бренд"
             name="brand_id"
             options={brands}
           />
-        </FormProvider>
 
-        <FormProvider {...methods}>
           <FileInput
             onDropPromise={handleCreateProductImg}
             multiple

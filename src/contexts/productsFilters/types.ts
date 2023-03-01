@@ -37,7 +37,11 @@ export type Brand = BaseFilter & {
   category_ids: number[]
 }
 
-export type GetBrands = (category_id?: string | number | null) => Promise<any>
+export type GetBrandsFilter = {
+  category_id?: string | number | null
+}
+
+export type GetBrands = (filter?: GetBrandsFilter) => Promise<any>
 
 export type CreateBrandPayload = BaseFilterPayload & {
   category_ids: number[]

@@ -1,8 +1,10 @@
 import React from 'react'
-import { ListItem } from '../../types/list-item'
-import { Button } from '@mui/material'
-import Catalog from '../catalog/Catalog'
 import { createSearchParams, useNavigate } from 'react-router-dom'
+
+import { Button } from '@mui/material'
+
+import { ListItem } from '../../../types/list-item'
+import Catalog from '../../catalog/Catalog'
 
 const HeaderBottom = () => {
   const navigate = useNavigate()

@@ -1,10 +1,13 @@
 import React from 'react'
-import { useAuth } from '../../contexts/auth/AuthContext'
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom'
-import { StyledButton } from '../../components/StyledButtons'
+
+import { Stack, Tab, Tabs, useMediaQuery } from '@mui/material'
+
+import { useAuth } from '../../contexts/auth/AuthContext'
 import { TabProps } from '../../components/TabPanel/TabPanel'
-import { Tab, Tabs } from '@mui/material'
-import './styles.scss'
+import './desktop.scss'
+import './mobile.scss'
+import { StyledButton } from '../../components/StyledButtons'
 
 const tabs: TabProps[] = [
   {
@@ -15,9 +18,14 @@ const tabs: TabProps[] = [
     label: 'Заказы',
     to: '/profile/orders',
   },
+  {
+    label: 'Избранное',
+    to: '/profile/favorite',
+  },
 ]
 
 const ProfilePage: React.FC = () => {
+  const mobile = useMediaQuery('(max-width:750px)')
   const { logout, user, isUserExist } = useAuth()
   const navigate = useNavigate()
   const location = useLocation()
@@ -25,7 +33,8 @@ const ProfilePage: React.FC = () => {
   return (
     <div className="profile">
       <div className="container">
-        <div className="profile-content">
+        {/*className={classNames('profile-content', mobile ? 'profile-content-mobile' : 'profile-content-desktop')}*/}
+        <Stack direction={mobile ? 'column' : 'row'} spacing={2}>
           <div className="profile-tabs">
             <Tabs
               value={
@@ -33,9 +42,10 @@ const ProfilePage: React.FC = () => {
                   location.pathname :
                   false
               }
-              orientation="vertical"
+              className="profile"
+              orientation={mobile ? 'horizontal' : 'vertical'}
               variant="scrollable"
-              sx={{ borderRight: 1, borderColor: 'divider' }}
+              // sx={{ borderRight: 1, borderColor: 'divider' }}
             >
               {tabs.map(({ label, to }, index) => (
                 <Tab
@@ -56,7 +66,7 @@ const ProfilePage: React.FC = () => {
           <div className="tab-outlet">
             <Outlet/>
           </div>
-        </div>
+        </Stack>
       </div>
     </div>
   )

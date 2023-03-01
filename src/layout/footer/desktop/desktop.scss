@@ -1,0 +1,30 @@
+@import "../../../styles/variables";
+
+.footer-desktop {
+  border-top: 1px solid $border;
+  height: 200px;
+
+  .footer-content {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    align-items: center;
+    padding: 30px 0 30px 0;
+  }
+
+  .footer-column {
+    display: flex;
+    flex-direction: column;
+
+    > *:not(:last-child) {
+      margin-bottom: 15px;
+    }
+
+    &__contacts {
+      //display: flex;
+    }
+  }
+
+  .footer-column__socials {
+
+  }
+}

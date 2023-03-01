@@ -1,15 +1,20 @@
 import React from 'react'
 
+import { AppBar, useMediaQuery } from '@mui/material'
+import classNames from 'classnames'
+import HeaderMobile from './mobile/HeaderMobile'
+import HeaderDesktop from './desktop/HeaderDesktop'
 import './styles.scss'
-import HeaderTop from './HeaderTop'
-import HeaderBottom from './HeaderBottom'
 
 const Header = () => {
+  const mobile = useMediaQuery('(max-width:750px)')
+
   return (
-    <header className="header">
-      <HeaderTop />
-      <HeaderBottom />
-    </header>
+    <AppBar className={classNames('header', mobile ? 'header-mobile' : 'header-desktop')}>
+      <div className="container">
+        {mobile ? <HeaderMobile /> : <HeaderDesktop />}
+      </div>
+    </AppBar>
   )
 }
 

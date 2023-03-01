@@ -1,10 +1,10 @@
 import React from 'react'
-import { Favorite } from '../../contexts/favorite/types'
-import AddToFavorite from '../../components/AddToFavorite/AddToFavorite'
-import CartCounter from '../../components/CartCounter/CartCounter'
-import ProductLayout from '../../components/ProductLayout/ProductLayout'
-import { useAuth } from '../../contexts/auth/AuthContext'
-import { useFavorite } from '../../contexts/favorite/FavoriteContext'
+import { Favorite } from '../../../contexts/favorite/types'
+import AddToFavorite from '../../../components/AddToFavorite/AddToFavorite'
+import CartCounter from '../../../components/CartCounter/CartCounter'
+import ProductLayout from '../../../components/ProductLayout/ProductLayout'
+import { useAuth } from '../../../contexts/auth/AuthContext'
+import { useFavorite } from '../../../contexts/favorite/FavoriteContext'
 
 type Props = {
   favoriteProduct: Favorite

@@ -37,7 +37,7 @@ export type ProductsLinks = {
 export type ProductsParams = {
   limit?: string | null
   page?: string | null
-  sortBy?: string | null
+  sortBy?: string | null | number
   route?: string
 }
 
@@ -72,7 +72,7 @@ export type EditProduct = (id: number, payload: EditProductPayload) => Promise<a
 export type DeleteProduct = (id: number) => Promise<any>
 
 export type GetPriceRangeFilter = {
-  category_id?: string | null
+  category_id?: string | number | null
   search?: string | null
 }
 

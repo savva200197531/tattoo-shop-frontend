@@ -1,10 +1,11 @@
-import React from 'react'
-import { Order } from '../../../contexts/orders/types'
-import { imgSrc } from '../../../helpers/imgSrc'
-import ListWithTitle from '../../../components/ListWithTitle/ListWithTitle'
-import emptyImg from '../../../assets/images/empty-product-image.svg'
+import React, { useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
+
+import { Order } from '../../../contexts/orders/types'
+import ListWithTitle from '../../../components/ListWithTitle/ListWithTitle'
 import { dateFormat } from '../../../helpers/dateFormat'
+import ProductLayoutSlider from '../../../components/ProductLayout/ProductLayoutSlider'
+import { priceFormat } from '../../../helpers/priceFormat'
 
 type Props = {
   order: Order
@@ -12,9 +13,14 @@ type Props = {
 
 const OrderItem: React.FC<Props> = ({ order }) => {
   const navigate = useNavigate()
+  const imgIds = useRef<number[]>(order.products.map(product => product.img_ids).flat() as number[])
+
+  const onClick = () => {
+    navigate(`/orders/${order.id}`)
+  }
 
   return (
-    <div onClick={() => navigate(`/orders/${order.id}`)} className="order-item">
+    <div className="order-item bordered-box">
       <ListWithTitle
         options={[
           {
@@ -23,13 +29,20 @@ const OrderItem: React.FC<Props> = ({ order }) => {
           },
           {
             title: 'Стоимость',
-            text: order.price,
+            text: priceFormat(order.price),
+          },
+          {
+            title: 'Номер заказа',
+            text: order.id,
+          },
+          {
+            title: 'Статус заказа',
+            text: order.status,
           },
         ]}
       />
-      <p>№ {order.id}</p>
-      <p>{order.status}</p>
-      <img src={order.products[0]?.img_ids?.[0] ? imgSrc(order.products[0]?.img_ids?.[0] as number) : emptyImg} alt=""/>
+
+      <ProductLayoutSlider ids={imgIds.current} onClick={onClick} />
     </div>
   )
 }

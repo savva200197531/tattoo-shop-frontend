@@ -12,9 +12,8 @@
   padding: 0 5px;
 }
 
-.products-main {
-  display: grid;
-  grid-template-columns: 3fr 10fr;
+.products-main__products {
+  width: 100%;
 }
 
 .product-content {

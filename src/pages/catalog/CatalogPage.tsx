@@ -29,7 +29,7 @@ const CatalogPage: React.FC = () => {
     <div className="catalog">
       <div className="container">
         <div className="catalog-content">
-          <Typography variant="h4" component="h1" fontWeight={500} textAlign="center" sx={{ mt: '80px', mb: '60px' }}>
+          <Typography variant="h4" component="h1" fontWeight={500} textAlign="center" sx={{ mb: '60px' }}>
             Каталог
           </Typography>
 

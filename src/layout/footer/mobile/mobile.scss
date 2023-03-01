@@ -1,0 +1,15 @@
+@import "../../../styles/variables";
+
+.footer-mobile-content {
+  justify-content: space-between;
+}
+
+.footer-mobile-item {
+  &:not(:first-child) {
+    padding-left: 2%;
+  }
+
+  &:not(:last-child) {
+    padding-right: 2%;
+  }
+}

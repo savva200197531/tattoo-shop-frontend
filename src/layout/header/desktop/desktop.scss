@@ -1,0 +1,11 @@
+@import "../../../styles/variables";
+
+.header-item {
+  &:not(:first-child) {
+    padding-left: 1%;
+  }
+
+  &:not(:last-child) {
+    padding-right: 1%;
+  }
+}

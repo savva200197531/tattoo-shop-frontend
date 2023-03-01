@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { object, string, TypeOf } from 'zod'
 import { SubmitHandler, useForm } from 'react-hook-form'
+import classNames from 'classnames'
+import { createSearchParams, useNavigate, useSearchParams } from 'react-router-dom'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { ClickAwayListener } from '@mui/material'
@@ -14,15 +16,12 @@ import SearchFieldItem from './SearchFieldItem'
 import { Product } from '../../contexts/products/types'
 import { useProducts } from '../../contexts/products/ProductsContext'
 import './style.scss'
-import classNames from 'classnames'
-import { createSearchParams, useNavigate, useSearchParams } from 'react-router-dom'
-import { StyledButton } from '../StyledButtons'
 
-const SearchSchema = object({
+const searchSchema = object({
   search: string(),
 })
 
-export type SearchInput = TypeOf<typeof SearchSchema>;
+type SearchInput = TypeOf<typeof searchSchema>;
 
 const SearchField: React.FC = () => {
   const [open, setOpen] = useState<boolean>(false)
@@ -34,14 +33,13 @@ const SearchField: React.FC = () => {
   const [searchParams] = useSearchParams()
 
   const methods = useForm<SearchInput>({
-    resolver: zodResolver(SearchSchema),
+    resolver: zodResolver(searchSchema),
     defaultValues: {
       search: searchParams.get('search') || '',
     },
   })
 
   const {
-    reset,
     register,
     handleSubmit,
     watch,
@@ -75,19 +73,17 @@ const SearchField: React.FC = () => {
   }
 
   const handleOpen = () => {
-    if (search.length) {
-      setOpen(true)
-    }
+    setOpen(true)
   }
 
   const handleClose = () => {
     setOpen(false)
   }
 
-  const handleReset = () => {
-    setProducts([])
-    reset()
-  }
+  // const handleReset = () => {
+  //   setProducts([])
+  //   reset()
+  // }
 
   useEffect(() => {
     if (search?.length) {
@@ -137,11 +133,6 @@ const SearchField: React.FC = () => {
                 products.length ? products.map(product => <SearchFieldItem key={product.id} product={product}/>) :
                   <div className="search-field__empty">ничего не найдено</div>
               )}
-            </div>
-
-            <div className="search-field__toolbar">
-              <StyledButton type="submit">Все результаты</StyledButton>
-              <StyledButton onClick={handleReset}>Очистить</StyledButton>
             </div>
           </div>
         )}

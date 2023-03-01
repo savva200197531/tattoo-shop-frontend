@@ -44,8 +44,8 @@ export const ProductsFiltersProvider: React.FC<Props> = ({ children }) => {
   const getCategory: BaseGetFilter = (id) => axios.get<Category[]>(`${requestUrl}/categories/${id}`).then(({ data }) => data)
 
   // BRANDS
-  const getBrands: GetBrands = (category_id) => {
-    return axios.get<Brand[]>(`${requestUrl}/brands`, { params: { category_id } }).then(({ data }) => data)
+  const getBrands: GetBrands = (filter) => {
+    return axios.get<Brand[]>(`${requestUrl}/brands`, { params: filter }).then(({ data }) => data)
   }
 
   const createBrand: CreateBrand = (payload) => {

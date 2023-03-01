@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { object, string, TypeOf } from 'zod'
-import { SubmitHandler, useForm } from 'react-hook-form'
+import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Box, TextField } from '@mui/material'
+import { Box } from '@mui/material'
 
 import { LoginPayload } from '../../../contexts/auth/types'
 import { useAuth } from '../../../contexts/auth/AuthContext'
 import { StyledLoadingButton } from '../../../components/StyledButtons'
 import { validationErrors } from '../../../helpers/validationErrors'
+import FormInputText from '../../../components/FormInputs/Text/FormInputText'
 
 const loginSchema = object({
   email: string().nonempty(validationErrors.required('почта')).email(validationErrors.email()),
@@ -25,14 +26,19 @@ const LoginPage = () => {
   const [loading, setLoading] = useState<boolean>(false)
 
   const { login } = useAuth()
+  const methods = useForm<LoginInput>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: 'yakikbutovski353@gmail.com',
+      password: '123123123',
+    },
+  })
+
   const {
-    register,
     formState: { errors, isSubmitSuccessful },
     reset,
     handleSubmit,
-  } = useForm<LoginInput>({
-    resolver: zodResolver(loginSchema),
-  })
+  } = methods
 
   const onSubmitHandler: SubmitHandler<LoginInput> = ({ email, password }) => {
     const payload: LoginPayload = {
@@ -64,26 +70,11 @@ const LoginPage = () => {
       autoComplete="off"
       onSubmit={handleSubmit(onSubmitHandler)}
     >
-      <TextField
-        sx={{ mb: 2 }}
-        label="Почта"
-        fullWidth
-        required
-        type="email"
-        error={!!errors['email']}
-        helperText={errors['email'] ? errors['email'].message : ''}
-        {...register('email')}
-      />
-      <TextField
-        sx={{ mb: 2 }}
-        label="Пароль"
-        fullWidth
-        required
-        type="password"
-        error={!!errors['password']}
-        helperText={errors['password'] ? errors['password'].message : ''}
-        {...register('password')}
-      />
+      <FormProvider {...methods}>
+        <FormInputText name="email" label="Почта" type="email"/>
+
+        <FormInputText name="password" label="Пароль" type="password"/>
+      </FormProvider>
 
       <Link to="/register">
         Регистрация

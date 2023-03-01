@@ -4,7 +4,7 @@ import { Route, Routes } from 'react-router-dom'
 import ProductsPage from './pages/products/ProductsPage'
 import CartPage from './pages/cart/CartPage'
 import ProfilePage from './pages/profile/ProfilePage'
-import FavoritePage from './pages/favorite/FavoritePage'
+import FavoritePage from './pages/profile/favorite/FavoritePage'
 import AdminGuard from './guards/AdminGuard'
 import AdminPage from './pages/admin/AdminPage'
 import AuthPage from './pages/auth/AuthPage'
@@ -24,7 +24,7 @@ import ThanksPage from './pages/thanks/ThanksPage'
 import TabCategories from './pages/admin/categories/TabCategories'
 import TabBrands from './pages/admin/brands/TabBrands'
 import CatalogPage from './pages/catalog/CatalogPage'
-import ProductsFilters from './pages/products/ProductsFilters'
+import Filters from './components/Filters/Filters'
 import ProductItem from './pages/products/ProductItem'
 import AdminProductItem from './pages/admin/products/ProductItem'
 import CreateProduct from './pages/admin/products/CreateProduct'
@@ -42,7 +42,7 @@ const AppRoutes = () => {
         element={(
           <ProductsPage
             ProductItem={ProductItem}
-            Filters={ProductsFilters}
+            Filters={Filters}
           />
         )}
       />
@@ -54,9 +54,9 @@ const AppRoutes = () => {
       <Route path="/profile" element={<ProfilePage/>}>
         <Route path="/profile/info" element={<TabInfo/>}/>
         <Route path="/profile/orders" element={<TabOrders/>}/>
+        <Route path="/profile/favorite" element={<FavoritePage/>}/>
       </Route>
       <Route path="/orders/:id" element={<OrderPage/>}/>
-      <Route path="/favorite" element={<FavoritePage/>}/>
       <Route path="/checkout" element={<CheckoutPage/>}/>
       <Route path="/thanks" element={<ThanksPage/>}/>
       <Route path="/payment" element={<PaymentPage/>}/>
@@ -74,7 +74,7 @@ const AppRoutes = () => {
           element={
             <ProductsPage
               ProductItem={AdminProductItem}
-              Filters={ProductsFilters}
+              Filters={Filters}
               CreateProduct={CreateProduct}
             />
           }

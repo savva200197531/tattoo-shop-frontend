@@ -3,7 +3,7 @@ import { any, object, string, TypeOf } from 'zod'
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Box, TextField, Typography } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 
 import { StyledLoadingButton } from '../../../components/StyledButtons'
 import { validationErrors } from '../../../helpers/validationErrors'
@@ -11,13 +11,14 @@ import { ACCEPTED_IMAGE_TYPES, CreateFilesPayload } from '../../../contexts/file
 import { useFiles } from '../../../contexts/files/FilesContext'
 import FileInput from '../../../components/FileInput/FileInput'
 import { Category } from '../../../contexts/productsFilters/types'
+import FormInputText from '../../../components/FormInputs/Text/FormInputText'
 
-const CategorySchema = object({
+const categorySchema = object({
   name: string().nonempty(validationErrors.required('название')).max(30, validationErrors.max('название', 30)),
   img_ids: any().refine((data) => data.length, { message: validationErrors.required('изображение') }),
 })
 
-export type CategoryInput = TypeOf<typeof CategorySchema>;
+export type CategoryInput = TypeOf<typeof categorySchema>;
 
 type Props = {
   record?: Category
@@ -27,13 +28,12 @@ type Props = {
 }
 
 const CategoryForm: React.FC<Props> = ({ record, onSubmit, buttonTitle, title }) => {
-  console.log(record)
   const [loading, setLoading] = useState<boolean>(false)
 
   const { createFiles } = useFiles()
 
   const methods = useForm<CategoryInput>({
-    resolver: zodResolver(CategorySchema),
+    resolver: zodResolver(categorySchema),
     defaultValues: {
       ...record,
       img_ids: record?.img_id ? [record?.img_id] : [],
@@ -41,7 +41,6 @@ const CategoryForm: React.FC<Props> = ({ record, onSubmit, buttonTitle, title })
   })
 
   const {
-    register,
     formState: { errors, isSubmitSuccessful },
     reset,
     handleSubmit,
@@ -86,16 +85,9 @@ const CategoryForm: React.FC<Props> = ({ record, onSubmit, buttonTitle, title })
         autoComplete="off"
         onSubmit={handleSubmit(onSubmitHandler)}
       >
-        <TextField
-          sx={{ mb: 2 }}
-          label="Название"
-          fullWidth
-          error={!!errors['name']}
-          helperText={errors['name'] ? errors['name'].message : ''}
-          {...register('name')}
-        />
-
         <FormProvider {...methods}>
+          <FormInputText name="name" label="Название"/>
+
           <FileInput
             onDropPromise={handleCreateCategoryImg}
             name="img_ids"

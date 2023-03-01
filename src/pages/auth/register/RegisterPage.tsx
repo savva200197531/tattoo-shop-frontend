@@ -1,23 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { useForm, SubmitHandler } from 'react-hook-form'
-import { literal, object, string, TypeOf } from 'zod'
+import { useForm, SubmitHandler, FormProvider } from 'react-hook-form'
+import { object, string, TypeOf } from 'zod'
 
-import {
-  Box,
-  FormControlLabel,
-  FormGroup,
-  FormHelperText,
-  TextField,
-  Typography,
-} from '@mui/material'
+import { Box } from '@mui/material'
 import { zodResolver } from '@hookform/resolvers/zod'
-import Checkbox from '@mui/material/Checkbox'
 
 import { RegisterPayload } from '../../../contexts/auth/types'
 import { useAuth } from '../../../contexts/auth/AuthContext'
 import { StyledLoadingButton } from '../../../components/StyledButtons'
 import { validationErrors } from '../../../helpers/validationErrors'
+import FormInputText from '../../../components/FormInputs/Text/FormInputText'
 
 const registerSchema = object({
   name: string()
@@ -44,14 +37,15 @@ const RegisterPage: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false)
 
   const { register: registerUser } = useAuth()
+  const methods = useForm<RegisterInput>({
+    resolver: zodResolver(registerSchema),
+  })
+
   const {
-    register,
     formState: { errors, isSubmitSuccessful },
     reset,
     handleSubmit,
-  } = useForm<RegisterInput>({
-    resolver: zodResolver(registerSchema),
-  })
+  } = methods
 
   const onSubmitHandler: SubmitHandler<RegisterInput> = ({ email, password, name }) => {
     const payload: RegisterPayload = {
@@ -79,52 +73,20 @@ const RegisterPage: React.FC = () => {
 
   return (
     <Box
-      component='form'
+      component="form"
       noValidate
-      autoComplete='off'
+      autoComplete="off"
       onSubmit={handleSubmit(onSubmitHandler)}
     >
-      <TextField
-        sx={{ mb: 2 }}
-        label='Имя'
-        fullWidth
-        // required
-        error={!!errors['name']}
-        helperText={errors['name'] ? errors['name'].message : ''}
-        {...register('name')}
-      />
-      <TextField
-        sx={{ mb: 2 }}
-        label='Почта'
-        fullWidth
-        required
-        type='email'
-        error={!!errors['email']}
-        helperText={errors['email'] ? errors['email'].message : ''}
-        {...register('email')}
-      />
-      <TextField
-        sx={{ mb: 2 }}
-        label='Пароль'
-        fullWidth
-        required
-        type='password'
-        error={!!errors['password']}
-        helperText={errors['password'] ? errors['password'].message : ''}
-        {...register('password')}
-      />
-      <TextField
-        sx={{ mb: 2 }}
-        label='Подтверждение пароля'
-        fullWidth
-        required
-        type='password'
-        error={!!errors['passwordConfirm']}
-        helperText={
-          errors['passwordConfirm'] ? errors['passwordConfirm'].message : ''
-        }
-        {...register('passwordConfirm')}
-      />
+      <FormProvider {...methods}>
+        <FormInputText name="name" label="Имя"/>
+
+        <FormInputText name="email" label="Почта" type="email"/>
+
+        <FormInputText name="password" label="Пароль" type="password"/>
+
+        <FormInputText name="passwordConfirm" label="Подтверждение пароля" type="password"/>
+      </FormProvider>
 
       {/*<FormGroup>*/}
       {/*  <FormControlLabel*/}
@@ -146,9 +108,9 @@ const RegisterPage: React.FC = () => {
       </Link>
 
       <StyledLoadingButton
-        variant='contained'
+        variant="contained"
         fullWidth
-        type='submit'
+        type="submit"
         loading={loading}
         sx={{ py: '0.8rem', mt: '1rem' }}
       >
