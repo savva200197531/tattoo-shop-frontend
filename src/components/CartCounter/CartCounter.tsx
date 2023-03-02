@@ -2,7 +2,7 @@ import React from 'react'
 
 import { useCart } from '../../contexts/cart/CartContext'
 import { AddToCartPayload, CartItem } from '../../contexts/cart/types'
-import Svg from '../../components/Svg'
+import Svg from '../../components/Svg/Svg'
 import './styles.scss'
 import classNames from 'classnames'
 import { StyledButton } from '../StyledButtons'
@@ -57,9 +57,9 @@ const CartCounter: React.FC<Props> = ({ count = 0, product_id, onSubmit, user_id
         ) :
         (
           <div className="cart-counter__active">
-            <StyledButton variant="contained" onClick={() => handleAddToCart(count - 1)}>-</StyledButton>
+            <StyledButton fullWidth variant="outlined" onClick={() => handleAddToCart(count - 1)}>-</StyledButton>
             <div className="cart-counter__count">{count}</div>
-            <StyledButton variant="contained" onClick={() => handleAddToCart(count + 1)}>+</StyledButton>
+            <StyledButton fullWidth variant="outlined" onClick={() => handleAddToCart(count + 1)}>+</StyledButton>
           </div>
         )
       }

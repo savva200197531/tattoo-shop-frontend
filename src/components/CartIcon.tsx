@@ -1,6 +1,6 @@
 import React from 'react'
 import IconButton from '@mui/material/IconButton'
-import Svg from './Svg'
+import Svg from './Svg/Svg'
 import { Badge, BadgeProps, styled } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 

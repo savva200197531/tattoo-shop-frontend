@@ -1,7 +1,13 @@
+@import "../../styles/variables";
+
 .cart-counter__active {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  background: $primary;
+  border-radius: $border-radius;
+  height: 100%;
+  //padding: 1px;
 }
 
 .cart-counter__count {

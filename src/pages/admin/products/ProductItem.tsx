@@ -4,7 +4,7 @@ import IconButton from '@mui/material/IconButton'
 
 import { Product } from '../../../contexts/products/types'
 import { useProducts } from '../../../contexts/products/ProductsContext'
-import Svg from '../../../components/Svg'
+import Svg from '../../../components/Svg/Svg'
 import { useAuth } from '../../../contexts/auth/AuthContext'
 import ProductLayout from '../../../components/ProductLayout/ProductLayout'
 import StyledDialog from '../../../components/StyledDialog/StyledDialog'

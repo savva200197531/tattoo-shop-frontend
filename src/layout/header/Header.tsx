@@ -10,7 +10,7 @@ const Header = () => {
   const mobile = useMediaQuery('(max-width:750px)')
 
   return (
-    <AppBar className={classNames('header', mobile ? 'header-mobile' : 'header-desktop')}>
+    <AppBar style={{ background: 'white' }} className={classNames('header', mobile ? 'header-mobile' : 'header-desktop')}>
       <div className="container">
         {mobile ? <HeaderMobile /> : <HeaderDesktop />}
       </div>

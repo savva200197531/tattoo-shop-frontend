@@ -84,6 +84,8 @@ const ProductsPage: React.FC<Props> = ({ ProductItem, Filters, CreateProduct }) 
     <div className="products">
       <div className="container">
         <div className="products-content">
+          {CreateProduct && <CreateProduct loadProducts={loadProducts}/>}
+
           <Typography variant="h4" component="h1" fontWeight={500} textAlign="center">
             Товары
           </Typography>
@@ -91,20 +93,25 @@ const ProductsPage: React.FC<Props> = ({ ProductItem, Filters, CreateProduct }) 
           {loading ? <Spinner/> : (
             <Stack direction={mobile ? 'column' : 'row'} spacing={2}>
               <Filters products={products}/>
-
               <div className="products-main__products">
-                <div className="products-list">
-                  {products.map(product => (
-                    <ProductItem key={product.id} product={product} loadProducts={loadProducts}/>
-                  ))}
-                </div>
+                {products.length ? (
+                  <>
+                    <div className="products-list">
+                      {products.map(product => (
+                        <ProductItem key={product.id} product={product} loadProducts={loadProducts}/>
+                      ))}
+                    </div>
 
-                <ProductsPagination page={productsMeta.currentPage} count={productsMeta.totalPages}/>
+                    <ProductsPagination page={productsMeta.currentPage} count={productsMeta.totalPages}/>
+                  </>
+                ) : (
+                  <Typography variant="h5" component="h3" fontWeight={400} textAlign="center">
+                    Товаров не найдено :(
+                  </Typography>
+                )}
               </div>
             </Stack>
           )}
-
-          {CreateProduct && <CreateProduct loadProducts={loadProducts}/>}
         </div>
       </div>
     </div>

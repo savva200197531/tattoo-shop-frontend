@@ -3,7 +3,7 @@ import React from 'react'
 import IconButton from '@mui/material/IconButton'
 
 import { EditSlidePayload, Slide } from '../../../contexts/slider/types'
-import Svg from '../../../components/Svg'
+import Svg from '../../../components/Svg/Svg'
 import SlideLayout from '../../../components/SlideLayout/SlideLayout'
 import { useSlider } from '../../../contexts/slider/SliderContext'
 import StyledModal from '../../../components/StyledModal/StyledModal'

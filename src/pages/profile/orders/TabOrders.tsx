@@ -33,7 +33,7 @@ const TabOrders: React.FC = () => {
 
   return (
     <div className="orders">
-      <Typography variant="h4" component="h1" fontWeight={500} textAlign="center" sx={{ mb: '60px' }}>
+      <Typography variant="h4" component="h1" fontWeight={500} textAlign="center">
         Мои заказы
       </Typography>
 

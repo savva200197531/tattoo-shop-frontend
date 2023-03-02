@@ -9,7 +9,7 @@ import { useAuth } from '../../../contexts/auth/AuthContext'
 import { ListItem } from '../../../types/list-item'
 import Logo from '../../../components/Logo'
 import CounterBadge from '../../../components/CounterBadge'
-import Svg from '../../../components/Svg'
+import Svg from '../../../components/Svg/Svg'
 import './mobile.scss'
 import CatalogIcon from '../../catalog/Catalog'
 
@@ -18,13 +18,13 @@ const FooterMobile: React.FC = () => {
   const { user } = useAuth()
 
   const items: ListItem[] = [
-    // {
-    //   element: 'profile',
-    //   onClick: () => navigate('/profile/info'),
-    // },
     {
-      element: 'profile',
-      onClick: () => navigate('/profile/info'),
+      element: (
+        <IconButton onClick={() => navigate('/profile/info')} type="button" color="secondary" sx={{ p: '6px' }}>
+          <Svg text="Профиль" className="base-icon" id="profile"/>
+        </IconButton>
+      ),
+      customElement: true,
     },
     {
       element: <CatalogIcon />,
@@ -36,16 +36,16 @@ const FooterMobile: React.FC = () => {
     },
     {
       element: (
-        <CounterBadge count={user.favorite?.length} onClick={() => navigate('/profile/favorite')}>
-          <Svg fill="none" stroke="black" className="base-icon" id="hearth" />
+        <CounterBadge right={10} count={user.favorite?.length} onClick={() => navigate('/profile/favorite')}>
+          <Svg text="Избранное" fill="none" stroke="black" className="base-icon" id="hearth" />
         </CounterBadge>
       ),
       customElement: true,
     },
     {
       element: (
-        <CounterBadge count={user.cart?.length} onClick={() => navigate('/cart')}>
-          <Svg className="base-icon" id="cart" />
+        <CounterBadge right={4} count={user.cart?.length} onClick={() => navigate('/cart')}>
+          <Svg text="Корзина" className="base-icon" id="cart" />
         </CounterBadge>
       ),
       customElement: true,
@@ -54,6 +54,7 @@ const FooterMobile: React.FC = () => {
 
   return (
     <AppBar
+      style={{ background: 'white' }}
       className={classNames('footer', 'footer-mobile')}
       position="fixed"
       color="primary"

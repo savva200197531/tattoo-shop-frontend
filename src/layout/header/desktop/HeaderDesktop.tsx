@@ -6,12 +6,13 @@ import { Box, Toolbar } from '@mui/material'
 
 import { ListItem } from '../../../types/list-item'
 import SearchField from '../../../components/SearchField/SearchField'
-import Svg from '../../../components/Svg'
+import Svg from '../../../components/Svg/Svg'
 import CounterBadge from '../../../components/CounterBadge'
 import { useAuth } from '../../../contexts/auth/AuthContext'
 import Logo from '../../../components/Logo'
 import './desktop.scss'
 import ProfileIcon from '../../../components/ProfileIcon/ProfileIcon'
+import CatalogIcon from '../../catalog/Catalog'
 
 const HeaderDesktop: React.FC = () => {
   const navigate = useNavigate()
@@ -40,21 +41,25 @@ const HeaderDesktop: React.FC = () => {
       grow: 4,
     },
     {
+      element: <CatalogIcon />,
+      customElement: true,
+    },
+    {
       element: <ProfileIcon />,
       customElement: true,
     },
     {
       element: (
-        <CounterBadge count={user.favorite?.length} onClick={() => navigate('/profile/favorite')}>
-          <Svg fill="none" stroke="black" className="base-icon" id="hearth" />
+        <CounterBadge right={10} count={user.favorite?.length} onClick={() => navigate('/profile/favorite')}>
+          <Svg text="Избранное" fill="none" stroke="black" className="base-icon" id="hearth" />
         </CounterBadge>
       ),
       customElement: true,
     },
     {
       element: (
-        <CounterBadge count={user.cart?.length} onClick={() => navigate('/cart')}>
-          <Svg className="base-icon" id="cart" />
+        <CounterBadge right={4} count={user.cart?.length} onClick={() => navigate('/cart')}>
+          <Svg text="Корзина" className="base-icon" id="cart" />
         </CounterBadge>
       ),
       customElement: true,

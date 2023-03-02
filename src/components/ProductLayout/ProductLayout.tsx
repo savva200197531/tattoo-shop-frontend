@@ -6,6 +6,8 @@ import 'react-responsive-carousel/lib/styles/carousel.min.css'
 import { useNavigate } from 'react-router-dom'
 import { imgSrc } from '../../helpers/imgSrc'
 import emptyImgSrc from '../../assets/images/empty-product-image.svg'
+import ListWithTitle from '../ListWithTitle/ListWithTitle'
+import { priceFormat } from '../../helpers/priceFormat'
 
 type Props = {
   product: Product
@@ -42,14 +44,23 @@ const ProductLayout: React.FC<Props> = ({ product, headerContent, footerContent,
         </div>
       )}
 
-      <div className="product-layout-info">
-        <div>{name}</div>
-        <div>{price} Р</div>
-        <div className="product-layout-info__count">
-          <p>5шт</p>
-          <p>{count}шт</p>
-        </div>
-      </div>
+      <ListWithTitle
+        className="product-layout-info"
+        options={[
+          {
+            title: 'Название',
+            text: name,
+          },
+          {
+            title: 'В наличии',
+            text: count,
+          },
+          {
+            title: 'Цена',
+            text: priceFormat(price),
+          },
+        ]}
+      />
 
       <div className="product-layout-footer">{footerContent}</div>
     </div>

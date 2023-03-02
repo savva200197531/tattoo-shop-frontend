@@ -38,7 +38,7 @@ const StyledDialog: React.FC<Props> = ({
   }
 
   return (
-    <div>
+    <>
       {React.cloneElement(icon, {
         onClick: handleClickOpen,
       })}
@@ -66,7 +66,7 @@ const StyledDialog: React.FC<Props> = ({
           </StyledButton>
         </DialogActions>
       </Dialog>
-    </div>
+    </>
   )
 }
 

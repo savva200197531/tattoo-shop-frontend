@@ -6,7 +6,7 @@ import { TextFieldProps } from '@mui/material/TextField/TextField'
 
 type Props = BaseFormInputTextProps & TextFieldProps
 
-const FormInputText: React.FC<Props> = ({ name, ...rest }) => {
+const FormInputText: React.FC<Props> = ({ name, sx = { mb: 2 }, ...rest }) => {
   const { formState: { errors }, control } = useFormContext()
 
   return (
@@ -15,7 +15,7 @@ const FormInputText: React.FC<Props> = ({ name, ...rest }) => {
       control={control}
       render={({ field: { onChange, value } }) => (
         <TextField
-          sx={{ mb: 2 }}
+          sx={sx}
           fullWidth
           onChange={onChange}
           value={value || ''}

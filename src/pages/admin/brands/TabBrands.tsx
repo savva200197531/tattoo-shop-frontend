@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react'
 
-import AddIcon from '@mui/icons-material/Add'
-import { Fab } from '@mui/material'
-
 import { useProductsFilters } from '../../../contexts/productsFilters/ProductsFiltersContext'
 import Spinner from '../../../components/Spinner/Spinner'
 import BrandItem from './BrandItem'
 import StyledModal from '../../../components/StyledModal/StyledModal'
 import { Brand } from '../../../contexts/productsFilters/types'
 import BrandForm, { BrandInput } from './BrandForm'
+import CreateButton from '../CreateButton'
 
 const TabBrands: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false)
@@ -40,20 +38,16 @@ const TabBrands: React.FC = () => {
 
   return (
     <>
-      {loading ? <Spinner/> : (
-        <div className="brands-list">{brands.map(brand => <BrandItem key={brand.id} brand={brand} loadBrands={loadBrands} />)}</div>
-      )}
-
       <StyledModal
-        icon={
-          <Fab sx={{ position: 'fixed', bottom: 16, right: 16 }} color="primary">
-            <AddIcon/>
-          </Fab>
-        }
+        icon={<CreateButton />}
         title="Создать бренд"
       >
         <BrandForm onSubmit={handleSubmit} title="Создать бренд" buttonTitle="Создать"/>
       </StyledModal>
+
+      {loading ? <Spinner/> : (
+        <div className="brands-list">{brands.map(brand => <BrandItem key={brand.id} brand={brand} loadBrands={loadBrands} />)}</div>
+      )}
     </>
   )
 }

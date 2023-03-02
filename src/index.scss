@@ -8,7 +8,8 @@
 }
 
 body {
-  //position: relative;
+  position: relative;
+  min-height: 100vh;
 
   //&:before {
   //  content: ' ';
@@ -28,9 +29,9 @@ body {
 }
 
 #root {
-  min-height: 100vh;
-  display: grid;
-  grid-template-rows: auto auto 1fr auto;
+  //min-height: 100vh;
+  //display: grid;
+  //grid-template-rows: auto auto 1fr auto;
 }
 
 .container {
@@ -57,9 +58,12 @@ h1, h2, h3 {}
 h1 {
   font-weight: 500;
   font-size: 40px;
+  margin-top: 20px !important;
+  margin-bottom: 40px !important;
 }
 
 .tab-outlet {
+  position: relative;
   width: 100%;
   //padding-left: 40px;
 }
@@ -72,20 +76,29 @@ h1 {
   padding: 10px 20px;
   border: 1px solid $border;
   border-radius: $border-radius;
+  box-shadow: $shadow;
 }
 
 .header, .footer {
   display: block !important;
 }
 
-header + div {
-  margin-top: 74px;
-  margin-bottom: 104px;
+.header + div {
+  padding-top: 104px;
+  padding-bottom: 104px;
+}
+
+.header-desktop + div {
+  padding-bottom: 220px;
 }
 
 .base-icon {
   width: 30px;
   height: 30px;
+}
+
+.tabs {
+  min-width: 20%;
 }
 
 //.img-wrapper {

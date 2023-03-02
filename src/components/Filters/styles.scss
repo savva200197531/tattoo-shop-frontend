@@ -2,8 +2,12 @@
   min-width: 30%;
 }
 
+.filters-mobile__header {
+  text-align: right;
+}
+
 .filters-form-mobile {
-  z-index: 2;
+  z-index: 4;
   position: fixed;
   top: 56px;
   bottom: 63px;
@@ -17,4 +21,9 @@
 .filters-form__toolbar {
   display: flex;
   justify-content: space-between;
+}
+
+.filter-icon {
+  height: 40px;
+  width: 40px;
 }

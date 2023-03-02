@@ -1,3 +1,29 @@
+.not-found-main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 160px;
+
+  span {
+    padding: 20px;
+  }
+}
+
 .not-found-content {
   text-align: center;
+}
+
+.not-found-button {
+  margin-top: 20px;
+  max-width: 300px;
+}
+
+@media screen and (max-width: 750px) {
+  .not-found-main {
+    font-size: 120px;
+  }
+
+  .not-found-img {
+    height: 140px;
+  }
 }

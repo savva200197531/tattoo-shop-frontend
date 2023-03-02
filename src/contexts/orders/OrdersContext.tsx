@@ -20,7 +20,7 @@ export const OrdersProvider: React.FC<Props> = ({ children }) => {
   const createOrder: CreateOrder = (payload) => {
     return axios.post<CreateOrderResponse>(`${requestUrl}/orders`, payload)
       .then(({ data }) => {
-        navigate(`/profile/orders/${data.order.id}`)
+        navigate(`/orders/${data.order.id}`)
         window.open(data.payment.confirmation.confirmation_url, '_blank')
       })
       .catch(error => {

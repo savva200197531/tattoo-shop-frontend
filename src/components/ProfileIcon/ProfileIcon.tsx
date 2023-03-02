@@ -2,7 +2,7 @@ import { Divider, IconButton, ListItemIcon, Menu, MenuItem } from '@mui/material
 import React from 'react'
 import './styles.scss'
 import { Logout, Settings } from '@mui/icons-material'
-import Svg from '../Svg'
+import Svg from '../Svg/Svg'
 import { useAuth } from '../../contexts/auth/AuthContext'
 import { useNavigate } from 'react-router-dom'
 
@@ -24,7 +24,7 @@ const ProfileIcon: React.FC = () => {
   return (
     <>
       <IconButton onClick={handleClick} type="button" color="secondary" sx={{ p: '6px' }}>
-        <Svg className="base-icon" id="profile"/>
+        <Svg text="Профиль" className="base-icon" id="profile"/>
       </IconButton>
       <Menu
         anchorEl={anchorEl}

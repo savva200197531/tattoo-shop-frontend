@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react'
 
-import AddIcon from '@mui/icons-material/Add'
-import { Fab } from '@mui/material'
-
 import { useProductsFilters } from '../../../contexts/productsFilters/ProductsFiltersContext'
 import Spinner from '../../../components/Spinner/Spinner'
 import CategoryItem from './CategoryItem'
 import CategoryForm, { CategoryInput } from './CategoryForm'
 import StyledModal from '../../../components/StyledModal/StyledModal'
 import { Category, CreateCategoryPayload } from '../../../contexts/productsFilters/types'
+import CreateButton from '../CreateButton'
 
 const TabCategories: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false)
@@ -45,6 +43,13 @@ const TabCategories: React.FC = () => {
 
   return (
     <>
+      <StyledModal
+        icon={<CreateButton />}
+        title="Создать категорию"
+      >
+        <CategoryForm onSubmit={handleSubmit} title="Создать категорию" buttonTitle="Создать"/>
+      </StyledModal>
+
       {loading ? <Spinner/> : (
         <div className="categories-list">
           {categories.map(category => (
@@ -52,17 +57,6 @@ const TabCategories: React.FC = () => {
           ))}
         </div>
       )}
-
-      <StyledModal
-        icon={
-          <Fab sx={{ position: 'fixed', bottom: 16, right: 16 }} color="primary">
-            <AddIcon/>
-          </Fab>
-        }
-        title="Создать категорию"
-      >
-        <CategoryForm onSubmit={handleSubmit} title="Создать категорию" buttonTitle="Создать"/>
-      </StyledModal>
     </>
   )
 }

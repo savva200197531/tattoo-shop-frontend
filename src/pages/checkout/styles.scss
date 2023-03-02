@@ -1,11 +1,20 @@
 .checkout-form {
   margin-bottom: 30px;
+
+  h3 {
+    margin-bottom: 20px;
+    margin-top: 20px;
+  }
 }
 
 .checkout-form__user {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
-  grid-column-gap: 20px;
+  //display: grid;
+  //grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+  //grid-column-gap: 20px;
+
+  > * {
+    margin-bottom: 16px;
+  }
 }
 
 .checkout-form__delivery {
@@ -13,6 +22,14 @@
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: repeat(2, auto);
   grid-column-gap: 20px;
+}
+
+.checkout-form__delivery-description {
+  margin-bottom: 20px;
+
+  p {
+    margin-top: 10px;
+  }
 }
 
 .checkout-form__delivery-comment {

@@ -33,7 +33,7 @@ const CheckoutPage: React.FC = () => {
     <div className="checkout">
       <div className="container">
         <div className="checkout-content">
-          <Typography variant="h4" component="h1" fontWeight={500} textAlign="center" sx={{ mt: '50px', mb: '70px' }}>
+          <Typography variant="h4" component="h1" fontWeight={500} textAlign="center">
             Оформление заказа
           </Typography>
 

@@ -22,7 +22,9 @@ const ProductLayoutSlider: React.FC<Props> = ({ ids, onClick, className }) => {
           ))}
         </Carousel>
       ) : (
-        <img className="product-layout-slide" onClick={onClick} src={emptyImg} alt=""/>
+        <div className="product-layout-slider">
+          <img className="product-layout-slide__img" onClick={onClick} src={emptyImg} alt=""/>
+        </div>
       )}
     </div>
   )

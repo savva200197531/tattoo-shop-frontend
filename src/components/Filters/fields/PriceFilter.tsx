@@ -53,7 +53,7 @@ const PriceFilter: React.FC = () => {
             formatRangeFromUrl(priceRangeFromUrl.current)?.[1] || priceRange.max,
           ]}
         />
-      ) : <div>Выбор цены недоступен</div>
+      ) : <></>
     )
   )
 }

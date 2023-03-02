@@ -12,7 +12,7 @@ const AuthPage: React.FC = () => {
     <div className="auth">
       <div className="container">
         <div className="auth-content">
-          <Box sx={{ maxWidth: '30rem' }} className="auth-wrapper">
+          <Box sx={{ maxWidth: '30rem' }} className="auth-wrapper bordered-box">
             <Typography variant='h4' component='h1' sx={{ mb: '2rem', textAlign: 'center' }}>
               {location.pathname.includes('register') ? 'Регистрация' : 'Вход'}
             </Typography>

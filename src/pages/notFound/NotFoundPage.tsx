@@ -1,7 +1,8 @@
 import React from 'react'
-import { Typography } from '@mui/material'
-import { StyledButton } from '../../components/StyledButtons'
 import { useNavigate } from 'react-router-dom'
+
+import { StyledButton } from '../../components/StyledButtons'
+import circleSrc from '../../assets/images/circle.svg'
 import './styles.scss'
 
 const NotFoundPage = () => {
@@ -11,11 +12,13 @@ const NotFoundPage = () => {
     <div className="not-found">
       <div className="container">
         <div className="not-found-content">
-          <Typography variant="h3" component="h1" fontWeight={500} textAlign="center" sx={{ mt: '50px', mb: '70px' }}>
-            Такой страницы не существует
-          </Typography>
+          <div className="not-found-main">
+            <span>4</span>
+            <img className="not-found-img" src={circleSrc} alt=""/>
+            <span>4</span>
+          </div>
 
-          <StyledButton onClick={() => navigate(-1)}>Назад</StyledButton>
+          <StyledButton fullWidth className="not-found-button" onClick={() => navigate(-1)}>вернуться на сайт</StyledButton>
         </div>
       </div>
     </div>

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import IconButton from '@mui/material/IconButton'
 
 import './desktop.scss'
-import Svg from '../../../components/Svg'
+import Svg from '../../../components/Svg/Svg'
 import Logo from '../../../components/Logo'
 import { ListItem } from '../../../types/list-item'
 import classNames from 'classnames'

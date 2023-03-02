@@ -3,7 +3,7 @@ import { object, string, TypeOf } from 'zod'
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Box, Typography } from '@mui/material'
+import { Box, Stack, Typography, useMediaQuery } from '@mui/material'
 
 import { useAuth } from '../../contexts/auth/AuthContext'
 import { useOrders } from '../../contexts/orders/OrdersContext'
@@ -51,6 +51,7 @@ type CheckoutInput = TypeOf<typeof checkoutSchema>;
 const CheckoutForm: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false)
 
+  const mobile = useMediaQuery('(max-width:750px)')
   const { createOrder } = useOrders()
   const { user, getUser } = useAuth()
   const { cart } = useCart()
@@ -118,42 +119,52 @@ const CheckoutForm: React.FC = () => {
       autoComplete="off"
       onSubmit={handleSubmit(onSubmitHandler)}
     >
-      <Typography variant="h5" component="h3" fontWeight={500} sx={{ mt: '50px', mb: '70px' }}>
+      <Typography variant="h5" component="h3" fontWeight={500}>
         Информация о покупателе
       </Typography>
 
       <FormProvider {...methods}>
-        <div className="checkout-form__user">
-          <FormInputText name="surname" label="Фамилия"/>
+        <Stack className="checkout-form__user" direction={mobile ? 'column' : 'row'} spacing={2}>
+          <FormInputText sx={{ mb: 0 }} name="surname" label="Фамилия"/>
 
-          <FormInputText name="name" label="Имя"/>
+          <FormInputText sx={{ mb: 0 }} name="name" label="Имя"/>
 
-          <FormInputText name="lastname" label="Отчество"/>
+          <FormInputText sx={{ mb: 0 }} name="lastname" label="Отчество"/>
 
-          <FormInputText name="email" label="Почта" type="email"/>
+          <FormInputText sx={{ mb: 0 }} name="email" label="Почта" type="email"/>
 
           <FormInputMasked name="phone" label="Телефон" mask="+7\ (999) 999-99-99"/>
-        </div>
+        </Stack>
 
-        <Typography variant="h5" component="h3" fontWeight={500} sx={{ mt: '50px', mb: '70px' }}>
+        <Typography variant="h5" component="h3" fontWeight={500}>
           Доставка
         </Typography>
 
-        <div className="checkout-form__delivery">
-          <FormInputText name="region" label="Регион"/>
-
-          <FormInputText name="city" label="Город"/>
-
-          <FormInputText name="address" label="Адрес"/>
-
-          <FormInputText
-            name="comment"
-            label="Комментарий"
-            className="checkout-form__delivery-comment"
-            rows={4}
-            multiline
-          />
+        <div className="checkout-form__delivery-description">
+          <p>
+            Доставка по барнаулу или самовывоз - бесплатно.
+          </p>
+          <p>
+            Доставка в другие регионы обсуждается индивидуально.
+          </p>
         </div>
+
+        <Stack className="checkout-form__delivery" direction={mobile ? 'column' : 'row'} spacing={2}>
+          <FormInputText sx={{ mb: 0 }} name="region" label="Регион"/>
+
+          <FormInputText sx={{ mb: 0 }} name="city" label="Город"/>
+
+          <FormInputText sx={{ mb: 0 }} name="address" label="Адрес"/>
+        </Stack>
+
+        <FormInputText
+          name="comment"
+          label="Комментарий"
+          className="checkout-form__delivery-comment"
+          rows={4}
+          sx={{ mb: 2, mt: 2 }}
+          multiline
+        />
       </FormProvider>
 
       <ListWithTitle

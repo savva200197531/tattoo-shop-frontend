@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-import { Typography } from '@mui/material'
+import { Stack, Typography, useMediaQuery } from '@mui/material'
 
 import { useCart } from '../../contexts/cart/CartContext'
 import CartItem from './CartItem'
@@ -15,6 +15,7 @@ import AuthButton from '../../components/AuthButton'
 const CartPage: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false)
 
+  const mobile = useMediaQuery('(max-width:750px)')
   const { cart, getCartItems } = useCart()
   const { user, isUserExist } = useAuth()
   const navigate = useNavigate()
@@ -37,7 +38,7 @@ const CartPage: React.FC = () => {
     <div className="cart">
       <div className="container">
         <div className="cart-content">
-          <Typography variant="h4" component="h1" fontWeight={500} textAlign="center" sx={{ mt: '50px', mb: '70px' }}>
+          <Typography variant="h4" component="h1" fontWeight={500} textAlign="center">
             Корзина
           </Typography>
 
@@ -45,13 +46,13 @@ const CartPage: React.FC = () => {
             loading ?
               <Spinner/> :
               cart?.items?.length ? (
-                <div className="cart-main">
+                <Stack className="cart-main" direction={mobile ? 'column' : 'row'} spacing={2}>
                   <div className="cart-items">
                     {cart.items.map(cartItem => <CartItem key={cartItem.id} cartItem={cartItem}/>)}
                   </div>
 
                   <CartTotal/>
-                </div>
+                </Stack>
               ) : (
                 <div className="cart-empty">
                   {/*<Typography variant="h5" component="h3" fontWeight={500} sx={{ mb: '70px' }}>*/}
@@ -62,7 +63,7 @@ const CartPage: React.FC = () => {
                 </div>
               )
           ) : (
-            <AuthButton />
+            <AuthButton/>
           )}
         </div>
       </div>

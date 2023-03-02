@@ -7,9 +7,9 @@ function valuetext(value: number) {
   return `${value}°C`
 }
 
-const minDistance = 1000
+const minDistance = 300
 
-const step = 10
+const step = 100
 
 type Props = {
   name: string
@@ -45,7 +45,12 @@ export const FormInputRangeSlider: React.FC<Props> = ({
         setSliderValue([clamped, clamped + minDistance])
       } else {
         const clamped = Math.max(newValue[1], minDistance)
-        setSliderValue([clamped - minDistance, clamped])
+
+        if (clamped - minDistance < min) {
+          setSliderValue([min, sliderValue[1]])
+        } else {
+          setSliderValue([clamped - minDistance, clamped])
+        }
       }
     } else {
       setSliderValue(newValue as number[])
@@ -111,6 +116,7 @@ export const FormInputRangeSlider: React.FC<Props> = ({
                 onChangeCommitted={handleChangeCommitted}
                 min={min}
                 max={max}
+                step={step}
                 valueLabelDisplay="auto"
                 getAriaValueText={valuetext}
                 disableSwap

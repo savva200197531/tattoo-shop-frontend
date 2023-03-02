@@ -2,7 +2,7 @@ import React from 'react'
 
 import IconButton from '@mui/material/IconButton'
 
-import Svg from '../../../components/Svg'
+import Svg from '../../../components/Svg/Svg'
 import { Brand } from '../../../contexts/productsFilters/types'
 import { useProductsFilters } from '../../../contexts/productsFilters/ProductsFiltersContext'
 import StyledModal from '../../../components/StyledModal/StyledModal'

@@ -1,7 +1,7 @@
 import React from 'react'
 
 import './styles.scss'
-import { Tab, Tabs } from '@mui/material'
+import { Stack, Tab, Tabs, useMediaQuery } from '@mui/material'
 import { TabProps } from '../../components/TabPanel/TabPanel'
 import { Link, Outlet, useLocation } from 'react-router-dom'
 
@@ -26,21 +26,22 @@ const tabs: TabProps[] = [
 
 const AdminPage: React.FC = () => {
   const location = useLocation()
+  const mobile = useMediaQuery('(max-width:750px)')
 
   return (
     <div className="admin">
       <div className="container">
-        <div className="admin-content">
+        <Stack direction={mobile ? 'column' : 'row'} spacing={2}>
           <Tabs
             value={
               location.pathname !== '/' ?
                 location.pathname :
                 false
             }
-            orientation="vertical"
+            orientation={mobile ? 'horizontal' : 'vertical'}
             variant="scrollable"
-            sx={{ borderRight: 1, borderColor: 'divider' }}
-            className="admin-tabs"
+            // sx={{ borderRight: 1, borderColor: 'divider' }}
+            className="admin-tabs tabs"
           >
             {tabs.map(({ label, to }, index) => (
               <Tab
@@ -56,7 +57,7 @@ const AdminPage: React.FC = () => {
           <div className="tab-outlet">
             <Outlet/>
           </div>
-        </div>
+        </Stack>
       </div>
     </div>
   )

@@ -44,6 +44,7 @@ const FiltersForm: React.FC<Props> = ({ mobile = false, handleClose }) => {
   const { reset, handleSubmit, getValues } = methods
 
   const onSubmitHandler: SubmitHandler<FiltersInput> = (data) => {
+    handleClose?.()
     Object.keys(data).forEach((key) => {
       const value = data[key as keyof FiltersInput]
 

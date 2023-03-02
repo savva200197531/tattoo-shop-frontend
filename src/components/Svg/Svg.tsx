@@ -1,5 +1,6 @@
 import React from 'react'
-import icons from '../assets/images/icons.svg'
+import icons from '../../assets/images/icons.svg'
+import './styles.scss'
 
 export type SvgId =
   'burger' |
@@ -22,13 +23,17 @@ type Props = {
   height?: string | number
   fill?: string
   stroke?: string
+  text?: string
 }
 
-const Svg: React.FC<Props> = ({ id, fill = 'black', ...rest }) => {
+const Svg: React.FC<Props> = ({ id, fill = 'black', text, ...rest }) => {
   return (
-    <svg fill={fill} {...rest}>
-      <use fill={fill} xlinkHref={`${icons}#${id}`}/>
-    </svg>
+    <div className="svg">
+      <svg fill={fill} {...rest}>
+        <use fill={fill} xlinkHref={`${icons}#${id}`}/>
+      </svg>
+      {text && <p className="svg-text">{text}</p>}
+    </div>
   )
 }
 

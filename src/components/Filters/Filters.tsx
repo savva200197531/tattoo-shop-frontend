@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import './styles.scss'
 import { useMediaQuery } from '@mui/material'
-import Svg from '../Svg'
+import Svg from '../Svg/Svg'
 import IconButton from '@mui/material/IconButton'
 import FiltersForm from './FiltersForm'
 
@@ -23,9 +23,11 @@ const Filters: React.FC = () => {
   return (
     <div className="filters">
       {mobile && (
-        <IconButton onClick={handleOpen} type="submit" sx={{ p: '6px' }} aria-label="search">
-          <Svg id="filter" className="base-icon"/>
-        </IconButton>
+        <div className="filters-mobile__header">
+          <IconButton className="filters-button" onClick={handleOpen} type="submit" sx={{ p: '6px' }} aria-label="search">
+            <Svg id="filter" className="filter-icon"/>
+          </IconButton>
+        </div>
       )}
 
       {mobile ? (

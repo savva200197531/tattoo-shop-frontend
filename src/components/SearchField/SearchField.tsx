@@ -10,7 +10,7 @@ import InputBase from '@mui/material/InputBase'
 import IconButton from '@mui/material/IconButton'
 import Paper from '@mui/material/Paper'
 
-import Svg from '../Svg'
+import Svg from '../Svg/Svg'
 import Spinner from '../Spinner/Spinner'
 import SearchFieldItem from './SearchFieldItem'
 import { Product } from '../../contexts/products/types'
