@@ -26,10 +26,16 @@ type Props = {
   text?: string
 }
 
-const Svg: React.FC<Props> = ({ id, fill = 'black', text, ...rest }) => {
+const Svg: React.FC<Props> = ({
+  id,
+  fill = 'black',
+  text,
+  className = 'base-icon',
+  ...rest
+}) => {
   return (
     <div className="svg">
-      <svg fill={fill} {...rest}>
+      <svg fill={fill} className={className} {...rest}>
         <use fill={fill} xlinkHref={`${icons}#${id}`}/>
       </svg>
       {text && <p className="svg-text">{text}</p>}

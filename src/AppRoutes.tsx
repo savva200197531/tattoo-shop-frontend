@@ -31,6 +31,7 @@ import CreateProduct from './pages/admin/products/CreateProduct'
 import AboutPage from './pages/about/AboutPage'
 import DeliveryPage from './pages/delivery/DeliveryPage'
 import NotFoundPage from './pages/notFound/NotFoundPage'
+import AdminTabOrders from './pages/admin/orders/AdminTabOrders'
 
 const AppRoutes = () => {
   return (
@@ -82,6 +83,7 @@ const AppRoutes = () => {
         <Route path="/admin/slider" element={<TabSlider/>}/>
         <Route path="/admin/categories" element={<TabCategories/>}/>
         <Route path="/admin/brands" element={<TabBrands/>}/>
+        <Route path="/admin/orders" element={<AdminTabOrders/>}/>
         {/*<Route path="/admin/filters" element={<TabFilters />} />*/}
       </Route>
       <Route element={<AuthPage/>}>

@@ -6,6 +6,7 @@ import ListWithTitle from '../../../components/ListWithTitle/ListWithTitle'
 import { dateFormat } from '../../../helpers/dateFormat'
 import ProductLayoutSlider from '../../../components/ProductLayout/ProductLayoutSlider'
 import { priceFormat } from '../../../helpers/priceFormat'
+import { orderStatusFormat } from '../../../helpers/orderStatusFormat'
 
 type Props = {
   order: Order
@@ -37,7 +38,7 @@ const OrderItem: React.FC<Props> = ({ order }) => {
           },
           {
             title: 'Статус заказа',
-            text: order.status,
+            text: orderStatusFormat(order.status),
           },
         ]}
       />

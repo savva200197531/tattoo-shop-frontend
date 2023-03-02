@@ -8,6 +8,7 @@ import { imgSrc } from '../../helpers/imgSrc'
 import emptyImgSrc from '../../assets/images/empty-product-image.svg'
 import ListWithTitle from '../ListWithTitle/ListWithTitle'
 import { priceFormat } from '../../helpers/priceFormat'
+import { Typography } from '@mui/material'
 
 type Props = {
   product: Product
@@ -28,7 +29,12 @@ const ProductLayout: React.FC<Props> = ({ product, headerContent, footerContent,
 
   return (
     <div className="product-layout">
-      <div className="product-layout-header">{headerContent}</div>
+      <div className="product-layout-header">
+        <Typography variant="h5" component="h4" fontWeight={500} textAlign="center">
+          {name}
+        </Typography>
+        {headerContent}
+      </div>
 
       {img_ids?.length ? (
         <Carousel onClickItem={goToProduct} showStatus={false} className="product-layout-slider" showThumbs={false} showArrows={true}>
@@ -47,10 +53,6 @@ const ProductLayout: React.FC<Props> = ({ product, headerContent, footerContent,
       <ListWithTitle
         className="product-layout-info"
         options={[
-          {
-            title: 'Название',
-            text: name,
-          },
           {
             title: 'В наличии',
             text: count,

@@ -15,6 +15,7 @@ import ListWithTitle from '../../components/ListWithTitle/ListWithTitle'
 import FormInputText from '../../components/FormInputs/Text/FormInputText'
 import FormInputMasked from '../../components/FormInputs/Text/FormInputMasked'
 import './styles.scss'
+import { priceFormat } from '../../helpers/priceFormat'
 
 const checkoutSchema = object({
   // user data
@@ -58,17 +59,17 @@ const CheckoutForm: React.FC = () => {
 
   const methods = useForm<CheckoutInput>({
     resolver: zodResolver(checkoutSchema),
-    defaultValues: {
-      surname: 'Кашин',
-      name: 'Савва',
-      lastname: 'Игоревич',
-      email: 'savva@mail.ru',
-      phone: '79132537745',
-      region: 'Новосибирск',
-      city: 'Новосибирск',
-      address: 'Мичурина 43',
-      comment: `Тестовый комментарий`,
-    },
+    // defaultValues: {
+    //   surname: 'Кашин',
+    //   name: 'Савва',
+    //   lastname: 'Игоревич',
+    //   email: 'savva@mail.ru',
+    //   phone: '79132537745',
+    //   region: 'Новосибирск',
+    //   city: 'Новосибирск',
+    //   address: 'Мичурина 43',
+    //   comment: `Тестовый комментарий`,
+    // },
   })
 
   const {
@@ -171,7 +172,7 @@ const CheckoutForm: React.FC = () => {
         options={[
           {
             title: 'Итого',
-            text: `${cart.totalPrice} Р`,
+            text: priceFormat(cart.totalPrice),
           },
         ]}
       />

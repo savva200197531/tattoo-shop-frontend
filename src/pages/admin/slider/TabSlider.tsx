@@ -8,6 +8,7 @@ import StyledModal from '../../../components/StyledModal/StyledModal'
 import CreateSlideForm, { SlideInput } from './SlideForm'
 import { CreateSlidePayload } from '../../../contexts/slider/types'
 import CreateButton from '../CreateButton'
+import './styles.scss'
 
 const TabSlider: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false)

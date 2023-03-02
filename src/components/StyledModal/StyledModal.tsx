@@ -4,13 +4,15 @@ import classNames from 'classnames'
 import { Box, Modal } from '@mui/material'
 
 import './styles.scss'
+import Svg from '../Svg/Svg'
+import IconButton from '@mui/material/IconButton'
 
 const style = {
   position: 'absolute',
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  // width: 400,
+  width: '90%',
   bgcolor: 'background.paper',
   // border: '2px solid #000',
   boxShadow: 24,
@@ -44,12 +46,21 @@ const StyledModal: React.FC<Props> = ({ title, children, className, icon }) => {
       })}
 
       <Modal
-        className={classNames('mui-modal', className)}
+        className={classNames('styled-modal', className)}
         open={open}
         onClose={handleClose}
         title={title}
       >
-        <Box sx={style}>
+        <Box className="styled-modal-content" sx={style}>
+          <IconButton
+            className="styled-modal-close"
+            onClick={handleClose}
+            type="button"
+            color="secondary"
+            sx={{ p: '6px', position: 'absolute' }}
+          >
+            <Svg id="cross"/>
+          </IconButton>
           {children}
         </Box>
       </Modal>

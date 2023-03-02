@@ -39,7 +39,7 @@ const SlideItem: React.FC<Props> = ({ slide }) => {
 
   return (
     <SlideLayout slide={slide}>
-      <div className="admin-slider__toolbar">
+      <div className="admin-slider__toolbar bordered-box">
         <StyledModal
           icon={
             <IconButton type="button" sx={{ p: '6px' }}>

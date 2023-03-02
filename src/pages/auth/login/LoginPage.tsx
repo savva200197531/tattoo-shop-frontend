@@ -28,10 +28,10 @@ const LoginPage = () => {
   const { login } = useAuth()
   const methods = useForm<LoginInput>({
     resolver: zodResolver(loginSchema),
-    defaultValues: {
-      email: 'yakikbutovski353@gmail.com',
-      password: '123123123',
-    },
+    // defaultValues: {
+    //   email: 'yakikbutovski353@gmail.com',
+    //   password: '123123123',
+    // },
   })
 
   const {

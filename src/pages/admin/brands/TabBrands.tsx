@@ -7,6 +7,7 @@ import StyledModal from '../../../components/StyledModal/StyledModal'
 import { Brand } from '../../../contexts/productsFilters/types'
 import BrandForm, { BrandInput } from './BrandForm'
 import CreateButton from '../CreateButton'
+import './styles.scss'
 
 const TabBrands: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false)

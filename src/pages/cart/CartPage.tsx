@@ -8,17 +8,15 @@ import { useAuth } from '../../contexts/auth/AuthContext'
 import Spinner from '../../components/Spinner/Spinner'
 import './styles.scss'
 import CartTotal from './CartTotal'
-import { StyledButton } from '../../components/StyledButtons'
-import { useNavigate } from 'react-router-dom'
 import AuthButton from '../../components/AuthButton'
+import CatalogButton from '../../components/CatalogButton'
 
 const CartPage: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false)
 
   const mobile = useMediaQuery('(max-width:750px)')
-  const { cart, getCartItems } = useCart()
   const { user, isUserExist } = useAuth()
-  const navigate = useNavigate()
+  const { cart, getCartItems } = useCart()
 
   useEffect(() => {
     setLoading(true)
@@ -42,29 +40,15 @@ const CartPage: React.FC = () => {
             Корзина
           </Typography>
 
-          {isUserExist ? (
-            loading ?
-              <Spinner/> :
-              cart?.items?.length ? (
-                <Stack className="cart-main" direction={mobile ? 'column' : 'row'} spacing={2}>
-                  <div className="cart-items">
-                    {cart.items.map(cartItem => <CartItem key={cartItem.id} cartItem={cartItem}/>)}
-                  </div>
+          {isUserExist ? loading ? <Spinner/> : cart?.items?.length ? (
+            <Stack className="cart-main" direction={mobile ? 'column' : 'row'} spacing={2}>
+              <div className="cart-items">
+                {cart.items.map(cartItem => <CartItem key={cartItem.id} cartItem={cartItem}/>)}
+              </div>
 
-                  <CartTotal/>
-                </Stack>
-              ) : (
-                <div className="cart-empty">
-                  {/*<Typography variant="h5" component="h3" fontWeight={500} sx={{ mb: '70px' }}>*/}
-                  {/*  Тут пусто(((*/}
-                  {/*</Typography>*/}
-
-                  <StyledButton onClick={() => navigate('/catalog')}>Перейти в каталог</StyledButton>
-                </div>
-              )
-          ) : (
-            <AuthButton/>
-          )}
+              <CartTotal/>
+            </Stack>
+          ) : <CatalogButton/> : <AuthButton/>}
         </div>
       </div>
     </div>

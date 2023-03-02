@@ -1,9 +1,9 @@
 import React, { ReactNode, useContext, useState } from 'react'
-
-import { CreateOrder, CreateOrderResponse, GetOrder, GetOrders, Order, OrdersContextProps } from './types'
-import axios from 'axios'
-import { requestUrl } from '../../env'
 import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
+
+import { CreateOrder, CreateOrderResponse, GetAllOrders, GetOrder, GetOrders, Order, OrdersContextProps } from './types'
+import { requestUrl } from '../../env'
 
 const OrdersContext = React.createContext<OrdersContextProps>({} as OrdersContextProps)
 
@@ -38,8 +38,12 @@ export const OrdersProvider: React.FC<Props> = ({ children }) => {
       })
   }
 
-  const getOrder: GetOrder = (id) => {
-    return axios.get<Order>(`${requestUrl}/orders/${id}`).then(({ data }) => data)
+  const getAllOrders: GetAllOrders = () => {
+    return axios.get<Order[]>(`${requestUrl}/orders/all`).then(({ data }) => data)
+  }
+
+  const getOrder: GetOrder = (id, user_id) => {
+    return axios.get<Order>(`${requestUrl}/orders/${id}`, { params: { user_id } }).then(({ data }) => data)
   }
 
   const value = {
@@ -47,6 +51,7 @@ export const OrdersProvider: React.FC<Props> = ({ children }) => {
     getOrders,
     orders,
     getOrder,
+    getAllOrders,
   }
 
   return <OrdersContext.Provider value={value}>{children}</OrdersContext.Provider>

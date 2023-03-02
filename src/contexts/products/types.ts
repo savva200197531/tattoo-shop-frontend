@@ -13,6 +13,7 @@ export type Product = {
   category_id: number
   img_ids: number[]
   created_at: string
+  description?: string
 }
 
 export type ProductsMeta = {
@@ -61,6 +62,7 @@ export type CreateProductPayload = {
   count: number
   category_id: number
   img_ids?: number[]
+  description?: string
 }
 
 export type CreateProduct = (payload: CreateProductPayload) => Promise<any>

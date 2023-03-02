@@ -66,7 +66,7 @@ const CategoryForm: React.FC<Props> = ({ record, onSubmit, buttonTitle, title })
 
   useEffect(() => {
     if (isSubmitSuccessful) {
-      // reset()
+      reset()
     }
   }, [isSubmitSuccessful, reset])
 

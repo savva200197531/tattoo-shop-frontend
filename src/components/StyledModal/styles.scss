@@ -1,0 +1,11 @@
+@import "../../styles/variables";
+
+.styled-modal-content {
+  position: relative;
+  border-radius: $border-radius;
+}
+
+.styled-modal-close {
+  right: 10px;
+  top: 10px;
+}

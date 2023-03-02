@@ -16,6 +16,7 @@ import { Product } from '../../../contexts/products/types'
 import FormInputText from '../../../components/FormInputs/Text/FormInputText'
 import FormInputNumber from '../../../components/FormInputs/Text/FormInputNumber'
 import FormInputSelect from '../../../components/FormInputs/Select/FormInputSelect'
+import './styles.scss'
 
 const productSchema = object({
   name: string({
@@ -37,6 +38,7 @@ const productSchema = object({
     },
   })
     .min(0, validationErrors.min('цена', 0)),
+  description: string().optional(),
   category_id: number({
     errorMap: () => {
       return { message: validationErrors.required('категория товара') }
@@ -105,7 +107,7 @@ const ProductForm: React.FC<Props> = ({ record, onSubmit, buttonTitle, title }) 
 
   useEffect(() => {
     if (isSubmitSuccessful) {
-      // reset()
+      reset()
     }
   }, [isSubmitSuccessful, reset])
 
@@ -133,12 +135,13 @@ const ProductForm: React.FC<Props> = ({ record, onSubmit, buttonTitle, title }) 
   }, [errors])
 
   return (
-    <Box className="product-form">
-      <Typography variant="h4" component="h1" sx={{ mb: '2rem' }}>
+    <Box>
+      <Typography variant="h4" component="h1" textAlign="center" sx={{ mb: '2rem' }}>
         {title}
       </Typography>
       <Box
         component="form"
+        className="product-form"
         noValidate
         autoComplete="off"
         onSubmit={handleSubmit(onSubmitHandler)}
@@ -146,19 +149,16 @@ const ProductForm: React.FC<Props> = ({ record, onSubmit, buttonTitle, title }) 
         <FormProvider {...methods}>
           <FormInputText label="Название товара" name="name" />
 
-          {/*<TextField*/}
-          {/*  sx={{ mb: 2 }}*/}
-          {/*  label=""*/}
-          {/*  fullWidth*/}
-          {/*  required*/}
-          {/*  error={!!errors['']}*/}
-          {/*  helperText={errors['count'] ? errors['count'].message : ''}*/}
-          {/*  {...register('count', { valueAsNumber: true })}*/}
-          {/*/>*/}
-
           <FormInputNumber label="Количество товара" name="count"/>
 
           <FormInputNumber label="Цена" name="price"/>
+
+          <FormInputText
+            name="description"
+            label="Описание"
+            rows={4}
+            multiline
+          />
 
           <FormInputSelect
             label="Категория товара"

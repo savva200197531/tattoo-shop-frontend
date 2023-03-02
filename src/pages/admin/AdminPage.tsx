@@ -22,6 +22,10 @@ const tabs: TabProps[] = [
     label: 'Бренды',
     to: '/admin/brands',
   },
+  {
+    label: 'Заказы',
+    to: '/admin/orders',
+  },
 ]
 
 const AdminPage: React.FC = () => {

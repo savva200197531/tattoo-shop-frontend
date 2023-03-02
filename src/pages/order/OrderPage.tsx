@@ -5,27 +5,30 @@ import { useOrders } from '../../contexts/orders/OrdersContext'
 import { useAuth } from '../../contexts/auth/AuthContext'
 import Spinner from '../../components/Spinner/Spinner'
 import OrderItem from './OrderItem'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 const OrderPage = () => {
   const [loading, setLoading] = useState<boolean>(false)
   const [order, setOrder] = useState<Order>({} as Order)
   const { id } = useParams()
 
+  const navigate = useNavigate()
   const { getOrder } = useOrders()
-  const { isUserExist } = useAuth()
+  const { isUserExist, user } = useAuth()
 
   useEffect(() => {
     setLoading(true)
 
     if (!id || !isUserExist) return
 
-    getOrder(+id)
+    getOrder(+id, user.id)
       .then(data => {
         setOrder(data)
       })
       .catch(error => {
-        console.log(error)
+        if (error.response.status === 403) {
+          navigate(-1)
+        }
       })
       .finally(() => {
         setLoading(false)

@@ -7,6 +7,7 @@ import CategoryForm, { CategoryInput } from './CategoryForm'
 import StyledModal from '../../../components/StyledModal/StyledModal'
 import { Category, CreateCategoryPayload } from '../../../contexts/productsFilters/types'
 import CreateButton from '../CreateButton'
+import './styles.scss'
 
 const TabCategories: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false)

@@ -1,21 +1,20 @@
 import React, { useEffect, useState } from 'react'
 
+import { Typography } from '@mui/material'
+
 import { useOrders } from '../../../contexts/orders/OrdersContext'
 import { useAuth } from '../../../contexts/auth/AuthContext'
 import Spinner from '../../../components/Spinner/Spinner'
 import OrderItem from './OrderItem'
-import { Typography } from '@mui/material'
-import { StyledButton } from '../../../components/StyledButtons'
-import { useNavigate } from 'react-router-dom'
 import AuthButton from '../../../components/AuthButton'
 import './styles.scss'
+import CatalogButton from '../../../components/CatalogButton'
 
 const TabOrders: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false)
 
   const { getOrders, orders } = useOrders()
   const { user, isUserExist } = useAuth()
-  const navigate = useNavigate()
 
   useEffect(() => {
     setLoading(true)
@@ -38,12 +37,9 @@ const TabOrders: React.FC = () => {
       </Typography>
 
       <div className="products-list">
-        {isUserExist ? loading ?
-          <Spinner/> :
-          orders.length ?
-            orders.map(order => <OrderItem key={order.id} order={order}/>) : (
-              <StyledButton onClick={() => navigate('/catalog')}>Перейти в каталог</StyledButton>
-            ) : <AuthButton/>}
+        {isUserExist ? loading ? <Spinner/> : orders.length ?
+          orders.map(order => <OrderItem key={order.id} order={order}/>) :
+          <CatalogButton/> : <AuthButton/>}
       </div>
     </div>
   )

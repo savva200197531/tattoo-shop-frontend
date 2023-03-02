@@ -1,1 +1,1 @@
-export const priceFormat = (price: number): string => `${price} Р`
+export const priceFormat = (price: number): string => `${price} ₽`

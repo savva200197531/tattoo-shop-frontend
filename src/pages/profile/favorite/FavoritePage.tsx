@@ -6,6 +6,7 @@ import Spinner from '../../../components/Spinner/Spinner'
 import FavoriteItem from './FavoriteItem'
 import './styles.scss'
 import AuthButton from '../../../components/AuthButton'
+import CatalogButton from '../../../components/CatalogButton'
 
 const FavoritePage: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false)
@@ -31,17 +32,17 @@ const FavoritePage: React.FC = () => {
     <div className="favorite">
       <div className="container">
         <div className="favorite-content">
-          <Typography variant='h4' component='h1' fontWeight={500} textAlign="center">
+          <Typography variant="h4" component="h1" fontWeight={500} textAlign="center">
             Избранное
           </Typography>
 
-          {isUserExist ? (
-            <div className="products-list">
-              {loading ? <Spinner /> : favoriteProducts.map(favoriteProduct => <FavoriteItem key={favoriteProduct.id} favoriteProduct={favoriteProduct} />)}
-            </div>
-          ) : (
-            <AuthButton />
-          )}
+          <div className="products-list">
+            {isUserExist ? loading ? <Spinner/> : favoriteProducts.length ? (
+              favoriteProducts.map(favoriteProduct => (
+                <FavoriteItem key={favoriteProduct.id} favoriteProduct={favoriteProduct}/>))
+            ) : <CatalogButton/> : <AuthButton/>}
+          </div>
+
         </div>
       </div>
     </div>

@@ -1,6 +1,7 @@
 import { Product } from '../products/types'
 import { User } from '../auth/types'
 import { Payment } from '../payment/types'
+import { statusesVariable } from '../../helpers/orderStatusFormat'
 
 export type Order = {
   id: number
@@ -15,7 +16,7 @@ export type Order = {
   region: string
   city: string
   comment: string
-  status: string
+  status: keyof typeof statusesVariable
   date: string
   user: User
   products: Product[]
@@ -63,11 +64,14 @@ export type CreateOrder = (payload: CreateOrderPayload) => Promise<any>
 
 export type GetOrders = (user_id: number) => Promise<any>
 
-export type GetOrder = (id: number) => Promise<Order>
+export type GetOrder = (id: number, user_id: number) => Promise<Order>
+
+export type GetAllOrders = () => Promise<Order[]>
 
 export type OrdersContextProps = {
   createOrder: CreateOrder
   getOrders: GetOrders
   orders: Order[]
   getOrder: GetOrder
+  getAllOrders: GetAllOrders
 }

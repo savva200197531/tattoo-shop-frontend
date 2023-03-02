@@ -100,14 +100,14 @@ const ProductPage = () => {
                     user_id={user.id}
                   />
 
-                  <div className="product-description">
-                    <p className="product-description__title">Описание</p>
-                    <p className="product-description__text">
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos, facere, inventore? Atque eveniet id
-                      ipsam nostrum officia placeat soluta, sunt velit? Autem deserunt et iste, laudantium maxime quam
-                      quas? Autem blanditiis debitis, ea earum ex iure modi nisi officia officiis?
-                    </p>
-                  </div>
+                  {product.description && (
+                    <div className="product-description">
+                      <p className="product-description__title">Описание</p>
+                      <p className="product-description__text">
+                        {product.description}
+                      </p>
+                    </div>
+                  )}
                 </div>
               </div>
             </>
