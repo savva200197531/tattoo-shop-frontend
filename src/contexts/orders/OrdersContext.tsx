@@ -4,6 +4,8 @@ import axios from 'axios'
 
 import { CreateOrder, CreateOrderResponse, GetAllOrders, GetOrder, GetOrders, Order, OrdersContextProps } from './types'
 import { requestUrl } from '../../env'
+import { useAlert } from '../alert/AlertContext'
+import { errorFormat } from '../../helpers/errorFormat'
 
 const OrdersContext = React.createContext<OrdersContextProps>({} as OrdersContextProps)
 
@@ -15,6 +17,8 @@ type Props = {
 
 export const OrdersProvider: React.FC<Props> = ({ children }) => {
   const [orders, setOrders] = useState<Order[]>([])
+
+  const { showAlert } = useAlert()
   const navigate = useNavigate()
 
   const createOrder: CreateOrder = (payload) => {
@@ -24,7 +28,9 @@ export const OrdersProvider: React.FC<Props> = ({ children }) => {
         window.open(data.payment.confirmation.confirmation_url, '_blank')
       })
       .catch(error => {
-        console.log(error)
+        const message = errorFormat(error)
+
+        showAlert({ text: message, severity: 'error' })
       })
   }
 

@@ -18,8 +18,8 @@ const ListWithTitle: React.FC<Props> = ({ options, className, style }) => {
     <div className={classNames('list-with-title', className)} style={style}>
       {options.map((option, index) => (
         <div key={index} className="list-with-title__option">
-          <p className="list-with-title__option-title">{option.title}:</p>
-          <p className="list-with-title__option-text">{option.text}</p>
+          <span className="list-with-title__option-title">{option.title}:</span>
+          <span className="list-with-title__option-text">{option.text}</span>
         </div>
       ))}
     </div>

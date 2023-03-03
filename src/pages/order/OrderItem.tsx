@@ -23,7 +23,7 @@ const OrderItem: React.FC<Props> = ({ order }) => {
         от {dateFormat(order.date)}
       </p>
 
-      <div className="order-layout__content">
+      <div className="order-layout__content bordered-box">
 
         <ListWithTitle
           options={[

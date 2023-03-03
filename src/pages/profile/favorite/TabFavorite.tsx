@@ -8,7 +8,7 @@ import './styles.scss'
 import AuthButton from '../../../components/AuthButton'
 import CatalogButton from '../../../components/CatalogButton'
 
-const FavoritePage: React.FC = () => {
+const TabFavorite: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false)
 
   const { getFavoriteProducts, favoriteProducts } = useFavorite()
@@ -49,4 +49,4 @@ const FavoritePage: React.FC = () => {
   )
 }
 
-export default FavoritePage
+export default TabFavorite

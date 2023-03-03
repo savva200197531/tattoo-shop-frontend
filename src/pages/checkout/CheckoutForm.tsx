@@ -19,32 +19,34 @@ import { priceFormat } from '../../helpers/priceFormat'
 
 const checkoutSchema = object({
   // user data
-  surname: string()
+  surname: string({ required_error: validationErrors.required('фамилия') })
     .nonempty(validationErrors.required('фамилия'))
     .min(2, validationErrors.min('фамилия', 2))
     .max(32, validationErrors.max('фамилия', 32)),
-  name: string()
+  name: string({ required_error: validationErrors.required('имя') })
     .nonempty(validationErrors.required('имя'))
     .min(2, validationErrors.min('имя', 2))
     .max(32, validationErrors.max('имя', 32)),
-  lastname: string()
+  lastname: string({ required_error: validationErrors.required('отчество') })
     .nonempty(validationErrors.required('отчество'))
     .min(2, validationErrors.min('отчество', 2))
     .max(32, validationErrors.max('отчество', 32)),
-  email: string().nonempty(validationErrors.required('почта')).email(validationErrors.email()),
+  email: string({ required_error: validationErrors.required('почта') })
+    .nonempty(validationErrors.required('почта'))
+    .email(validationErrors.email()),
   phone: string({ required_error: validationErrors.required('телефон') })
     .regex(new RegExp('^((8|\\+7)[\\- ]?)?(\\(?\\d{3}\\)?[\\- ]?)?[\\d\\- ]{7,10}$'), 'Телефон указан неверно'),
   // address
-  region: string()
+  region: string({ required_error: validationErrors.required('регион') })
     .nonempty(validationErrors.required('регион'))
     .max(32, validationErrors.max('регион', 32)),
-  city: string()
+  city: string({ required_error: validationErrors.required('город') })
     .nonempty(validationErrors.required('город'))
     .max(32, validationErrors.max('город', 32)),
-  address: string()
+  address: string({ required_error: validationErrors.required('адрес') })
     .nonempty(validationErrors.required('адрес'))
     .max(32, validationErrors.max('адрес', 32)),
-  comment: string().max(128, validationErrors.max('комментарий', 128)),
+  comment: string().max(128, validationErrors.max('комментарий', 128)).optional(),
 })
 
 type CheckoutInput = TypeOf<typeof checkoutSchema>;
@@ -64,7 +66,7 @@ const CheckoutForm: React.FC = () => {
     //   name: 'Савва',
     //   lastname: 'Игоревич',
     //   email: 'savva@mail.ru',
-    //   phone: '79132537745',
+    //   phone: '1231231231',
     //   region: 'Новосибирск',
     //   city: 'Новосибирск',
     //   address: 'Мичурина 43',
@@ -79,6 +81,8 @@ const CheckoutForm: React.FC = () => {
   } = methods
 
   const onSubmitHandler: SubmitHandler<CheckoutInput> = (data) => {
+    setLoading(true)
+
     const payload: CreateOrderPayload = {
       ...data,
       price: cart.totalPrice,
@@ -91,11 +95,6 @@ const CheckoutForm: React.FC = () => {
     createOrder(payload)
       .then(() => {
         getUser(user.id)
-        // handleCreatePayment({
-        //   price: cart.totalPrice,
-        //   description: data.comment,
-        //   return_url: 'http://localhost:3000/thanks',
-        // })
       })
       .finally(() => {
         setLoading(false)

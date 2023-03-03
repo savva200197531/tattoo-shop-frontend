@@ -36,7 +36,7 @@ const FooterMobile: React.FC = () => {
     },
     {
       element: (
-        <CounterBadge right={10} count={user.favorite?.length} onClick={() => navigate('/profile/favorite')}>
+        <CounterBadge right={19} count={user.favorite?.length} onClick={() => navigate('/profile/favorite')}>
           <Svg text="Избранное" fill="none" stroke="black" className="base-icon" id="hearth" />
         </CounterBadge>
       ),
@@ -44,7 +44,7 @@ const FooterMobile: React.FC = () => {
     },
     {
       element: (
-        <CounterBadge right={4} count={user.cart?.length} onClick={() => navigate('/cart')}>
+        <CounterBadge count={user.cart?.length} onClick={() => navigate('/cart')}>
           <Svg text="Корзина" className="base-icon" id="cart" />
         </CounterBadge>
       ),

@@ -1,7 +1,7 @@
 import { AlertColor } from '@mui/material/Alert/Alert'
 
 export type ShowAlertPayload = {
-  text: string
+  text?: string
   severity: AlertColor
 }
 

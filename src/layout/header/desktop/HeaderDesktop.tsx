@@ -10,31 +10,16 @@ import Svg from '../../../components/Svg/Svg'
 import CounterBadge from '../../../components/CounterBadge'
 import { useAuth } from '../../../contexts/auth/AuthContext'
 import Logo from '../../../components/Logo'
-import './desktop.scss'
 import ProfileIcon from '../../../components/ProfileIcon/ProfileIcon'
 import CatalogIcon from '../../catalog/Catalog'
+import ContactsList from '../../../components/ContactsList/ContactsList'
+import './desktop.scss'
 
 const HeaderDesktop: React.FC = () => {
   const navigate = useNavigate()
   const { user } = useAuth()
 
   const items: ListItem[] = [
-    {
-      element: <Logo />,
-      customElement: true,
-    },
-    {
-      element: 'phone',
-    },
-    {
-      element: 'vk',
-    },
-    {
-      element: 'instagram',
-    },
-    {
-      element: 'telegram',
-    },
     {
       element: <SearchField/>,
       customElement: true,
@@ -50,7 +35,7 @@ const HeaderDesktop: React.FC = () => {
     },
     {
       element: (
-        <CounterBadge right={10} count={user.favorite?.length} onClick={() => navigate('/profile/favorite')}>
+        <CounterBadge right={19} count={user.favorite?.length} onClick={() => navigate('/profile/favorite')}>
           <Svg text="Избранное" fill="none" stroke="black" className="base-icon" id="hearth" />
         </CounterBadge>
       ),
@@ -58,7 +43,7 @@ const HeaderDesktop: React.FC = () => {
     },
     {
       element: (
-        <CounterBadge right={4} count={user.cart?.length} onClick={() => navigate('/cart')}>
+        <CounterBadge count={user.cart?.length} onClick={() => navigate('/cart')}>
           <Svg text="Корзина" className="base-icon" id="cart" />
         </CounterBadge>
       ),
@@ -68,6 +53,10 @@ const HeaderDesktop: React.FC = () => {
 
   return (
     <Toolbar style={{ padding: 'unset' }}>
+      <Logo />
+
+      <ContactsList />
+
       {items.map(({ element, customElement, onClick, grow }, index) => (
         <Box className="header-item" key={index} sx={{ flexGrow: grow || 0 }}>
           {customElement ? element : (

@@ -7,6 +7,8 @@ import { AuthContextProps, GetUser, Login, Register, SendConfirmationLink, User 
 import { setTokenToHeaders } from '../../helpers/setTokenToHeaders'
 import { requestUrl, tokenKey } from '../../env'
 import { local } from '../../App'
+import { errorFormat } from '../../helpers/errorFormat'
+import { useAlert } from '../alert/AlertContext'
 
 const AuthContext = React.createContext<AuthContextProps>({} as AuthContextProps)
 
@@ -21,12 +23,18 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
   const [isUserExist, setIsUserExist] = useState<boolean>(false)
 
   const navigate = useNavigate()
+  const { showAlert } = useAlert()
 
   const register: Register = (payload) => axios.post<User>(`${requestUrl}/auth/register`, payload)
     .then(() => {
       navigate('/login')
     })
-    .catch(err => console.log(err))
+    .catch(error => {
+      console.log(error)
+      const message = errorFormat(error)
+
+      showAlert({ text: message, severity: 'error' })
+    })
 
   const login: Login = (payload) => axios.post<string>(`${requestUrl}/auth/login`, payload)
     .then(({ data }) => {
@@ -39,7 +47,11 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
         })
       navigate('/')
     })
-    .catch(err => console.log(err))
+    .catch(error => {
+      const message = errorFormat(error)
+
+      showAlert({ text: message, severity: 'error' })
+    })
 
   const logout = () => {
     local.removeItem(tokenKey)

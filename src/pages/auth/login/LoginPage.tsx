@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { object, string, TypeOf } from 'zod'
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
@@ -13,8 +13,8 @@ import { validationErrors } from '../../../helpers/validationErrors'
 import FormInputText from '../../../components/FormInputs/Text/FormInputText'
 
 const loginSchema = object({
-  email: string().nonempty(validationErrors.required('почта')).email(validationErrors.email()),
-  password: string()
+  email: string({ required_error: validationErrors.required('почта') }).nonempty(validationErrors.required('почта')).email(validationErrors.email()),
+  password: string({ required_error: validationErrors.required('пароль') })
     .nonempty(validationErrors.required('пароль'))
     .min(8, validationErrors.min('пароль', 8))
     .max(32, validationErrors.max('пароль', 32)),
@@ -35,7 +35,6 @@ const LoginPage = () => {
   })
 
   const {
-    formState: { errors, isSubmitSuccessful },
     reset,
     handleSubmit,
   } = methods
@@ -48,20 +47,14 @@ const LoginPage = () => {
 
     setLoading(true)
 
-    login(payload).finally(() => {
-      setLoading(false)
-    })
+    login(payload)
+      .then(() => {
+        reset()
+      })
+      .finally(() => {
+        setLoading(false)
+      })
   }
-
-  useEffect(() => {
-    if (isSubmitSuccessful) {
-      reset()
-    }
-  }, [isSubmitSuccessful, reset])
-
-  useEffect(() => {
-    console.log(errors)
-  }, [errors])
 
   return (
     <Box

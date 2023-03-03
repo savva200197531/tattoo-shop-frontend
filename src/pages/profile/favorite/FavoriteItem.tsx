@@ -1,4 +1,5 @@
 import React from 'react'
+
 import { Favorite } from '../../../contexts/favorite/types'
 import AddToFavorite from '../../../components/AddToFavorite/AddToFavorite'
 import CartCounter from '../../../components/CartCounter/CartCounter'
@@ -35,16 +36,6 @@ const FavoriteItem: React.FC<Props> = ({ favoriteProduct }) => {
         console.log(error)
       })
   }
-
-  // const handleUpdateCart = (promise: Promise<any>) => {
-  //   promise
-  //     .then(() => {
-  //       getUser(user.id)
-  //     })
-  //     .catch(error => {
-  //       console.log(error)
-  //     })
-  // }
 
   return (
     <ProductLayout

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useForm, SubmitHandler, FormProvider } from 'react-hook-form'
 import { object, string, TypeOf } from 'zod'
@@ -39,10 +39,15 @@ const RegisterPage: React.FC = () => {
   const { register: registerUser } = useAuth()
   const methods = useForm<RegisterInput>({
     resolver: zodResolver(registerSchema),
+    // defaultValues: {
+    //   name: '123123',
+    //   email: 'yakikbutovski353@gmail.com',
+    //   password: '123123123',
+    //   passwordConfirm: '123123123',
+    // },
   })
 
   const {
-    formState: { errors, isSubmitSuccessful },
     reset,
     handleSubmit,
   } = methods
@@ -56,20 +61,14 @@ const RegisterPage: React.FC = () => {
 
     setLoading(true)
 
-    registerUser(payload).finally(() => {
-      setLoading(false)
-    })
+    registerUser(payload)
+      .then(() => {
+        reset()
+      })
+      .finally(() => {
+        setLoading(false)
+      })
   }
-
-  useEffect(() => {
-    if (isSubmitSuccessful) {
-      reset()
-    }
-  }, [isSubmitSuccessful, reset])
-
-  useEffect(() => {
-    console.log(errors)
-  }, [errors])
 
   return (
     <Box

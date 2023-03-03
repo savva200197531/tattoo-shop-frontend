@@ -1,16 +1,19 @@
 .list-with-title__option {
   display: flex;
   align-items: baseline;
+  flex-wrap: wrap;
 
-  > *:not(:last-child) {
-    margin-bottom: 8px;
+  &:not(:last-child) {
+    margin-bottom: 10px;
   }
 }
 
 .list-with-title__option-title {
   font-weight: 700;
+  margin-right: 5px;
+  margin-bottom: 5px;
 }
 
 .list-with-title__option-text {
-  margin-left: 5px;
+  //margin-left: 5px;
 }

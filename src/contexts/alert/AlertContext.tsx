@@ -18,6 +18,7 @@ export const AlertProvider: React.FC<Props> = ({ children }) => {
   const [severity, setSeverity] = useState<AlertColor>('info')
 
   const showAlert: ShowAlert = ({ text, severity }) => {
+    if (!text) return
     setOpen(true)
     setText(text)
     setSeverity(severity)

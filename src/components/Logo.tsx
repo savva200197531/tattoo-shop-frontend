@@ -2,12 +2,17 @@ import React from 'react'
 import { Button } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 
-const Logo = () => {
+type Props = {
+  width?: number
+  height?: number
+}
+
+const Logo: React.FC<Props> = ({ width = 100, height = 51 }) => {
   const navigate = useNavigate()
 
   return (
     <Button variant="text" onClick={() => navigate('/')}>
-      <svg id="logo" width="100" height="51" viewBox="0 0 100 51" fill="none" xmlns="http://www.w3.org/2000/svg"
+      <svg id="logo" width={width} height={height} viewBox="0 0 100 51" fill="none" xmlns="http://www.w3.org/2000/svg"
         xmlnsXlink="http://www.w3.org/1999/xlink">
         <rect width="100" height="51" fill="url(#pattern0)"/>
         <defs>

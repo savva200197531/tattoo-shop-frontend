@@ -4,7 +4,7 @@ import { Route, Routes } from 'react-router-dom'
 import ProductsPage from './pages/products/ProductsPage'
 import CartPage from './pages/cart/CartPage'
 import ProfilePage from './pages/profile/ProfilePage'
-import FavoritePage from './pages/profile/favorite/FavoritePage'
+import TabFavorite from './pages/profile/favorite/TabFavorite'
 import AdminGuard from './guards/AdminGuard'
 import AdminPage from './pages/admin/AdminPage'
 import AuthPage from './pages/auth/AuthPage'
@@ -13,8 +13,6 @@ import RegisterPage from './pages/auth/register/RegisterPage'
 import ConfirmationPage from './pages/auth/confirmation/ConfirmationPage'
 import MainPage from './pages/main/MainPage'
 import ProductPage from './pages/product/ProductPage'
-import PaymentSuccess from './pages/payment/PaymentSuccess'
-import PaymentPage from './pages/payment/PaymentPage'
 import OrderPage from './pages/order/OrderPage'
 import CheckoutPage from './pages/checkout/CheckoutPage'
 import TabSlider from './pages/admin/slider/TabSlider'
@@ -28,10 +26,12 @@ import Filters from './components/Filters/Filters'
 import ProductItem from './pages/products/ProductItem'
 import AdminProductItem from './pages/admin/products/ProductItem'
 import CreateProduct from './pages/admin/products/CreateProduct'
-import AboutPage from './pages/about/AboutPage'
-import DeliveryPage from './pages/delivery/DeliveryPage'
 import NotFoundPage from './pages/notFound/NotFoundPage'
 import AdminTabOrders from './pages/admin/orders/AdminTabOrders'
+import TabContacts from './pages/profile/contacts/TabContacts'
+import TabAboutDelivery from './pages/profile/aboutDelivery/TabAboutDelivery'
+import TabAboutPay from './pages/profile/aboutPay/TabAboutPay'
+import TabAbout from './pages/profile/about/TabAbout'
 
 const AppRoutes = () => {
   return (
@@ -47,21 +47,21 @@ const AppRoutes = () => {
           />
         )}
       />
-      <Route path="/product/:id" element={<ProductPage/>}/>
+      <Route path="/products/:id" element={<ProductPage/>}/>
       <Route path="/cart" element={<CartPage/>}/>
-      <Route path="/about" element={<AboutPage/>}/>
-      <Route path="/delivery" element={<DeliveryPage/>}/>
       <Route path="/catalog" element={<CatalogPage/>}/>
       <Route path="/profile" element={<ProfilePage/>}>
         <Route path="/profile/info" element={<TabInfo/>}/>
         <Route path="/profile/orders" element={<TabOrders/>}/>
-        <Route path="/profile/favorite" element={<FavoritePage/>}/>
+        <Route path="/profile/favorite" element={<TabFavorite/>}/>
+        <Route path="/profile/about" element={<TabAbout/>}/>
+        <Route path="/profile/about-pay" element={<TabAboutPay/>}/>
+        <Route path="/profile/about-delivery" element={<TabAboutDelivery/>}/>
+        <Route path="/profile/contacts" element={<TabContacts/>}/>
       </Route>
       <Route path="/orders/:id" element={<OrderPage/>}/>
       <Route path="/checkout" element={<CheckoutPage/>}/>
       <Route path="/thanks" element={<ThanksPage/>}/>
-      <Route path="/payment" element={<PaymentPage/>}/>
-      <Route path="/payment-success" element={<PaymentSuccess/>}/>
       <Route
         path="/admin"
         element={(
@@ -84,13 +84,12 @@ const AppRoutes = () => {
         <Route path="/admin/categories" element={<TabCategories/>}/>
         <Route path="/admin/brands" element={<TabBrands/>}/>
         <Route path="/admin/orders" element={<AdminTabOrders/>}/>
-        {/*<Route path="/admin/filters" element={<TabFilters />} />*/}
       </Route>
       <Route element={<AuthPage/>}>
         <Route path="/login" element={<LoginPage/>}/>
         <Route path="/register" element={<RegisterPage/>}/>
-        <Route path="/confirmation/:token" element={<ConfirmationPage/>}/>
       </Route>
+      <Route path="/confirmation/:token" element={<ConfirmationPage/>}/>
     </Routes>
   )
 }

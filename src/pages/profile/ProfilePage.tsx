@@ -20,6 +20,22 @@ const tabs: TabProps[] = [
     label: 'Избранное',
     to: '/profile/favorite',
   },
+  {
+    label: 'О компании',
+    to: '/profile/about',
+  },
+  {
+    label: 'Оплата заказов',
+    to: '/profile/about-pay',
+  },
+  {
+    label: 'Доставка заказов',
+    to: '/profile/about-delivery',
+  },
+  {
+    label: 'Контакты',
+    to: '/profile/contacts',
+  },
 ]
 
 const ProfilePage: React.FC = () => {

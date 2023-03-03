@@ -7,4 +7,5 @@ export type ListItem = {
   customElement?: boolean
   style?: CSSProperties
   grow?: number
+  to?: string
 }
