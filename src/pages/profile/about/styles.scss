@@ -4,10 +4,20 @@
   margin-top: 30px;
 }
 
+.about-row__text {
+  text-align: justify;
+}
+
 .about-advantages__list {
   margin-top: 20px;
 }
 
 .about-advantages__item {
-  margin-bottom: 5px;
+  margin-bottom: 10px;
+}
+
+@media screen and (max-width: 750px) {
+  .about-advantages__item {
+    text-align: justify;
+  }
 }
