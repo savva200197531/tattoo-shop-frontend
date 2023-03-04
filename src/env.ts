@@ -1,9 +1,4 @@
-const requestUrl = process.env.REACT_APP_REQUEST_URL_DEV as string
-
-const productsUrl = process.env.REACT_APP_PRODUCTS_URL_DEV as string
-
-// const userDataKey = process.env.REACT_APP_USER_DATA_KEY as string
-
-const tokenKey = process.env.REACT_APP_TOKEN_KEY as string
+// import { requestUrl, productsUrl, tokenKey } from './envs/production'
+import { requestUrl, productsUrl, tokenKey } from './envs/development'
 
 export { requestUrl, productsUrl, tokenKey }

@@ -1,38 +1,43 @@
 import React from 'react'
 
 import { Typography } from '@mui/material'
-import { YMaps, Map, Placemark } from '@pbe/react-yandex-maps'
-
-import ListWithTitle from '../../../components/ListWithTitle/ListWithTitle'
 import './styles.scss'
 
-const coordinates = [53.335328, 83.794823]
+const advantages: string[] = [
+  '• Прямые поставки от производителей, обеспечивающие низкие цены на оригинальные товары;',
+  '• Грамотная логистика;',
+  '• Специальные ценовые условия, выдвигаемые нашими производителями;',
+  '• В наличии всегда только оригинальные товары;',
+  '• Быстрая доставка по всем городам России;',
+  '• Индивидуальный подход к каждому покупателю, все посылки с отправляемой продукцией тщательно упаковываются, защищаются воздушно-пупырчатой плёнкой и запечатываются клейкой лентой;',
+  '• Самый большой в Алтайском крае магазин розничной и оптовой торговли оборудованием и расходными материалами',
+]
 
 const TabAbout: React.FC = () => {
   return (
     <div className="about">
-      <Typography variant="h4" component="h1" fontWeight={500} textAlign="center">
-        О нас
-      </Typography>
+      <div className="about-row">
+        <Typography variant="h4" component="h1" fontWeight={500} textAlign="center">
+          О нас
+        </Typography>
 
-      <ListWithTitle
-        options={[
-          {
-            title: 'Адрес',
-            text: 'Алтайский край, г. Барнаул, ул. Гоголя 38',
-          },
-          {
-            title: 'Телефон',
-            text: <a href="tel:89635207570">+7 963 520 7570</a>,
-          },
-        ]}
-      />
+        <p>
+          Приветствуем вас в Tattoona-matata shop! Мы – первый крупнейший магазин расходных материалов и тату
+          оборудования в Алтайском крае.
+          В магазине существует гибкая система скидок для постоянных покупателей. Мы заинтересованы в каждом клиенте и
+          рассмотрим любые варианты взаимовыгодного сотрудничества.
+        </p>
+      </div>
 
-      <YMaps>
-        <Map className="about-map" width="100%" height="100%" defaultState={{ center: coordinates, zoom: 15 }}>
-          <Placemark defaultGeometry={coordinates} />
-        </Map>
-      </YMaps>
+      <div className="about-row">
+        <Typography variant="h4" component="h1" fontWeight={500} textAlign="center">
+          Преимущества работы с нашим магазином
+        </Typography>
+
+        <ul className="about-advantages__list">
+          {advantages.map((text, key) => <li key={key} className="about-advantages__item">{text}</li>)}
+        </ul>
+      </div>
     </div>
   )
 }

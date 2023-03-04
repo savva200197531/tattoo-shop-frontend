@@ -19,7 +19,11 @@ const TabContacts: React.FC = () => {
               },
               {
                 title: 'Вконтакте',
-                text: '',
+                text: (
+                  <a rel="noreferrer" href="https://vk.com/club219176295" target="_blank">
+                    https://vk.com/club219176295
+                  </a>
+                ),
               },
               {
                 title: 'Инстаграм',
@@ -31,7 +35,11 @@ const TabContacts: React.FC = () => {
               },
               {
                 title: 'Телеграм',
-                text: '',
+                text: (
+                  <a rel="noreferrer" href="https://t.me/tattoona_matata" target="_blank">
+                    https://t.me/tattoona_matata
+                  </a>
+                ),
               },
             ]}
           />

@@ -17,6 +17,7 @@ const items: ListItem[] = [
   },
   {
     element: 'vk',
+    to: 'https://vk.com/club219176295',
   },
   {
     element: 'instagram',
@@ -24,6 +25,7 @@ const items: ListItem[] = [
   },
   {
     element: 'telegram',
+    to: 'https://t.me/tattoona_matata',
   },
 ]
 
