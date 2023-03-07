@@ -1,7 +1,7 @@
 import React from 'react'
 import { Product } from '../../contexts/products/types'
 import { Link } from 'react-router-dom'
-import emptyImg from '../../assets/images/empty-product-image.svg'
+import emptyImg from '../../assets/images/empty-product-img.png'
 import { imgSrc } from '../../helpers/imgSrc'
 
 type Props = {

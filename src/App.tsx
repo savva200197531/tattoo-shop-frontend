@@ -32,7 +32,7 @@ export const session = storageFactory(() => sessionStorage)
 
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={process.env.PUBLIC_URL}>
       <ThemeProvider theme={theme}>
         <AlertProvider>
           <AuthProvider>

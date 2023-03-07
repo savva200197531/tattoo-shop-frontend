@@ -1,7 +1,7 @@
 import React from 'react'
 import { Carousel } from 'react-responsive-carousel'
 import { imgSrc } from '../../helpers/imgSrc'
-import emptyImg from '../../assets/images/empty-product-image.svg'
+import emptyImg from '../../assets/images/empty-product-img.png'
 import classNames from 'classnames'
 
 type Props = {

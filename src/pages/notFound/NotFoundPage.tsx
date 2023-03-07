@@ -2,6 +2,7 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { StyledButton } from '../../components/StyledButtons'
+import circleSrc from '../../assets/images/circle.png'
 import './styles.scss'
 
 const NotFoundPage = () => {
@@ -13,7 +14,7 @@ const NotFoundPage = () => {
         <div className="not-found-content">
           <div className="not-found-main">
             <span>4</span>
-            <span>0</span>
+            <img className="not-found-img" src={circleSrc} alt=""/>
             <span>4</span>
           </div>
 
