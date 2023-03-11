@@ -12,7 +12,7 @@ import { imgSrc } from '../../helpers/imgSrc'
 import emptyImg from '../../assets/images/empty-product-img.png'
 import ListWithTitle from '../../components/ListWithTitle/ListWithTitle'
 import StyledDialog from '../../components/StyledDialog/StyledDialog'
-import { priceFormat } from '../../helpers/priceFormat'
+import { formatPrice } from '../../helpers/formatters/formatPrice'
 
 type Props = {
   cartItem: CartItemType
@@ -22,23 +22,28 @@ const CartItem: React.FC<Props> = ({ cartItem }) => {
   const { product, count, id, user, price } = cartItem
 
   const mobile = useMediaQuery('(max-width:750px)')
-  const { deleteFromCart, getCartItems } = useCart()
-  const { getUser } = useAuth()
+  const { deleteFromCart, getCartItems, deleteFromLocalCart } = useCart()
+  const { getUser, isUserExist } = useAuth()
 
   const handleDeleteFromCart = () => {
-    deleteFromCart(id)
-      .finally(() => {
-        getUser(user.id)
-        getCartItems(user.id).catch(error => {
+    if (isUserExist && user) {
+      deleteFromCart(id)
+        .finally(() => {
+          getUser(user.id)
+          getCartItems(user.id).catch(error => {
+            console.log(error)
+          })
+        })
+        .catch(error => {
           console.log(error)
         })
-      })
-      .catch(error => {
-        console.log(error)
-      })
+    } else {
+      deleteFromLocalCart(id)
+    }
   }
 
   const handleUpdate = (promise: Promise<any>) => {
+    if (!user) return
     promise
       .then(({ data }) => {
         getCartItems(user.id).catch(error => {
@@ -54,24 +59,6 @@ const CartItem: React.FC<Props> = ({ cartItem }) => {
   }
 
   return (
-    // <ProductLayout
-    //   product={product}
-    //   headerContent={(
-    //     <StyledDialog
-    //       icon={
-    //         <IconButton type="button" sx={{ p: '6px' }}>
-    //           <Svg id="trash" width={30} height={30}/>
-    //         </IconButton>
-    //       }
-    //       title="Удалить товар"
-    //       text="Вы точно хотите удалить товар из корзины?"
-    //       handleSubmit={handleDeleteFromCart}
-    //     />
-    //   )}
-    //   footerContent={(
-    //     <CartCounter product_id={product.id} count={count} onSubmit={handleUpdate} user_id={user.id}/>
-    //   )}
-    // />
     <Stack className="cart-item bordered-box" direction={mobile ? 'column' : 'row'} sx={{ alignItems: mobile ? 'center' : 'unset' }} spacing={2}>
       <div className="cart-item__left">
         <img className="cart-item__img" src={product.img_ids?.length ? imgSrc(product.img_ids?.[0] as number) : emptyImg} alt=""/>
@@ -90,11 +77,11 @@ const CartItem: React.FC<Props> = ({ cartItem }) => {
           },
           {
             title: 'Цена за шт',
-            text: priceFormat(product.price),
+            text: formatPrice(product.price),
           },
           {
             title: 'Цена за все',
-            text: priceFormat(price),
+            text: formatPrice(price),
           },
         ]}
       />
@@ -111,7 +98,7 @@ const CartItem: React.FC<Props> = ({ cartItem }) => {
           handleSubmit={handleDeleteFromCart}
         />
 
-        <CartCounter product_id={product.id} count={count} onSubmit={handleUpdate} user_id={user.id}/>
+        <CartCounter product={product} count={count} onSubmit={handleUpdate} user_id={user?.id}/>
       </div>
     </Stack>
   )

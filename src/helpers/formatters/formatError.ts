@@ -1,6 +1,6 @@
 import { AxiosError, isAxiosError } from 'axios'
 
-export const errorFormat = (error: AxiosError): string | undefined => {
+export const formatError = (error: AxiosError): string | undefined => {
   if (isAxiosError(error)) {
     return error!.response?.data.message.join(', ') as string
   }

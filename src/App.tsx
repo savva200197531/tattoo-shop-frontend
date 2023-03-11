@@ -36,23 +36,23 @@ function App() {
       <ThemeProvider theme={theme}>
         <AlertProvider>
           <AuthProvider>
-            <CartProvider>
-              <ProductsProvider>
+            <ProductsProvider>
+              <CartProvider>
                 <OrdersProvider>
                   <PaymentProvider>
                     <FavoriteProvider>
                       <SliderProvider>
                         <FilesProvider>
                           <ProductsFiltersProvider>
-                            <AppLayout />
+                            <AppLayout/>
                           </ProductsFiltersProvider>
                         </FilesProvider>
                       </SliderProvider>
                     </FavoriteProvider>
                   </PaymentProvider>
                 </OrdersProvider>
-              </ProductsProvider>
-            </CartProvider>
+              </CartProvider>
+            </ProductsProvider>
           </AuthProvider>
         </AlertProvider>
       </ThemeProvider>

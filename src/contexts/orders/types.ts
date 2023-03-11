@@ -1,13 +1,13 @@
 import { Product } from '../products/types'
 import { User } from '../auth/types'
-import { Payment } from '../payment/types'
-import { statusesVariable } from '../../helpers/orderStatusFormat'
+import { CartItem } from '../cart/types'
+
+export type OrderStatus = 1 | 2 | 3 | 4
 
 export type Order = {
   id: number
   price: number
   phone: string
-  payment_method: IPaymentMethodType
   address: string
   surname: string
   name: string
@@ -16,32 +16,15 @@ export type Order = {
   region: string
   city: string
   comment: string
-  status: keyof typeof statusesVariable
+  status: OrderStatus
   date: string
   user: User
   products: Product[]
 }
 
-export declare type IPaymentMethodType =
-  'bank_card'
-  | 'apple_pay'
-  | 'google_pay'
-  | 'yoo_money'
-  | 'qiwi'
-  | 'webmoney'
-  | 'sberbank'
-  | 'alfabank'
-  | 'tinkoff_bank'
-  | 'b2b_sberbank'
-  | 'sbp'
-  | 'mobile_balance'
-  | 'cash'
-  | 'installments';
-
 export type CreateOrderPayload = {
   price: number
-  // return_url: string
-  user_id: number
+  user_id?: number
   surname: string
   name: string
   lastname: string
@@ -50,19 +33,14 @@ export type CreateOrderPayload = {
   region: string
   city: string
   address: string
+  status: OrderStatus
   comment?: string
-  payment_method: IPaymentMethodType
-  return_url: string
-}
-
-export type CreateOrderResponse = {
-  order: Order
-  payment: Payment
+  cart: CartItem[]
 }
 
 export type CreateOrder = (payload: CreateOrderPayload) => Promise<any>
 
-export type GetOrders = (user_id: number) => Promise<any>
+export type GetOrders = (user_id: number) => Promise<Order[]>
 
 export type GetOrder = (id: number, user_id: number) => Promise<Order>
 
@@ -71,7 +49,6 @@ export type GetAllOrders = () => Promise<Order[]>
 export type OrdersContextProps = {
   createOrder: CreateOrder
   getOrders: GetOrders
-  orders: Order[]
   getOrder: GetOrder
   getAllOrders: GetAllOrders
 }

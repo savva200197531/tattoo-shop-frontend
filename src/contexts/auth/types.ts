@@ -39,5 +39,6 @@ export type AuthContextProps = {
   user: User
   logout: Logout
   getUser: GetUser
+  setUser: (value: User) => void
   isUserExist: boolean
 };

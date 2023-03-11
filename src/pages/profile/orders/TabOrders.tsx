@@ -9,11 +9,13 @@ import OrderItem from './OrderItem'
 import AuthButton from '../../../components/AuthButton'
 import './styles.scss'
 import CatalogButton from '../../../components/CatalogButton'
+import { Order } from '../../../contexts/orders/types'
 
 const TabOrders: React.FC = () => {
+  const [orders, setOrders] = useState<Order[]>([])
   const [loading, setLoading] = useState<boolean>(false)
 
-  const { getOrders, orders } = useOrders()
+  const { getOrders } = useOrders()
   const { user, isUserExist } = useAuth()
 
   useEffect(() => {
@@ -22,6 +24,9 @@ const TabOrders: React.FC = () => {
     if (!isUserExist) return
 
     getOrders(user.id)
+      .then(data => {
+        setOrders(data)
+      })
       .catch(error => {
         console.log(error)
       })

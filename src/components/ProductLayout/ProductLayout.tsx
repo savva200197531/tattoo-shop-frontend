@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom'
 import { imgSrc } from '../../helpers/imgSrc'
 import emptyImgSrc from '../../assets/images/empty-product-img.png'
 import ListWithTitle from '../ListWithTitle/ListWithTitle'
-import { priceFormat } from '../../helpers/priceFormat'
+import { formatPrice } from '../../helpers/formatters/formatPrice'
 import { Typography } from '@mui/material'
 
 type Props = {
@@ -59,7 +59,7 @@ const ProductLayout: React.FC<Props> = ({ product, headerContent, footerContent,
           },
           {
             title: 'Цена',
-            text: priceFormat(price),
+            text: formatPrice(price),
           },
         ]}
       />

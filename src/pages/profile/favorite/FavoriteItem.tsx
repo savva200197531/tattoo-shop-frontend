@@ -51,7 +51,7 @@ const FavoriteItem: React.FC<Props> = ({ favoriteProduct }) => {
       )}
       footerContent={(
         <CartCounter
-          product_id={product.id}
+          product={product}
           count={user.cart?.find(cartItem => cartItem.product?.id === product.id)?.count}
           onSubmit={handleUpdateCart}
           user_id={user.id}

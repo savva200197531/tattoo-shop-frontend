@@ -11,7 +11,7 @@ export type CartItem = {
   id: number
   count: number
   product: Product
-  user: User
+  user?: User
   price: number
 }
 
@@ -34,15 +34,29 @@ export type AddToCartPayload = {
   count: number
 }
 
-export type AddToCart = (payload: AddToCartPayload) => Promise<any>
-
 export type GetCartItems = (user_id: number) => Promise<any>
 
+export type AddToCart = (payload: AddToCartPayload) => Promise<any>
+
 export type DeleteFromCart = (id: number) => Promise<any>
+
+export type AddToLocalCartPayload = {
+  product: Product
+  count: number
+}
+
+export type GetLocalCartItems = () => void
+
+export type AddToLocalCart = (payload: AddToLocalCartPayload) => void
+
+export type DeleteFromLocalCart = (id: number) => void
 
 export type CartContextProps = {
   cart: Cart
   getCartItems: GetCartItems
   addToCart: AddToCart
   deleteFromCart: DeleteFromCart
+  getLocalCartItems: GetLocalCartItems
+  addToLocalCart: AddToLocalCart
+  deleteFromLocalCart: DeleteFromLocalCart
 }

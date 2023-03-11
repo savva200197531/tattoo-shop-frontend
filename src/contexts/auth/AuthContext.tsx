@@ -7,7 +7,7 @@ import { AuthContextProps, GetUser, Login, Register, SendConfirmationLink, User 
 import { setTokenToHeaders } from '../../helpers/setTokenToHeaders'
 import { requestUrl, tokenKey } from '../../env'
 import { local } from '../../App'
-import { errorFormat } from '../../helpers/errorFormat'
+import { formatError } from '../../helpers/formatters/formatError'
 import { useAlert } from '../alert/AlertContext'
 
 const AuthContext = React.createContext<AuthContextProps>({} as AuthContextProps)
@@ -31,7 +31,7 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
     })
     .catch(error => {
       console.log(error)
-      const message = errorFormat(error)
+      const message = formatError(error)
 
       showAlert({ text: message, severity: 'error' })
     })
@@ -48,7 +48,7 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
       navigate('/')
     })
     .catch(error => {
-      const message = errorFormat(error)
+      const message = formatError(error)
 
       showAlert({ text: message, severity: 'error' })
     })
@@ -112,6 +112,7 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
     login,
     sendConfirmationLink,
     resendConfirmationLink,
+    setUser,
     user,
     logout,
     getUser,

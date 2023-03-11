@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { object, string, TypeOf } from 'zod'
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
 
@@ -15,7 +15,9 @@ import ListWithTitle from '../../components/ListWithTitle/ListWithTitle'
 import FormInputText from '../../components/FormInputs/Text/FormInputText'
 import FormInputMasked from '../../components/FormInputs/Text/FormInputMasked'
 import './styles.scss'
-import { priceFormat } from '../../helpers/priceFormat'
+import { formatPrice } from '../../helpers/formatters/formatPrice'
+import { removePhoneMask } from '../../helpers/formatters/formatPhone'
+import { local } from '../../App'
 
 const checkoutSchema = object({
   // user data
@@ -56,27 +58,25 @@ const CheckoutForm: React.FC = () => {
 
   const mobile = useMediaQuery('(max-width:750px)')
   const { createOrder } = useOrders()
-  const { user, getUser } = useAuth()
-  const { cart } = useCart()
+  const { user, getUser, isUserExist } = useAuth()
+  const { cart, getLocalCartItems } = useCart()
 
   const methods = useForm<CheckoutInput>({
     resolver: zodResolver(checkoutSchema),
-    // defaultValues: {
-    //   surname: 'Кашин',
-    //   name: 'Савва',
-    //   lastname: 'Игоревич',
-    //   email: 'savva@mail.ru',
-    //   phone: '1231231231',
-    //   region: 'Новосибирск',
-    //   city: 'Новосибирск',
-    //   address: 'Мичурина 43',
-    //   comment: `Тестовый комментарий`,
-    // },
+    defaultValues: {
+      surname: 'Кашин',
+      name: 'Савва',
+      lastname: 'Игоревич',
+      email: 'tattoona.matata.shop@gmail.com',
+      phone: '79132537745',
+      region: 'Новосибирск',
+      city: 'Новосибирск',
+      address: 'Мичурина 43',
+      comment: `Тестовый комментарий`,
+    },
   })
 
   const {
-    formState: { errors, isSubmitSuccessful },
-    reset,
     handleSubmit,
   } = methods
 
@@ -85,31 +85,26 @@ const CheckoutForm: React.FC = () => {
 
     const payload: CreateOrderPayload = {
       ...data,
+      status: 1,
       price: cart.totalPrice,
       user_id: user.id,
-      payment_method: 'bank_card',
-      phone: data.phone.replace(/\D/g, ''),
-      return_url: 'http://localhost:3000/thanks',
+      phone: removePhoneMask(data.phone),
+      cart: cart.items,
     }
 
     createOrder(payload)
       .then(() => {
-        getUser(user.id)
+        if (isUserExist) {
+          return getUser(user.id)
+        } else {
+          local.setItem('cart', JSON.stringify({ items: [] }))
+          getLocalCartItems()
+        }
       })
       .finally(() => {
         setLoading(false)
       })
   }
-
-  useEffect(() => {
-    if (isSubmitSuccessful) {
-      // reset()
-    }
-  }, [isSubmitSuccessful, reset])
-
-  useEffect(() => {
-    console.log(errors)
-  }, [errors])
 
   return (
     <Box
@@ -171,7 +166,7 @@ const CheckoutForm: React.FC = () => {
         options={[
           {
             title: 'Итого',
-            text: priceFormat(cart.totalPrice),
+            text: formatPrice(cart.totalPrice),
           },
         ]}
       />
@@ -184,7 +179,7 @@ const CheckoutForm: React.FC = () => {
         loading={loading}
         sx={{ py: '0.8rem', mt: '1rem' }}
       >
-        Перейти к оплате
+        Оформить заказ
       </StyledLoadingButton>
     </Box>
   )

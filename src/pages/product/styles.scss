@@ -9,7 +9,7 @@
 }
 
 .product-info {
-  width: 100%;
+  width: 50%;
   display: flex;
   justify-content: space-between;
   flex-direction: column;
@@ -42,11 +42,16 @@
 .product-description {
   font-size: 20px;
   font-weight: 300;
+  word-wrap: break-word;
   margin-top: 10px;
 }
 
 @media screen and (max-width: 750px) {
   .product-content {
     height: auto;
+  }
+
+  .product-info {
+    width: 100%;
   }
 }

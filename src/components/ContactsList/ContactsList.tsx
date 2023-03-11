@@ -6,16 +6,6 @@ import { Box } from '@mui/material'
 
 const items: ListItem[] = [
   {
-    element: (
-      <a href="tel:89635207570">
-        <IconButton type="button" color="secondary" sx={{ p: '6px' }}>
-          <Svg className="base-icon" id="phone"/>
-        </IconButton>
-      </a>
-    ),
-    customElement: true,
-  },
-  {
     element: 'vk',
     to: 'https://vk.com/club219176295',
   },

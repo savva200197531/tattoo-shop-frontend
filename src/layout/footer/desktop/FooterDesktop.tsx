@@ -21,8 +21,8 @@ const FooterDesktop: React.FC = () => {
             {/*<Link to="/about">Отзывы</Link>*/}
           </div>
           <div className="footer-column">
-            <Link to="/profile/about-pay">Оплата заказов</Link>
-            <Link to="/profile/about-delivery">Доставка заказов</Link>
+            <Link to="/profile/about-pay">Оплата</Link>
+            <Link to="/profile/about-delivery">Доставка</Link>
           </div>
           <div className="footer-column">
             <a href="tel:89635207570">+7 963 520 7570</a>

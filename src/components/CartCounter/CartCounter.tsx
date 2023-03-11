@@ -1,45 +1,44 @@
 import React from 'react'
+import classNames from 'classnames'
 
 import { useCart } from '../../contexts/cart/CartContext'
-import { AddToCartPayload, CartItem } from '../../contexts/cart/types'
+import { AddToCartPayload, AddToLocalCartPayload, CartItem } from '../../contexts/cart/types'
 import Svg from '../../components/Svg/Svg'
 import './styles.scss'
-import classNames from 'classnames'
 import { StyledButton } from '../StyledButtons'
-import { ShowAlertPayload } from '../../contexts/alert/types'
 import { useAuth } from '../../contexts/auth/AuthContext'
-import { useAlert } from '../../contexts/alert/AlertContext'
+import { Product } from '../../contexts/products/types'
 
 type Props = {
   count?: number
-  product_id: number
-  user_id: number
+  product: Product
+  user_id?: number
   onSubmit: (promise: Promise<CartItem>) => void
   className?: string
 }
 
-const CartCounter: React.FC<Props> = ({ count = 0, product_id, onSubmit, user_id, className }) => {
-  const { addToCart } = useCart()
+const CartCounter: React.FC<Props> = ({ count = 0, product, onSubmit, user_id, className }) => {
+  const { addToCart, addToLocalCart } = useCart()
   const { isUserExist } = useAuth()
-  const { showAlert } = useAlert()
 
   const handleAddToCart = (count: number) => {
     if (!isUserExist) {
-      const payload: ShowAlertPayload = {
-        text: 'Невозможно добавить в корзину, зарегистрируйтесь',
-        severity: 'warning',
+      const payload: AddToLocalCartPayload = {
+        count,
+        product,
       }
 
-      return showAlert(payload)
-    }
+      addToLocalCart(payload)
+      return
+    } else if (user_id) {
+      const payload: AddToCartPayload = {
+        user_id,
+        count,
+        product_id: product.id,
+      }
 
-    const payload: AddToCartPayload = {
-      user_id,
-      count,
-      product_id,
+      onSubmit(addToCart(payload))
     }
-
-    onSubmit(addToCart(payload))
   }
 
   return (
@@ -47,6 +46,7 @@ const CartCounter: React.FC<Props> = ({ count = 0, product_id, onSubmit, user_id
       {count === 0 ?
         (
           <StyledButton
+            disabled={product.count === count}
             startIcon={<Svg id="cart" height={20} width={20}/>}
             onClick={() => handleAddToCart(1)}
             fullWidth
@@ -57,9 +57,9 @@ const CartCounter: React.FC<Props> = ({ count = 0, product_id, onSubmit, user_id
         ) :
         (
           <div className="cart-counter__active">
-            <StyledButton fullWidth variant="outlined" onClick={() => handleAddToCart(count - 1)}>-</StyledButton>
+            <StyledButton fullWidth variant="text" onClick={() => handleAddToCart(count - 1)}>-</StyledButton>
             <div className="cart-counter__count">{count}</div>
-            <StyledButton fullWidth variant="outlined" onClick={() => handleAddToCart(count + 1)}>+</StyledButton>
+            <StyledButton disabled={product.count === count} fullWidth variant="text" onClick={() => handleAddToCart(count + 1)}>+</StyledButton>
           </div>
         )
       }

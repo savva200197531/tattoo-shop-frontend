@@ -4,10 +4,11 @@ import { Typography } from '@mui/material'
 
 import { Order } from '../../contexts/orders/types'
 import ListWithTitle from '../../components/ListWithTitle/ListWithTitle'
-import { dateFormat } from '../../helpers/dateFormat'
+import { formatDate } from '../../helpers/formatters/formatDate'
 import ProductLayout from '../../components/ProductLayout/ProductLayout'
-import { priceFormat } from '../../helpers/priceFormat'
-import { orderStatusFormat } from '../../helpers/orderStatusFormat'
+import { formatPrice } from '../../helpers/formatters/formatPrice'
+import { formatOrderStatus } from '../../helpers/formatters/formatOrderStatus'
+
 
 type Props = {
   order: Order
@@ -20,7 +21,7 @@ const OrderItem: React.FC<Props> = ({ order }) => {
         Заказ №{order.id}
       </Typography>
       <p className="order-layout__date">
-        от {dateFormat(order.date)}
+        от {formatDate(order.date)}
       </p>
 
       <div className="order-layout__content bordered-box">
@@ -41,7 +42,7 @@ const OrderItem: React.FC<Props> = ({ order }) => {
             },
             {
               title: 'Статус',
-              text: orderStatusFormat(order.status),
+              text: formatOrderStatus(order.status),
             },
           ]}
         />
@@ -62,7 +63,7 @@ const OrderItem: React.FC<Props> = ({ order }) => {
             // },
             {
               title: 'Итого',
-              text: priceFormat(order.price),
+              text: formatPrice(order.price),
             },
           ]}
         />

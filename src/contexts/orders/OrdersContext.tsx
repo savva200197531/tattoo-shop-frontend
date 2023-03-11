@@ -1,11 +1,11 @@
-import React, { ReactNode, useContext, useState } from 'react'
+import React, { ReactNode, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
-import { CreateOrder, CreateOrderResponse, GetAllOrders, GetOrder, GetOrders, Order, OrdersContextProps } from './types'
+import { CreateOrder, GetAllOrders, GetOrder, GetOrders, Order, OrdersContextProps } from './types'
 import { requestUrl } from '../../env'
 import { useAlert } from '../alert/AlertContext'
-import { errorFormat } from '../../helpers/errorFormat'
+import { formatError } from '../../helpers/formatters/formatError'
 
 const OrdersContext = React.createContext<OrdersContextProps>({} as OrdersContextProps)
 
@@ -16,32 +16,23 @@ type Props = {
 }
 
 export const OrdersProvider: React.FC<Props> = ({ children }) => {
-  const [orders, setOrders] = useState<Order[]>([])
-
   const { showAlert } = useAlert()
   const navigate = useNavigate()
 
   const createOrder: CreateOrder = (payload) => {
-    return axios.post<CreateOrderResponse>(`${requestUrl}/orders`, payload)
+    return axios.post<Order>(`${requestUrl}/orders`, payload)
       .then(({ data }) => {
-        navigate(`/orders/${data.order.id}`)
-        window.open(data.payment.confirmation.confirmation_url, '_blank')
+        navigate(`/thanks/${data.id}`)
       })
       .catch(error => {
-        const message = errorFormat(error)
+        const message = formatError(error)
 
         showAlert({ text: message, severity: 'error' })
       })
   }
 
   const getOrders: GetOrders = (user_id) => {
-    return axios.get<Order[]>(`${requestUrl}/orders`, { params: { user_id } })
-      .then(({ data }) => {
-        setOrders(data)
-      })
-      .catch(error => {
-        console.log(error)
-      })
+    return axios.get<Order[]>(`${requestUrl}/orders`, { params: { user_id } }).then(({ data }) => data)
   }
 
   const getAllOrders: GetAllOrders = () => {
@@ -55,7 +46,6 @@ export const OrdersProvider: React.FC<Props> = ({ children }) => {
   const value = {
     createOrder,
     getOrders,
-    orders,
     getOrder,
     getAllOrders,
   }

@@ -1,5 +1,9 @@
 @import "../../styles/variables";
 
+.cart-counter {
+  height: 42px;
+}
+
 .cart-counter__active {
   display: flex;
   align-items: center;

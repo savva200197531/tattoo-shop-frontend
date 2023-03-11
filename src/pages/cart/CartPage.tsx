@@ -8,7 +8,6 @@ import { useAuth } from '../../contexts/auth/AuthContext'
 import Spinner from '../../components/Spinner/Spinner'
 import './styles.scss'
 import CartTotal from './CartTotal'
-import AuthButton from '../../components/AuthButton'
 import CatalogButton from '../../components/CatalogButton'
 
 const CartPage: React.FC = () => {
@@ -19,9 +18,9 @@ const CartPage: React.FC = () => {
   const { cart, getCartItems } = useCart()
 
   useEffect(() => {
-    setLoading(true)
-
     if (!isUserExist) return
+
+    setLoading(true)
 
     getCartItems(user.id)
       .catch(error => {
@@ -40,7 +39,7 @@ const CartPage: React.FC = () => {
             Корзина
           </Typography>
 
-          {isUserExist ? loading ? <Spinner/> : cart?.items?.length ? (
+          {loading ? <Spinner/> : cart?.items?.length ? (
             <Stack className="cart-main" direction={mobile ? 'column' : 'row'} spacing={2}>
               <div className="cart-items">
                 {cart.items.map(cartItem => <CartItem key={cartItem.id} cartItem={cartItem}/>)}
@@ -48,7 +47,7 @@ const CartPage: React.FC = () => {
 
               <CartTotal/>
             </Stack>
-          ) : <CatalogButton/> : <AuthButton/>}
+          ) : <CatalogButton/>}
         </div>
       </div>
     </div>

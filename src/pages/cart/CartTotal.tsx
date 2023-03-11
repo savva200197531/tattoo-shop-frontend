@@ -3,7 +3,7 @@ import { useCart } from '../../contexts/cart/CartContext'
 import { StyledButton } from '../../components/StyledButtons'
 import { useNavigate } from 'react-router-dom'
 import ListWithTitle from '../../components/ListWithTitle/ListWithTitle'
-import { priceFormat } from '../../helpers/priceFormat'
+import { formatPrice } from '../../helpers/formatters/formatPrice'
 
 const CartTotal: React.FC = () => {
   const navigate = useNavigate()
@@ -19,7 +19,7 @@ const CartTotal: React.FC = () => {
           },
           {
             title: 'Итого',
-            text: priceFormat(cart.totalPrice),
+            text: formatPrice(cart.totalPrice),
           },
         ]}
       />

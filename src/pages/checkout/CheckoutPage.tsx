@@ -16,9 +16,9 @@ const CheckoutPage: React.FC = () => {
   const { isUserExist, user } = useAuth()
 
   useEffect(() => {
-    setLoading(true)
-
     if (!isUserExist) return
+
+    setLoading(true)
 
     getCartItems(user.id)
       .catch(error => {

@@ -43,7 +43,7 @@ const ProductItem: React.FC<Props> = ({ product, loadProducts }) => {
     <ProductLayout
       product={product}
       headerContent={(
-        <>
+        <div>
           <StyledModal
             icon={
               <IconButton type="button" sx={{ p: '6px' }}>
@@ -65,7 +65,7 @@ const ProductItem: React.FC<Props> = ({ product, loadProducts }) => {
             text="Вы точно хотите удалить товар?"
             handleSubmit={handleDeleteProduct}
           />
-        </>
+        </div>
       )}
     />
   )

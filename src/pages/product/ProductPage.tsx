@@ -12,7 +12,7 @@ import { useProductsFilters } from '../../contexts/productsFilters/ProductsFilte
 import { Category } from '../../contexts/productsFilters/types'
 import './styles.scss'
 import ProductLayoutSlider from '../../components/ProductLayout/ProductLayoutSlider'
-import { priceFormat } from '../../helpers/priceFormat'
+import { formatPrice } from '../../helpers/formatters/formatPrice'
 import ListWithTitle from '../../components/ListWithTitle/ListWithTitle'
 
 const ProductPage = () => {
@@ -81,7 +81,7 @@ const ProductPage = () => {
                     options={[
                       {
                         title: 'Цена',
-                        text: priceFormat(product.price),
+                        text: formatPrice(product.price),
                       },
                       {
                         title: 'В наличии',
@@ -94,7 +94,7 @@ const ProductPage = () => {
                 <div className="product-info__bottom">
                   <CartCounter
                     className="product-cart-counter"
-                    product_id={product.id}
+                    product={product}
                     count={user.cart?.find(cartItem => cartItem.product?.id === product.id)?.count}
                     onSubmit={handleUpdate}
                     user_id={user.id}

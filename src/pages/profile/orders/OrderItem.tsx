@@ -3,10 +3,10 @@ import { useNavigate } from 'react-router-dom'
 
 import { Order } from '../../../contexts/orders/types'
 import ListWithTitle from '../../../components/ListWithTitle/ListWithTitle'
-import { dateFormat } from '../../../helpers/dateFormat'
+import { formatDate } from '../../../helpers/formatters/formatDate'
 import ProductLayoutSlider from '../../../components/ProductLayout/ProductLayoutSlider'
-import { priceFormat } from '../../../helpers/priceFormat'
-import { orderStatusFormat } from '../../../helpers/orderStatusFormat'
+import { formatPrice } from '../../../helpers/formatters/formatPrice'
+import { formatOrderStatus } from '../../../helpers/formatters/formatOrderStatus'
 
 type Props = {
   order: Order
@@ -26,11 +26,11 @@ const OrderItem: React.FC<Props> = ({ order }) => {
         options={[
           {
             title: 'Дата заказа',
-            text: dateFormat(order.date),
+            text: formatDate(order.date),
           },
           {
             title: 'Стоимость',
-            text: priceFormat(order.price),
+            text: formatPrice(order.price),
           },
           {
             title: 'Номер заказа',
@@ -38,7 +38,7 @@ const OrderItem: React.FC<Props> = ({ order }) => {
           },
           {
             title: 'Статус заказа',
-            text: orderStatusFormat(order.status),
+            text: formatOrderStatus(order.status),
           },
         ]}
       />
