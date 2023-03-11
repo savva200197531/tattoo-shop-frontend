@@ -63,17 +63,17 @@ const CheckoutForm: React.FC = () => {
 
   const methods = useForm<CheckoutInput>({
     resolver: zodResolver(checkoutSchema),
-    defaultValues: {
-      surname: 'Кашин',
-      name: 'Савва',
-      lastname: 'Игоревич',
-      email: 'tattoona.matata.shop@gmail.com',
-      phone: '79132537745',
-      region: 'Новосибирск',
-      city: 'Новосибирск',
-      address: 'Мичурина 43',
-      comment: `Тестовый комментарий`,
-    },
+    // defaultValues: {
+    //   surname: 'Кашин',
+    //   name: 'Савва',
+    //   lastname: 'Игоревич',
+    //   email: 'tattoona.matata.shop@gmail.com',
+    //   phone: '79132537745',
+    //   region: 'Новосибирск',
+    //   city: 'Новосибирск',
+    //   address: 'Мичурина 43',
+    //   comment: `Тестовый комментарий`,
+    // },
   })
 
   const {
