@@ -11,8 +11,7 @@ const TabAboutPay: React.FC = () => {
           </Typography>
 
           <Typography component="p" fontWeight={500} textAlign="center">
-            Произодится на сайте, с помощью сервиса
-            <a rel="noreferrer" href="https://yookassa.ru/" target="_blank"> ЮКасса</a>
+            После оформления заказа с вами свяжется менеджер и предоставит варианты оплаты (при получении, предоплата).
           </Typography>
         </div>
       </div>
