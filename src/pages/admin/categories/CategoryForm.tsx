@@ -10,11 +10,13 @@ import { validationErrors } from '../../../helpers/validationErrors'
 import { ACCEPTED_IMAGE_TYPES, CreateFilesPayload } from '../../../contexts/files/types'
 import { useFiles } from '../../../contexts/files/FilesContext'
 import FileInput from '../../../components/FileInput/FileInput'
-import { Category } from '../../../contexts/productsFilters/types'
 import FormInputText from '../../../components/FormInputs/Text/FormInputText'
+import { Category } from '../../../contexts/productsFilters/CategoriesContext/types'
 
 const categorySchema = object({
-  name: string().nonempty(validationErrors.required('название')).max(30, validationErrors.max('название', 30)),
+  name: string({ required_error: validationErrors.required('название') })
+    .nonempty(validationErrors.required('название'))
+    .max(30, validationErrors.max('название', 30)),
   img_ids: any().refine((data) => data.length, { message: validationErrors.required('изображение') }),
 })
 
@@ -75,7 +77,7 @@ const CategoryForm: React.FC<Props> = ({ record, onSubmit, buttonTitle, title })
   }, [errors])
 
   return (
-    <Box className="product-form">
+    <Box>
       <Typography variant="h5" component="h5" sx={{ mb: '2rem' }} textAlign="center">
         {title}
       </Typography>

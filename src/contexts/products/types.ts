@@ -11,6 +11,9 @@ export type Product = {
   count: number
   brand_id: number
   category_id: number
+  color_id?: number;
+  amount_id?: number;
+  quantity_id?: number;
   img_ids: number[]
   created_at: string
   description?: string
@@ -48,6 +51,8 @@ export type ProductsFilter = {
   price_min?: string | null
   price_max?: string | null
   search?: string | null
+  color?: number[] | null
+  amount?: number[] | null
 }
 
 export type GetProducts = (params?: ProductsParams, filter?: ProductsFilter) => Promise<GetProductsResponse>

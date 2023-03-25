@@ -36,12 +36,12 @@ const TabFavorite: React.FC = () => {
             Избранное
           </Typography>
 
-          <div className="products-list">
-            {isUserExist ? loading ? <Spinner/> : favoriteProducts.length ? (
-              favoriteProducts.map(favoriteProduct => (
-                <FavoriteItem key={favoriteProduct.id} favoriteProduct={favoriteProduct}/>))
-            ) : <CatalogButton/> : <AuthButton/>}
-          </div>
+          {isUserExist ? loading ? <Spinner/> : favoriteProducts.length ? (
+            <div className="products-list">
+              {favoriteProducts.map(favoriteProduct => (
+                <FavoriteItem key={favoriteProduct.id} favoriteProduct={favoriteProduct}/>))}
+            </div>
+          ) : <CatalogButton/> : <AuthButton/>}
 
         </div>
       </div>

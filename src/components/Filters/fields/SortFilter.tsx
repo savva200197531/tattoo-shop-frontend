@@ -1,6 +1,7 @@
 import React from 'react'
 import FormInputSelect from '../../FormInputs/Select/FormInputSelect'
 import { Option } from '../../FormInputs/Select/types'
+import { BaseFilterFieldProps } from './types'
 
 const options: Option[] = [
   {
@@ -21,10 +22,11 @@ const options: Option[] = [
   },
 ]
 
-const SortFilter: React.FC = () => {
+const SortFilter: React.FC<BaseFilterFieldProps> = ({ defaultValue }) => {
   return (
     <FormInputSelect
       label="Сортировка"
+      defaultValue={defaultValue}
       name="sort"
       options={options}
     />

@@ -1,4 +1,4 @@
 export type BaseFormInputTextProps = {
   name: string
-  label: string
+  label?: string
 }

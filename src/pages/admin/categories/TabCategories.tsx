@@ -1,23 +1,23 @@
 import React, { useEffect, useState } from 'react'
 
-import { useProductsFilters } from '../../../contexts/productsFilters/ProductsFiltersContext'
 import Spinner from '../../../components/Spinner/Spinner'
 import CategoryItem from './CategoryItem'
 import CategoryForm, { CategoryInput } from './CategoryForm'
 import StyledModal from '../../../components/StyledModal/StyledModal'
-import { Category, CreateCategoryPayload } from '../../../contexts/productsFilters/types'
 import CreateButton from '../CreateButton'
 import './styles.scss'
+import { Category, CreateCategoryPayload } from '../../../contexts/productsFilters/CategoriesContext/types'
+import { useCategories } from '../../../contexts/productsFilters/CategoriesContext/CategoriesContext'
 
 const TabCategories: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false)
   const [categories, setCategories] = useState<Category[]>([])
 
-  const { getCategories, createCategory } = useProductsFilters()
+  const { getCategories, createCategory } = useCategories()
 
   const handleSubmit = (data: CategoryInput) => {
     const payload: CreateCategoryPayload = {
-      name: data.name,
+      ...data,
       img_id: data.img_ids[0],
     }
 

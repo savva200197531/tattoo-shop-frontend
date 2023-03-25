@@ -23,6 +23,18 @@ const tabs: TabProps[] = [
     to: '/admin/brands',
   },
   {
+    label: 'Цвета',
+    to: '/admin/colors',
+  },
+  {
+    label: 'Обьемы',
+    to: '/admin/amount',
+  },
+  // {
+  //   label: 'Количество',
+  //   to: '/admin/quantities',
+  // },
+  {
     label: 'Заказы',
     to: '/admin/orders',
   },

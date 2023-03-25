@@ -1,15 +1,16 @@
 @import "../../styles/variables";
 
 .product-content {
-  height: 500px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(400px, 1fr));
+  grid-gap: 20px;
 }
 
 .product-slider__wrapper {
-  width: 100%;
+
 }
 
 .product-info {
-  width: 50%;
   display: flex;
   justify-content: space-between;
   flex-direction: column;
@@ -21,7 +22,7 @@
   padding-bottom: 20px;
 
   > *:not(:last-child) {
-    margin-bottom: 10px;
+    margin-bottom: 5px;
   }
 
   &:before {
@@ -33,6 +34,16 @@
     bottom: 0;
     left: -20px;
   }
+}
+
+.product-info__top-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.product-info__name {
+  word-wrap: break-word;
 }
 
 .product-info__bottom {
@@ -48,10 +59,10 @@
 
 @media screen and (max-width: 750px) {
   .product-content {
-    height: auto;
+    display: block;
   }
 
   .product-info {
-    width: 100%;
+    margin-top: 20px;
   }
 }

@@ -6,16 +6,21 @@ export type OrderStatus = 1 | 2 | 3 | 4
 
 export type Order = {
   id: number
-  price: number
+  // user
   phone: string
-  address: string
-  surname: string
   name: string
+  surname: string
   lastname: string
   email: string
+  // address
   region: string
   city: string
+  street: string
+  apartment: string
+  house: string
   comment: string
+  // rest
+  price: number
   status: OrderStatus
   date: string
   user: User
@@ -32,7 +37,9 @@ export type CreateOrderPayload = {
   phone: string
   region: string
   city: string
-  address: string
+  street: string
+  house: string
+  apartment: string
   status: OrderStatus
   comment?: string
   cart: CartItem[]

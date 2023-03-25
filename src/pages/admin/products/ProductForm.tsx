@@ -3,20 +3,27 @@ import { any, number, object, string, TypeOf } from 'zod'
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Box, Typography } from '@mui/material'
+import { Box, TextareaAutosize, Typography } from '@mui/material'
 
 import FileInput from '../../../components/FileInput/FileInput'
 import { StyledLoadingButton } from '../../../components/StyledButtons'
 import { validationErrors } from '../../../helpers/validationErrors'
 import { ACCEPTED_IMAGE_TYPES, CreateFilesPayload } from '../../../contexts/files/types'
 import { useFiles } from '../../../contexts/files/FilesContext'
-import { useProductsFilters } from '../../../contexts/productsFilters/ProductsFiltersContext'
-import { Brand, Category } from '../../../contexts/productsFilters/types'
 import { Product } from '../../../contexts/products/types'
 import FormInputText from '../../../components/FormInputs/Text/FormInputText'
 import FormInputNumber from '../../../components/FormInputs/Text/FormInputNumber'
 import FormInputSelect from '../../../components/FormInputs/Select/FormInputSelect'
 import './styles.scss'
+import { Category } from '../../../contexts/productsFilters/CategoriesContext/types'
+import { Brand } from '../../../contexts/productsFilters/BrandsContext/types'
+import { useCategories } from '../../../contexts/productsFilters/CategoriesContext/CategoriesContext'
+import { useBrands } from '../../../contexts/productsFilters/BrandsContext/BrandsContext'
+import { Color } from '../../../contexts/productsFilters/ColorsContext/types'
+import { Amount } from '../../../contexts/productsFilters/AmountContext/types'
+import { useColors } from '../../../contexts/productsFilters/ColorsContext/ColorsContext'
+import { useAmount } from '../../../contexts/productsFilters/AmountContext/AmountContext'
+import ColorBadge from '../../../components/ColorLabel/ColorBadge'
 
 const productSchema = object({
   name: string({
@@ -49,6 +56,8 @@ const productSchema = object({
       return { message: validationErrors.required('бренд') }
     },
   }),
+  color_id: number().optional(),
+  amount_id: number().optional(),
   img_ids: any().optional(),
 })
 
@@ -64,10 +73,15 @@ type Props = {
 const ProductForm: React.FC<Props> = ({ record, onSubmit, buttonTitle, title }) => {
   const [loading, setLoading] = useState<boolean>(false)
   const [brands, setBrands] = useState<Brand[]>([])
+  const [colors, setColors] = useState<Color[]>([])
+  const [amounts, setAmounts] = useState<Amount[]>([])
   const [categories, setCategories] = useState<Category[]>([])
 
-  const { getCategories, getBrands } = useProductsFilters()
+  const { getCategories } = useCategories()
+  const { getBrands } = useBrands()
   const { createFiles } = useFiles()
+  const { getColors } = useColors()
+  const { getAmounts } = useAmount()
 
   const methods = useForm<ProductInput>({
     resolver: zodResolver(productSchema),
@@ -105,6 +119,8 @@ const ProductForm: React.FC<Props> = ({ record, onSubmit, buttonTitle, title }) 
     return createFiles(payload)
   }
 
+  const getCategory = (): Category | undefined => categories.find(category => category.id === category_id)
+
   useEffect(() => {
     if (isSubmitSuccessful) {
       reset()
@@ -126,9 +142,24 @@ const ProductForm: React.FC<Props> = ({ record, onSubmit, buttonTitle, title }) 
         .catch(error => {
           console.log(error)
         })
+
+      getColors({ category_id })
+        .then(data => {
+          setColors(data)
+        })
+        .catch(error => {
+          console.log(error)
+        })
+
+      getAmounts({ category_id })
+        .then(data => {
+          setAmounts(data)
+        })
+        .catch(error => {
+          console.log(error)
+        })
     }
   }, [category_id])
-
 
   useEffect(() => {
     console.log(errors)
@@ -154,6 +185,9 @@ const ProductForm: React.FC<Props> = ({ record, onSubmit, buttonTitle, title }) 
           <FormInputNumber label="Цена" name="price"/>
 
           <FormInputText
+            InputProps={{
+              inputComponent: TextareaAutosize,
+            }}
             name="description"
             label="Описание"
             rows={4}
@@ -170,6 +204,19 @@ const ProductForm: React.FC<Props> = ({ record, onSubmit, buttonTitle, title }) 
             label="Бренд"
             name="brand_id"
             options={brands}
+          />
+
+          <FormInputSelect
+            label="Цвет"
+            name="color_id"
+            options={colors}
+            optionIcon={(option: any) => <ColorBadge color={option.value} />}
+          />
+
+          <FormInputSelect
+            label="Обьем"
+            name="amount_id"
+            options={amounts}
           />
 
           <FileInput

@@ -1,9 +1,11 @@
 import React from 'react'
-import { Category } from '../../contexts/productsFilters/types'
+import { createSearchParams, useNavigate } from 'react-router-dom'
+
+import { Typography } from '@mui/material'
+
 import { imgSrc } from '../../helpers/imgSrc'
 import './styles.scss'
-import { Typography } from '@mui/material'
-import { createSearchParams, useNavigate } from 'react-router-dom'
+import { Category } from '../../contexts/productsFilters/CategoriesContext/types'
 
 type Props = {
   category: Category
@@ -20,7 +22,7 @@ const CategoryLayout: React.FC<Props> = ({ category, children, disabled = false 
       pathname: '/products',
       search: createSearchParams({
         page: '1',
-        limit: '10',
+        limit: '15',
         category: category.id.toString(),
       }).toString(),
     })

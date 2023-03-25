@@ -3,12 +3,12 @@ import React from 'react'
 import IconButton from '@mui/material/IconButton'
 
 import Svg from '../../../components/Svg/Svg'
-import { Category, EditCategoryPayload } from '../../../contexts/productsFilters/types'
-import { useProductsFilters } from '../../../contexts/productsFilters/ProductsFiltersContext'
 import StyledModal from '../../../components/StyledModal/StyledModal'
 import StyledDialog from '../../../components/StyledDialog/StyledDialog'
 import CategoryLayout from '../../../components/CategoryLayout/CategoryLayout'
 import CategoryForm, { CategoryInput } from './CategoryForm'
+import { Category, EditCategoryPayload } from '../../../contexts/productsFilters/CategoriesContext/types'
+import { useCategories } from '../../../contexts/productsFilters/CategoriesContext/CategoriesContext'
 
 type Props = {
   category: Category
@@ -16,11 +16,12 @@ type Props = {
 }
 
 const CategoryItem: React.FC<Props> = ({ category, loadCategories }) => {
-  const { deleteCategory, editCategory } = useProductsFilters()
+  const { deleteCategory, editCategory } = useCategories()
 
   const handleSubmit = (data: CategoryInput) => {
+    console.log(data)
     const payload: EditCategoryPayload = {
-      name: data.name,
+      ...data,
       img_id: data.img_ids[0],
     }
 

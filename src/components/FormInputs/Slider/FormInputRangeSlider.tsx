@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
 
-import { Box, Grid, Input, Slider, Typography } from '@mui/material'
+import { Box, Slider, TextField } from '@mui/material'
+
+import './styles.scss'
 
 function valuetext(value: number) {
   return `${value}°C`
@@ -89,55 +91,49 @@ export const FormInputRangeSlider: React.FC<Props> = ({
       control={control}
       render={({ field, fieldState, formState }) => (
         <Box sx={{ mb: 2 }}>
-          <Typography id="input-slider" gutterBottom>
-            {label}
-          </Typography>
+          <div className="range-slider-inputs">
+            <TextField
+              label={`${label} от`}
+              value={sliderValue[0]}
+              size="small"
+              onChange={handleMinInputChange}
+              onBlur={handleMinBlur}
+              inputProps={{
+                'step': step,
+                'min': min,
+                'max': max,
+                'type': 'number',
+                'aria-labelledby': 'input-slider',
+              }}
+            />
 
-          <Grid container spacing={2} alignItems="center">
-            <Grid item>
-              <Input
-                value={sliderValue[0]}
-                size="small"
-                onChange={handleMinInputChange}
-                onBlur={handleMinBlur}
-                inputProps={{
-                  'step': step,
-                  'min': min,
-                  'max': max,
-                  'type': 'number',
-                  'aria-labelledby': 'input-slider',
-                }}
-              />
-            </Grid>
-            <Grid item xs>
-              <Slider
-                value={sliderValue}
-                onChange={handleChange}
-                onChangeCommitted={handleChangeCommitted}
-                min={min}
-                max={max}
-                step={step}
-                valueLabelDisplay="auto"
-                getAriaValueText={valuetext}
-                disableSwap
-              />
-            </Grid>
-            <Grid item>
-              <Input
-                value={sliderValue[1]}
-                size="small"
-                onChange={handleMaxInputChange}
-                onBlur={handleMaxBlur}
-                inputProps={{
-                  'step': step,
-                  'min': min,
-                  'max': max,
-                  'type': 'number',
-                  'aria-labelledby': 'input-slider',
-                }}
-              />
-            </Grid>
-          </Grid>
+            <TextField
+              label={`${label} до`}
+              value={sliderValue[1]}
+              size="small"
+              onChange={handleMaxInputChange}
+              onBlur={handleMaxBlur}
+              inputProps={{
+                'step': step,
+                'min': min,
+                'max': max,
+                'type': 'number',
+                'aria-labelledby': 'input-slider',
+              }}
+            />
+          </div>
+
+          <Slider
+            value={sliderValue}
+            onChange={handleChange}
+            onChangeCommitted={handleChangeCommitted}
+            min={min}
+            max={max}
+            step={step}
+            valueLabelDisplay="auto"
+            getAriaValueText={valuetext}
+            disableSwap
+          />
         </Box>
       )}
     />

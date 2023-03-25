@@ -1,11 +1,18 @@
 import React, { useState } from 'react'
-import './styles.scss'
-import { useMediaQuery } from '@mui/material'
-import Svg from '../Svg/Svg'
-import IconButton from '@mui/material/IconButton'
-import FiltersForm from './FiltersForm'
 
-const Filters: React.FC = () => {
+import { useMediaQuery } from '@mui/material'
+import IconButton from '@mui/material/IconButton'
+
+import './styles.scss'
+import Svg from '../Svg/Svg'
+import FiltersForm from './FiltersForm'
+import { Product } from '../../contexts/products/types'
+
+type Props = {
+  products: Product[]
+}
+
+const Filters: React.FC<Props> = ({ products }) => {
   const [open, setOpen] = useState(false)
 
   const mobile = useMediaQuery('(max-width:750px)')
@@ -31,9 +38,9 @@ const Filters: React.FC = () => {
       )}
 
       {mobile ? (
-        open && <FiltersForm mobile={mobile} handleClose={handleClose} />
+        open && <FiltersForm products={products} mobile={mobile} handleClose={handleClose} />
       ) : (
-        <FiltersForm mobile={mobile} />
+        <FiltersForm products={products} mobile={mobile} />
       )}
     </div>
   )

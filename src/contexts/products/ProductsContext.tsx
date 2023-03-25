@@ -30,6 +30,8 @@ export const ProductsProvider: React.FC<Props> = ({ children }) => {
         [`filter.price_min`]: filters?.price_min,
         [`filter.price_max`]: filters?.price_max,
         [`filter.search`]: filters?.search,
+        [`filter.color`]: filters?.color,
+        [`filter.amount`]: filters?.amount,
       },
     }).then(({ data }) => data)
   }

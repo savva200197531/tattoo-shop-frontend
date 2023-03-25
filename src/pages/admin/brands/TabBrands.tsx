@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from 'react'
 
-import { useProductsFilters } from '../../../contexts/productsFilters/ProductsFiltersContext'
 import Spinner from '../../../components/Spinner/Spinner'
 import BrandItem from './BrandItem'
 import StyledModal from '../../../components/StyledModal/StyledModal'
-import { Brand } from '../../../contexts/productsFilters/types'
 import BrandForm, { BrandInput } from './BrandForm'
 import CreateButton from '../CreateButton'
 import './styles.scss'
+import { Brand } from '../../../contexts/productsFilters/BrandsContext/types'
+import { useBrands } from '../../../contexts/productsFilters/BrandsContext/BrandsContext'
 
 const TabBrands: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false)
   const [brands, setBrands] = useState<Brand[]>([])
 
-  const { getBrands, createBrand } = useProductsFilters()
+  const { getBrands, createBrand } = useBrands()
 
   const handleSubmit = (data: BrandInput) => {
     return createBrand(data)
@@ -47,7 +47,7 @@ const TabBrands: React.FC = () => {
       </StyledModal>
 
       {loading ? <Spinner/> : (
-        <div className="brands-list">{brands.map(brand => <BrandItem key={brand.id} brand={brand} loadBrands={loadBrands} />)}</div>
+        <div className="base-admin-items">{brands.map(brand => <BrandItem key={brand.id} brand={brand} loadBrands={loadBrands} />)}</div>
       )}
     </>
   )

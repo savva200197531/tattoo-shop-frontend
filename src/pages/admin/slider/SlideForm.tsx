@@ -80,7 +80,7 @@ const SlideForm: React.FC<Props> = ({ record, onSubmit, buttonTitle, title }) =>
   }, [errors])
 
   return (
-    <Box className="product-form">
+    <Box>
       <Typography variant="h5" component="h5" sx={{ mb: '2rem' }} textAlign="center">
         {title}
       </Typography>

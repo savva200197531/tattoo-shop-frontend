@@ -1,17 +1,30 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import { useFormContext, Controller } from 'react-hook-form'
-import { FormControl, FormHelperText, InputLabel, Select } from '@mui/material'
+import { FormControl, FormHelperText, InputLabel, OutlinedInput, Select } from '@mui/material'
 import { BaseFormInputSelectProps } from './types'
 import { generateSelectMultipleOptions } from './GenerateSelectOptions'
 
-const FormInputSelectMultiple: React.FC<BaseFormInputSelectProps> = ({ name, label, options }) => {
-  const { formState: { errors }, control } = useFormContext()
+const FormInputSelectMultiple: React.FC<BaseFormInputSelectProps> = ({
+  name,
+  label,
+  options,
+  optionIcon,
+  defaultValue,
+}) => {
+  const { formState: { errors }, control, resetField } = useFormContext()
+
+  useEffect(() => {
+    return () => {
+      resetField(name)
+    }
+  }, [])
 
   return (
     <Controller
       control={control}
       name={name}
+      defaultValue={defaultValue || []}
       render={({ field: { onChange, value } }) => (
         <FormControl fullWidth sx={{ mb: 2 }}>
           <InputLabel>{label}</InputLabel>
@@ -20,6 +33,7 @@ const FormInputSelectMultiple: React.FC<BaseFormInputSelectProps> = ({ name, lab
             value={value || []}
             error={!!errors[name]}
             label={label}
+            input={<OutlinedInput label={label} />}
             multiple
             renderValue={(selected) => {
               return options
@@ -28,7 +42,7 @@ const FormInputSelectMultiple: React.FC<BaseFormInputSelectProps> = ({ name, lab
                 .join(', ')
             }}
           >
-            {generateSelectMultipleOptions(options, value)}
+            {generateSelectMultipleOptions(options, value, optionIcon)}
           </Select>
 
           <FormHelperText error>

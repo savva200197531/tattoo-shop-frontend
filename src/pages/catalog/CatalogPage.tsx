@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from 'react'
+
+import { Typography } from '@mui/material'
+
 import './style.scss'
 import Spinner from '../../components/Spinner/Spinner'
-import { useProductsFilters } from '../../contexts/productsFilters/ProductsFiltersContext'
 import CategoryLayout from '../../components/CategoryLayout/CategoryLayout'
-import { Typography } from '@mui/material'
-import { Category } from '../../contexts/productsFilters/types'
+import { Category } from '../../contexts/productsFilters/CategoriesContext/types'
+import { useCategories } from '../../contexts/productsFilters/CategoriesContext/CategoriesContext'
 
 const CatalogPage: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false)
   const [categories, setCategories] = useState<Category[]>([])
 
-  const { getCategories } = useProductsFilters()
+  const { getCategories } = useCategories()
 
   useEffect(() => {
     setLoading(true)

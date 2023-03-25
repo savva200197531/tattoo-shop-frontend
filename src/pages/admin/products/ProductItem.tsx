@@ -43,7 +43,7 @@ const ProductItem: React.FC<Props> = ({ product, loadProducts }) => {
     <ProductLayout
       product={product}
       headerContent={(
-        <div>
+        <div className="admin-product__header-toolbar">
           <StyledModal
             icon={
               <IconButton type="button" sx={{ p: '6px' }}>

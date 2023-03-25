@@ -1,18 +1,1 @@
-@import "../../../styles/variables";
 
-.brands-list {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.brand {
-  display: flex;
-  align-items: center;
-  border: 1px solid $border;
-  margin-right: 10px;
-  border-radius: $border-radius;
-  padding-left: 5px;
-  margin-bottom: 20px;
-}

@@ -1,11 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { GetPriceRangeFilter, PriceRange } from '../../../contexts/products/types'
-import { useProducts } from '../../../contexts/products/ProductsContext'
 import { useFormContext } from 'react-hook-form'
 import { useSearchParams } from 'react-router-dom'
+
+import { GetPriceRangeFilter, PriceRange } from '../../../contexts/products/types'
 import { FormInputRangeSlider } from '../../FormInputs/Slider/FormInputRangeSlider'
+import { useProducts } from '../../../contexts/products/ProductsContext'
 import Spinner from '../../Spinner/Spinner'
-import { formatRangeFromUrl } from '../../FormInputs/Slider/helpers'
+import { formatArrayFromUrl } from '../../../helpers/formatters/formatArrayFromUrl'
 
 const PriceFilter: React.FC = () => {
   const [priceRange, setPriceRange] = useState<PriceRange>({} as PriceRange)
@@ -49,8 +50,8 @@ const PriceFilter: React.FC = () => {
           min={priceRange.min}
           max={priceRange.max}
           defaultValue={[
-            formatRangeFromUrl(priceRangeFromUrl.current)?.[0] || priceRange.min,
-            formatRangeFromUrl(priceRangeFromUrl.current)?.[1] || priceRange.max,
+            formatArrayFromUrl(priceRangeFromUrl.current)?.[0] || priceRange.min,
+            formatArrayFromUrl(priceRangeFromUrl.current)?.[1] || priceRange.max,
           ]}
         />
       ) : <></>

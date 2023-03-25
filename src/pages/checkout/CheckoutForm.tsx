@@ -40,14 +40,15 @@ const checkoutSchema = object({
     .regex(new RegExp('^((8|\\+7)[\\- ]?)?(\\(?\\d{3}\\)?[\\- ]?)?[\\d\\- ]{7,10}$'), 'Телефон указан неверно'),
   // address
   region: string({ required_error: validationErrors.required('регион') })
-    .nonempty(validationErrors.required('регион'))
-    .max(32, validationErrors.max('регион', 32)),
+    .nonempty(validationErrors.required('регион')),
   city: string({ required_error: validationErrors.required('город') })
-    .nonempty(validationErrors.required('город'))
-    .max(32, validationErrors.max('город', 32)),
-  address: string({ required_error: validationErrors.required('адрес') })
-    .nonempty(validationErrors.required('адрес'))
-    .max(32, validationErrors.max('адрес', 32)),
+    .nonempty(validationErrors.required('город')),
+  street: string({ required_error: validationErrors.required('улица') })
+    .nonempty(validationErrors.required('улица')),
+  house: string({ required_error: validationErrors.required('дом') })
+    .nonempty(validationErrors.required('дом')),
+  apartment: string({ required_error: validationErrors.required('квартира') })
+    .nonempty(validationErrors.required('квартира')),
   comment: string().max(128, validationErrors.max('комментарий', 128)).optional(),
 })
 
@@ -63,17 +64,19 @@ const CheckoutForm: React.FC = () => {
 
   const methods = useForm<CheckoutInput>({
     resolver: zodResolver(checkoutSchema),
-    // defaultValues: {
-    //   surname: 'Кашин',
-    //   name: 'Савва',
-    //   lastname: 'Игоревич',
-    //   email: 'tattoona.matata.shop@gmail.com',
-    //   phone: '79132537745',
-    //   region: 'Новосибирск',
-    //   city: 'Новосибирск',
-    //   address: 'Мичурина 43',
-    //   comment: `Тестовый комментарий`,
-    // },
+    defaultValues: {
+      surname: 'Кашин',
+      name: 'Савва',
+      lastname: 'Игоревич',
+      email: 'tattoona.matata.shop@gmail.com',
+      phone: '79132537745',
+      region: 'Новосибирск',
+      city: 'Новосибирск',
+      apartment: '35',
+      house: '43',
+      street: 'Мичурина',
+      comment: `Тестовый комментарий`,
+    },
   })
 
   const {
@@ -149,7 +152,11 @@ const CheckoutForm: React.FC = () => {
 
           <FormInputText sx={{ mb: 0 }} name="city" label="Город"/>
 
-          <FormInputText sx={{ mb: 0 }} name="address" label="Адрес"/>
+          <FormInputText sx={{ mb: 0 }} name="street" label="Улица"/>
+
+          <FormInputText sx={{ mb: 0 }} name="house" label="Дом"/>
+
+          <FormInputText sx={{ mb: 0 }} name="apartment" label="Квартира"/>
         </Stack>
 
         <FormInputText

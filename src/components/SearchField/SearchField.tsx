@@ -52,7 +52,7 @@ const SearchField: React.FC = () => {
       pathname: '/products',
       search: createSearchParams({
         page: '1',
-        limit: '10',
+        limit: '15',
         search: data.search,
       }).toString(),
     })

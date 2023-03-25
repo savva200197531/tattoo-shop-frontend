@@ -7,10 +7,10 @@ import { useSearchParams } from 'react-router-dom'
 import { Product, ProductsFilter, ProductsMeta, ProductsParams } from '../../contexts/products/types'
 import { productsUrl } from '../../env'
 import ProductsPagination from '../../components/ProductsPagination/ProductsPagination'
-import { Stack, Typography, useMediaQuery } from '@mui/material'
-import { formatRangeFromUrl } from '../../components/FormInputs/Slider/helpers'
+import { Typography } from '@mui/material'
 import { sortVariables } from '../../components/FormInputs/Select/variables'
 import { SelectVariables } from '../../components/FormInputs/Select/types'
+import { formatArrayFromUrl } from '../../helpers/formatters/formatArrayFromUrl'
 
 type Props = {
   ProductItem: React.FC<{ product: Product, loadProducts: () => void }>
@@ -23,7 +23,6 @@ const ProductsPage: React.FC<Props> = ({ ProductItem, Filters, CreateProduct }) 
   const [products, setProducts] = useState<Product[]>([])
   const [productsMeta, setProductsMeta] = useState<ProductsMeta>({} as ProductsMeta)
 
-  const mobile = useMediaQuery('(max-width:750px)')
   const [searchParams, setSearchParams] = useSearchParams()
   const { getProducts } = useProducts()
 
@@ -39,15 +38,17 @@ const ProductsPage: React.FC<Props> = ({ ProductItem, Filters, CreateProduct }) 
       route: productsUrl,
     }
 
-    const price_min = formatRangeFromUrl(searchParams.get('price'))?.[0].toString()
+    const price_min = formatArrayFromUrl(searchParams.get('price'))?.[0].toString()
 
-    const price_max = formatRangeFromUrl(searchParams.get('price'))?.[1].toString()
+    const price_max = formatArrayFromUrl(searchParams.get('price'))?.[1].toString()
 
     const filters: ProductsFilter = {
       category_id: searchParams.get('category'),
       brand_id: searchParams.get('brand'),
       price_min: price_min,
       price_max: price_max,
+      color: formatArrayFromUrl(searchParams.get('color')),
+      amount: formatArrayFromUrl(searchParams.get('amount')),
       search: searchParams.get('search'),
     }
 
@@ -74,7 +75,7 @@ const ProductsPage: React.FC<Props> = ({ ProductItem, Filters, CreateProduct }) 
     }
 
     if (!searchParams.get('limit')) {
-      searchParams.set('limit', '10')
+      searchParams.set('limit', '15')
     }
 
     setSearchParams(searchParams)
@@ -86,13 +87,14 @@ const ProductsPage: React.FC<Props> = ({ ProductItem, Filters, CreateProduct }) 
         <div className="products-content">
           {CreateProduct && <CreateProduct loadProducts={loadProducts}/>}
 
-          <Typography variant="h4" component="h1" fontWeight={500} textAlign="center">
-            Товары
-          </Typography>
+          {/*<Typography variant="h4" component="h1" fontWeight={500} textAlign="center">*/}
+          {/*  Товары*/}
+          {/*</Typography>*/}
 
-          {loading ? <Spinner/> : (
-            <Stack direction={mobile ? 'column' : 'row'} spacing={2}>
-              <Filters products={products}/>
+          <div className="products-content__main">
+            <Filters products={products}/>
+
+            {loading ? <Spinner/> : (
               <div className="products-main__products">
                 {products.length ? (
                   <>
@@ -110,8 +112,8 @@ const ProductsPage: React.FC<Props> = ({ ProductItem, Filters, CreateProduct }) 
                   </Typography>
                 )}
               </div>
-            </Stack>
-          )}
+            )}
+          </div>
         </div>
       </div>
     </div>

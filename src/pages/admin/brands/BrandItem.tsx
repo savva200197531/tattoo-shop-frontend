@@ -3,11 +3,11 @@ import React from 'react'
 import IconButton from '@mui/material/IconButton'
 
 import Svg from '../../../components/Svg/Svg'
-import { Brand } from '../../../contexts/productsFilters/types'
-import { useProductsFilters } from '../../../contexts/productsFilters/ProductsFiltersContext'
 import StyledModal from '../../../components/StyledModal/StyledModal'
 import StyledDialog from '../../../components/StyledDialog/StyledDialog'
 import BrandForm, { BrandInput } from './BrandForm'
+import { Brand } from '../../../contexts/productsFilters/BrandsContext/types'
+import { useBrands } from '../../../contexts/productsFilters/BrandsContext/BrandsContext'
 
 type Props = {
   brand: Brand
@@ -15,7 +15,7 @@ type Props = {
 }
 
 const BrandItem: React.FC<Props> = ({ brand, loadBrands }) => {
-  const { deleteBrand, editBrand } = useProductsFilters()
+  const { deleteBrand, editBrand } = useBrands()
 
   const handleSubmit = (data: BrandInput) => {
     return editBrand(brand.id, data)
@@ -34,7 +34,7 @@ const BrandItem: React.FC<Props> = ({ brand, loadBrands }) => {
   }
 
   return (
-    <div className="brand">
+    <div className="base-admin-item">
       {brand.name}
 
       <StyledModal

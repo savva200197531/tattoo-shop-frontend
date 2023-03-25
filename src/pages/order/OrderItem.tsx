@@ -8,6 +8,7 @@ import { formatDate } from '../../helpers/formatters/formatDate'
 import ProductLayout from '../../components/ProductLayout/ProductLayout'
 import { formatPrice } from '../../helpers/formatters/formatPrice'
 import { formatOrderStatus } from '../../helpers/formatters/formatOrderStatus'
+import { formatAddress } from '../../helpers/formatters/formatAddress'
 
 
 type Props = {
@@ -34,7 +35,7 @@ const OrderItem: React.FC<Props> = ({ order }) => {
             },
             {
               title: 'Адрес',
-              text: `${order.region}, ${order.city}, ${order.address}`,
+              text: formatAddress(order),
             },
             {
               title: 'Телефон',

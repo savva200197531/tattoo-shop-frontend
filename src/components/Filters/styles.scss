@@ -18,9 +18,17 @@
   padding: 20px;
 }
 
-.filters-form__toolbar {
+.filters-form__header {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.filters-form__reset {
+  text-decoration: underline;
+  cursor: pointer;
+  font-weight: 400;
 }
 
 .filter-icon {

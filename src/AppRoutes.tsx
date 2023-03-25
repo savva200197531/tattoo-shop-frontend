@@ -32,6 +32,8 @@ import TabContacts from './pages/profile/contacts/TabContacts'
 import TabAboutDelivery from './pages/profile/aboutDelivery/TabAboutDelivery'
 import TabAboutPay from './pages/profile/aboutPay/TabAboutPay'
 import TabAbout from './pages/profile/about/TabAbout'
+import TabColors from './pages/admin/colors/TabColors'
+import TabAmount from './pages/admin/amount/TabAmount'
 
 const AppRoutes = () => {
   return (
@@ -83,6 +85,9 @@ const AppRoutes = () => {
         <Route path="/admin/slider" element={<TabSlider/>}/>
         <Route path="/admin/categories" element={<TabCategories/>}/>
         <Route path="/admin/brands" element={<TabBrands/>}/>
+        <Route path="/admin/colors" element={<TabColors/>}/>
+        <Route path="/admin/amount" element={<TabAmount/>}/>
+        {/*<Route path="/admin/quantity" element={<TabBrands/>}/>*/}
         <Route path="/admin/orders" element={<AdminTabOrders/>}/>
       </Route>
       <Route element={<AuthPage/>}>

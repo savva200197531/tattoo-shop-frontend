@@ -5,9 +5,9 @@ import { useFormContext } from 'react-hook-form'
 import { Button, FormControl, FormHelperText } from '@mui/material'
 
 import './styles.scss'
-import { imgSrc } from '../../helpers/imgSrc'
 import { LocalFile } from '../../contexts/files/types'
 import Spinner from '../Spinner/Spinner'
+import FileInputItem from './FileInputItem'
 
 interface IFileInputProps extends DropzoneOptions {
   label?: string
@@ -87,15 +87,7 @@ const FileInput: FC<IFileInputProps> = (props) => {
           loading ? <Spinner/> : (
             <div className="file-input__list">
               {fileIds.map((id) => (
-                <div className="file-input__img-wrapper" key={id}>
-                  <img
-                    src={imgSrc(id)}
-                    alt="file"
-                    style={{ width: '100px', height: '100px' }}
-                    className="file-input__img"
-                    onClick={() => onDelete(id)}
-                  />
-                </div>
+                <FileInputItem key={id} id={id} onDelete={onDelete} />
               ))}
             </div>
           )

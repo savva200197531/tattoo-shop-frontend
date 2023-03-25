@@ -14,7 +14,9 @@ export type SvgId =
   'trash' |
   'pencil' |
   'cross' |
-  'filter'
+  'filter' |
+  'checkmark' |
+  'slider-arrow'
 
 type Props = {
   className?: string
