@@ -17,9 +17,8 @@
 .product-layout-header {
   margin-top: 5px;
   margin-bottom: 5px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  display: grid;
+  grid-template-columns: 3fr 1fr;
 }
 
 .product-layout__name {

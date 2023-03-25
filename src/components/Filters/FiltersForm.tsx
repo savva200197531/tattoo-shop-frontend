@@ -94,14 +94,13 @@ const FiltersForm: React.FC<Props> = ({ mobile = false, handleClose }) => {
       noValidate
       autoComplete="off"
     >
-      {mobile && (
-        <div className="filters-form__header">
-          <Typography variant="h4" component="h3" fontWeight={500}>
-            Фильтры
-          </Typography>
-          <p className="filters-form__reset" onClick={handleReset}>Очистить</p>
-        </div>
-      )}
+      <div className="filters-form__header">
+        <Typography variant="h4" component="h3" fontWeight={500}>
+          Фильтры
+        </Typography>
+        <p className="filters-form__reset" onClick={handleReset}>Очистить</p>
+      </div>
+
       <FormProvider key={key} {...methods}>
         <SortFilter defaultValue={Number(searchParams.get('sort'))} />
 
