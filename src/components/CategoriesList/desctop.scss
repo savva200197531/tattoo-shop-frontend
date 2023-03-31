@@ -2,16 +2,14 @@
 
 .categories-list {
   display: grid;
-  grid-template-columns: repeat(auto-fit, 250px);
-  grid-column-gap: 30px;
-  grid-row-gap: 15px;
+  grid-template-columns: repeat(5, 1fr);
+  grid-gap: 20px;
   justify-content: center;
 }
 
 .category {
   position: relative;
-  height: 250px;
-  width: 250px;
+  aspect-ratio: 1;
   background-position: center center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -45,4 +43,20 @@
 .category-title {
   position: relative;
   z-index: 1;
+}
+
+@media screen and (max-width: 1100px) {
+  .categories-list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media screen and (max-width: 750px) {
+  .categories-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .category-title {
+    font-size: 15px !important;
+  }
 }

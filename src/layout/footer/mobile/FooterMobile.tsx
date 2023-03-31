@@ -11,7 +11,7 @@ import Logo from '../../../components/Logo'
 import CounterBadge from '../../../components/CounterBadge'
 import Svg from '../../../components/Svg/Svg'
 import './mobile.scss'
-import CatalogIcon from '../../catalog/Catalog'
+import CatalogIcon from '../../../components/CatalogIcon/CatalogIcon'
 
 const FooterMobile: React.FC = () => {
   const navigate = useNavigate()

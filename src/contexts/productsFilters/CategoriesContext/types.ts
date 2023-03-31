@@ -20,4 +20,6 @@ export type CategoriesContextProps = {
   editCategory: EditCategory
   deleteCategory: BaseDeleteFilter
   getCategory: BaseGetFilter
+  categories: Category[]
+  loading: boolean
 }

@@ -10,6 +10,7 @@ import ProductLayout from '../../../components/ProductLayout/ProductLayout'
 import StyledDialog from '../../../components/StyledDialog/StyledDialog'
 import StyledModal from '../../../components/StyledModal/StyledModal'
 import ProductForm, { ProductInput } from './ProductForm'
+import { HandleClickEmpty } from '../../../types/types'
 
 type Props = {
   product: Product
@@ -20,9 +21,12 @@ const ProductItem: React.FC<Props> = ({ product, loadProducts }) => {
   const { deleteProduct, editProduct } = useProducts()
   const { getUser, user } = useAuth()
 
-  const handleSubmit = (data: ProductInput) => {
+  const handleSubmit = (data: ProductInput, handleClose: HandleClickEmpty) => {
     return editProduct(product.id, data)
-      .then(() => loadProducts())
+      .then(() => {
+        loadProducts()
+        handleClose()
+      })
       .catch(error => {
         console.log(error)
       })
@@ -52,7 +56,14 @@ const ProductItem: React.FC<Props> = ({ product, loadProducts }) => {
             }
             title="Редактировать товар"
           >
-            <ProductForm record={product} onSubmit={handleSubmit} title="Редактировать товар" buttonTitle="Сохранить"/>
+            {handleClose =>
+              <ProductForm
+                record={product}
+                onSubmit={data => handleSubmit(data, handleClose)}
+                title="Редактировать товар"
+                buttonTitle="Сохранить"
+              />
+            }
           </StyledModal>
 
           <StyledDialog

@@ -1,32 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 
 import { Typography } from '@mui/material'
 
+import CategoriesList from '../../components/CategoriesList/CategoriesList'
 import './style.scss'
-import Spinner from '../../components/Spinner/Spinner'
-import CategoryLayout from '../../components/CategoryLayout/CategoryLayout'
-import { Category } from '../../contexts/productsFilters/CategoriesContext/types'
-import { useCategories } from '../../contexts/productsFilters/CategoriesContext/CategoriesContext'
 
 const CatalogPage: React.FC = () => {
-  const [loading, setLoading] = useState<boolean>(false)
-  const [categories, setCategories] = useState<Category[]>([])
-
-  const { getCategories } = useCategories()
-
-  useEffect(() => {
-    setLoading(true)
-
-    getCategories()
-      .then(data => setCategories(data))
-      .finally(() => {
-        setLoading(false)
-      })
-      .catch(error => {
-        console.log(error)
-      })
-  }, [])
-
   return (
     <div className="catalog">
       <div className="container">
@@ -35,13 +14,7 @@ const CatalogPage: React.FC = () => {
             Каталог
           </Typography>
 
-          {loading ? <Spinner/> : (
-            <div className="categories-list">
-              {categories.map(category => (
-                <CategoryLayout key={category.id} category={category}/>
-              ))}
-            </div>
-          )}
+          <CategoriesList />
         </div>
       </div>
     </div>

@@ -9,6 +9,7 @@ import ColorsForm, { ColorInput } from './ColorsForm'
 import { useColors } from '../../../contexts/productsFilters/ColorsContext/ColorsContext'
 import { Color } from '../../../contexts/productsFilters/ColorsContext/types'
 import ColorLabel from '../../../components/ColorLabel/ColorLabel'
+import { HandleClickEmpty } from '../../../types/types'
 
 type Props = {
   color: Color
@@ -18,9 +19,12 @@ type Props = {
 const ColorsItem: React.FC<Props> = ({ color, loadColors }) => {
   const { deleteColor, editColor } = useColors()
 
-  const handleSubmit = (data: ColorInput) => {
+  const handleSubmit = (data: ColorInput, handleClose: HandleClickEmpty) => {
     return editColor(color.id, data)
-      .then(() => loadColors())
+      .then(() => {
+        loadColors()
+        handleClose()
+      })
       .catch(error => {
         console.log(error)
       })
@@ -46,7 +50,14 @@ const ColorsItem: React.FC<Props> = ({ color, loadColors }) => {
         }
         title="Редактировать цвет"
       >
-        <ColorsForm record={color} onSubmit={handleSubmit} title="Редактировать цвет" buttonTitle="Сохранить"/>
+        {(handleClose) =>
+          <ColorsForm
+            record={color}
+            onSubmit={data => handleSubmit(data, handleClose)}
+            title="Редактировать цвет"
+            buttonTitle="Сохранить"
+          />
+        }
       </StyledModal>
 
       <StyledDialog

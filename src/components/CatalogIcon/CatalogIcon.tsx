@@ -1,8 +1,8 @@
 import React from 'react'
 import { IconButton } from '@mui/material'
 import './styles.scss'
-import Hamburger from '../../components/Hamburger/Hamburger'
 import { useLocation, useNavigate } from 'react-router-dom'
+import Hamburger from '../Hamburger/Hamburger'
 
 const CatalogIcon: React.FC = () => {
   const navigate = useNavigate()

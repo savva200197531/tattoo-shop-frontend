@@ -45,7 +45,7 @@ const TabSlider: React.FC = () => {
         icon={<CreateButton />}
         title="Создать слайд"
       >
-        <CreateSlideForm buttonTitle="Создать" title="Создать слайд" onSubmit={handleSubmit} />
+        {() => <CreateSlideForm buttonTitle="Создать" title="Создать слайд" onSubmit={handleSubmit} />}
       </StyledModal>
 
       {loading ? <Spinner/> : (

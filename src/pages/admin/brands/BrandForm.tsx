@@ -11,7 +11,6 @@ import FormInputText from '../../../components/FormInputs/Text/FormInputText'
 import FormInputSelectMultiple from '../../../components/FormInputs/Select/FormInputSelectMultiple'
 import { Brand } from '../../../contexts/productsFilters/BrandsContext/types'
 import { useCategories } from '../../../contexts/productsFilters/CategoriesContext/CategoriesContext'
-import { Category } from '../../../contexts/productsFilters/CategoriesContext/types'
 
 const brandSchema = object({
   name: string().nonempty(validationErrors.required('название')).max(30, validationErrors.max('название', 30)),
@@ -29,9 +28,8 @@ type Props = {
 
 const BrandForm: React.FC<Props> = ({ record, onSubmit, buttonTitle, title }) => {
   const [loading, setLoading] = useState<boolean>(false)
-  const [categories, setCategories] = useState<Category[]>([])
 
-  const { getCategories } = useCategories()
+  const { categories } = useCategories()
 
   const methods = useForm<BrandInput>({
     resolver: zodResolver(brandSchema),
@@ -64,12 +62,6 @@ const BrandForm: React.FC<Props> = ({ record, onSubmit, buttonTitle, title }) =>
   useEffect(() => {
     console.log('errors', errors)
   }, [errors])
-
-  useEffect(() => {
-    getCategories().then(data => setCategories(data)).catch(error => {
-      console.log(error)
-    })
-  }, [])
 
   return (
     <Box>

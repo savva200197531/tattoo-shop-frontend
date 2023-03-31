@@ -8,6 +8,7 @@ import StyledDialog from '../../../components/StyledDialog/StyledDialog'
 import AmountForm, { AmountInput } from './AmountForm'
 import { useAmount } from '../../../contexts/productsFilters/AmountContext/AmountContext'
 import { Amount } from '../../../contexts/productsFilters/AmountContext/types'
+import { HandleClickEmpty } from '../../../types/types'
 
 type Props = {
   amount: Amount
@@ -17,9 +18,12 @@ type Props = {
 const AmountItem: React.FC<Props> = ({ amount, loadAmounts }) => {
   const { deleteAmount, editAmount } = useAmount()
 
-  const handleSubmit = (data: AmountInput) => {
+  const handleSubmit = (data: AmountInput, handleClose: HandleClickEmpty) => {
     return editAmount(amount.id, data)
-      .then(() => loadAmounts())
+      .then(() => {
+        loadAmounts()
+        handleClose()
+      })
       .catch(error => {
         console.log(error)
       })
@@ -45,7 +49,14 @@ const AmountItem: React.FC<Props> = ({ amount, loadAmounts }) => {
         }
         title="Редактировать обьем"
       >
-        <AmountForm record={amount} onSubmit={handleSubmit} title="Редактировать обьем" buttonTitle="Сохранить"/>
+        {handleClose =>
+          <AmountForm
+            record={amount}
+            onSubmit={data => handleSubmit(data, handleClose)}
+            title="Редактировать обьем"
+            buttonTitle="Сохранить"
+          />
+        }
       </StyledModal>
 
       <StyledDialog

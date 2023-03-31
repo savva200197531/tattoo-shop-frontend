@@ -56,6 +56,7 @@ const SearchField: React.FC = () => {
         search: data.search,
       }).toString(),
     })
+    handleClose()
   }
 
   const loadProducts = () => {
@@ -130,7 +131,7 @@ const SearchField: React.FC = () => {
           <div className="search-field__container">
             <div className="search-field__list">
               {loading ? <Spinner/> : (
-                products.length ? products.map(product => <SearchFieldItem key={product.id} product={product}/>) :
+                products.length ? products.map(product => <SearchFieldItem handleClose={handleClose} key={product.id} product={product}/>) :
                   <div className="search-field__empty">ничего не найдено</div>
               )}
             </div>

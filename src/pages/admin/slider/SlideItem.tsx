@@ -9,6 +9,7 @@ import { useSlider } from '../../../contexts/slider/SliderContext'
 import StyledModal from '../../../components/StyledModal/StyledModal'
 import StyledDialog from '../../../components/StyledDialog/StyledDialog'
 import SlideForm, { SlideInput } from './SlideForm'
+import { HandleClickEmpty } from '../../../types/types'
 
 type Props = {
   slide: Slide
@@ -25,13 +26,16 @@ const SlideItem: React.FC<Props> = ({ slide }) => {
       })
   }
 
-  const handleSubmit = (data: SlideInput) => {
+  const handleSubmit = (data: SlideInput, handleClose: HandleClickEmpty) => {
     const payload: EditSlidePayload = {
       link: data.link,
       img_id: data.img_ids[0],
     }
 
     return editSlide(slide.id, payload)
+      .then(() => {
+        handleClose()
+      })
       .catch(error => {
         console.log(error)
       })
@@ -48,7 +52,14 @@ const SlideItem: React.FC<Props> = ({ slide }) => {
           }
           title="Редактировать слайд"
         >
-          <SlideForm record={slide} buttonTitle="Сохранить" title="Редактировать слайд" onSubmit={handleSubmit}/>
+          {handleClose =>
+            <SlideForm
+              record={slide}
+              buttonTitle="Сохранить"
+              title="Редактировать слайд"
+              onSubmit={data => handleSubmit(data, handleClose)}
+            />
+          }
         </StyledModal>
 
         <StyledDialog

@@ -6,6 +6,7 @@ import { Box, Modal } from '@mui/material'
 import './styles.scss'
 import Svg from '../Svg/Svg'
 import IconButton from '@mui/material/IconButton'
+import { HandleClickEmpty, HandleClickOnElement } from '../../types/types'
 
 const style = {
   position: 'absolute',
@@ -21,7 +22,7 @@ const style = {
 
 type Props = {
   title: string
-  children: React.ReactElement
+  children: (handleClose: HandleClickOnElement) => React.ReactElement
   className?: string
   icon: React.ReactElement
 }
@@ -29,13 +30,12 @@ type Props = {
 const StyledModal: React.FC<Props> = ({ title, children, className, icon }) => {
   const [open, setOpen] = useState<boolean>(false)
 
-  const handleOpen = (event: React.MouseEvent<HTMLElement>) => {
-    event.stopPropagation()
+  const handleOpen: HandleClickOnElement = (event) => {
+    event?.stopPropagation()
     setOpen(true)
   }
 
-  const handleClose = (event: React.MouseEvent<HTMLElement>) => {
-    event.stopPropagation()
+  const handleClose: HandleClickEmpty = () => {
     setOpen(false)
   }
 
@@ -61,7 +61,7 @@ const StyledModal: React.FC<Props> = ({ title, children, className, icon }) => {
           >
             <Svg id="cross"/>
           </IconButton>
-          {children}
+          {children(handleClose)}
         </Box>
       </Modal>
     </>

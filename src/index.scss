@@ -85,7 +85,7 @@ h1 {
 }
 
 .header + div {
-  padding-top: 104px;
+  padding-top: 134px;
   padding-bottom: 104px;
 }
 
@@ -124,3 +124,10 @@ h1 {
 //  width: 100%;
 //  height: 100%;
 //}
+
+@media screen and (max-width: 750px) {
+  .header + div {
+    padding-top: 100px;
+    padding-bottom: 80px;
+  }
+}

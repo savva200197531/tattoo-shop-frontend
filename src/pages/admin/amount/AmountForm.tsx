@@ -10,7 +10,6 @@ import { validationErrors } from '../../../helpers/validationErrors'
 import FormInputText from '../../../components/FormInputs/Text/FormInputText'
 import FormInputSelectMultiple from '../../../components/FormInputs/Select/FormInputSelectMultiple'
 import { useCategories } from '../../../contexts/productsFilters/CategoriesContext/CategoriesContext'
-import { Category } from '../../../contexts/productsFilters/CategoriesContext/types'
 import { Amount } from '../../../contexts/productsFilters/AmountContext/types'
 
 const amountSchema = object({
@@ -29,9 +28,8 @@ type Props = {
 
 const AmountForm: React.FC<Props> = ({ record, onSubmit, buttonTitle, title }) => {
   const [loading, setLoading] = useState<boolean>(false)
-  const [categories, setCategories] = useState<Category[]>([])
 
-  const { getCategories } = useCategories()
+  const { categories } = useCategories()
 
   const methods = useForm<AmountInput>({
     resolver: zodResolver(amountSchema),
@@ -64,12 +62,6 @@ const AmountForm: React.FC<Props> = ({ record, onSubmit, buttonTitle, title }) =
   useEffect(() => {
     console.log('errors', errors)
   }, [errors])
-
-  useEffect(() => {
-    getCategories().then(data => setCategories(data)).catch(error => {
-      console.log(error)
-    })
-  }, [])
 
   return (
     <Box>

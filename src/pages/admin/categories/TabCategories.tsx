@@ -1,63 +1,97 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 
-import Spinner from '../../../components/Spinner/Spinner'
-import CategoryItem from './CategoryItem'
+import IconButton from '@mui/material/IconButton'
+
 import CategoryForm, { CategoryInput } from './CategoryForm'
 import StyledModal from '../../../components/StyledModal/StyledModal'
 import CreateButton from '../CreateButton'
 import './styles.scss'
-import { Category, CreateCategoryPayload } from '../../../contexts/productsFilters/CategoriesContext/types'
+import {
+  CreateCategoryPayload,
+  EditCategoryPayload,
+} from '../../../contexts/productsFilters/CategoriesContext/types'
 import { useCategories } from '../../../contexts/productsFilters/CategoriesContext/CategoriesContext'
+import CategoriesList from '../../../components/CategoriesList/CategoriesList'
+import Svg from '../../../components/Svg/Svg'
+import StyledDialog from '../../../components/StyledDialog/StyledDialog'
+import { HandleClickEmpty } from '../../../types/types'
 
 const TabCategories: React.FC = () => {
-  const [loading, setLoading] = useState<boolean>(false)
-  const [categories, setCategories] = useState<Category[]>([])
+  const { createCategory, editCategory, deleteCategory } = useCategories()
 
-  const { getCategories, createCategory } = useCategories()
-
-  const handleSubmit = (data: CategoryInput) => {
+  const handleCreateCategory = (data: CategoryInput) => {
     const payload: CreateCategoryPayload = {
       ...data,
       img_id: data.img_ids[0],
     }
 
     return createCategory(payload)
-      .then(() => loadCategories())
-      .catch(error => {
-        console.log(error)
-      })
   }
 
-  const loadCategories = () => {
-    setLoading(true)
+  const handleEditCategory = (id: number, data: CategoryInput, handleClose: HandleClickEmpty) => {
+    const payload: EditCategoryPayload = {
+      ...data,
+      img_id: data.img_ids[0],
+    }
 
-    getCategories()
-      .then(data => setCategories(data))
-      .finally(() => {
-        setLoading(false)
-      })
+    return editCategory(id, payload).then(() => {
+      handleClose()
+    })
   }
 
-  useEffect(() => {
-    loadCategories()
-  }, [])
+  const handleDeleteCategory = (id: number) => {
+    return deleteCategory(id)
+  }
 
   return (
     <>
       <StyledModal
-        icon={<CreateButton />}
+        icon={<CreateButton/>}
         title="Создать категорию"
       >
-        <CategoryForm onSubmit={handleSubmit} title="Создать категорию" buttonTitle="Создать"/>
+        {() => (
+          <CategoryForm
+            onSubmit={handleCreateCategory}
+            title="Создать категорию"
+            buttonTitle="Создать"
+          />
+        )}
       </StyledModal>
 
-      {loading ? <Spinner/> : (
-        <div className="categories-list">
-          {categories.map(category => (
-            <CategoryItem key={category.id} category={category} loadCategories={loadCategories}/>
-          ))}
-        </div>
-      )}
+      <CategoriesList disabled>
+        {category => (
+          <div className="admin-category__toolbar">
+            <StyledModal
+              icon={
+                <IconButton type="button" sx={{ p: '6px' }}>
+                  <Svg fill="white" id="pencil" width={30} height={30}/>
+                </IconButton>
+              }
+              title="Редактировать категорию"
+            >
+              {handleClose => (
+                <CategoryForm
+                  record={category}
+                  onSubmit={(data) => handleEditCategory(category.id, data, handleClose)}
+                  title="Редактировать категорию"
+                  buttonTitle="Сохранить"
+                />
+              )}
+            </StyledModal>
+
+            <StyledDialog
+              icon={
+                <IconButton className="product-item__delete" type="button" sx={{ p: '6px' }}>
+                  <Svg fill="white" id="trash" width={30} height={30}/>
+                </IconButton>
+              }
+              title="Удалить категорию"
+              text="Вы точно хотите удалить категорию?"
+              handleSubmit={() => handleDeleteCategory(category.id)}
+            />
+          </div>
+        )}
+      </CategoriesList>
     </>
   )
 }

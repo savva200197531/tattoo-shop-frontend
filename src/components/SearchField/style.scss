@@ -30,6 +30,8 @@
 
 .search-field__container {
   position: absolute;
+  max-height: 400px;
+  overflow: auto;
   top: 100%;
   left: -1px;
   right: -1px;

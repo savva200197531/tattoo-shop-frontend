@@ -10,11 +10,11 @@ import Svg from '../../../components/Svg/Svg'
 import CounterBadge from '../../../components/CounterBadge'
 import Logo from '../../../components/Logo'
 import ProfileIcon from '../../../components/ProfileIcon/ProfileIcon'
-import CatalogIcon from '../../catalog/Catalog'
 import ContactsList from '../../../components/ContactsList/ContactsList'
 import './desktop.scss'
 import { useCart } from '../../../contexts/cart/CartContext'
 import { useFavorite } from '../../../contexts/favorite/FavoriteContext'
+import CatalogIcon from '../../../components/CatalogIcon/CatalogIcon'
 
 const HeaderDesktop: React.FC = () => {
   const navigate = useNavigate()

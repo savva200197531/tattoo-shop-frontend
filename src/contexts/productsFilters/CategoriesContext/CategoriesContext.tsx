@@ -1,4 +1,4 @@
-import React, { ReactNode, useContext } from 'react'
+import React, { ReactNode, useContext, useEffect, useState } from 'react'
 import axios from 'axios'
 
 import { requestUrl } from '../../../env'
@@ -14,27 +14,63 @@ type Props = {
 }
 
 export const CategoriesProvider: React.FC<Props> = ({ children }) => {
+  const [loading, setLoading] = useState<boolean>(false)
+  const [categories, setCategories] = useState<Category[]>([])
+
   const getCategories: BaseGetFilters = () => {
-    return axios.get<Category[]>(`${requestUrl}/categories`).then(({ data }) => data)
+    setLoading(true)
+    return axios.get<Category[]>(`${requestUrl}/categories`)
+      .then(({ data }) => {
+        setCategories(data)
+      })
+      .catch(error => {
+        console.log(error)
+      })
+      .finally(() => {
+        setLoading(false)
+      })
   }
 
   const createCategory: CreateCategory = (payload) => {
-    return axios.post(`${requestUrl}/categories`, payload)
+    return axios.post<Category>(`${requestUrl}/categories`, payload)
+      .then(({ data }) => {
+        setCategories([...categories, data])
+      })
       .catch(error => {
         console.log(error)
       })
   }
 
   const editCategory: EditCategory = (id, payload) => {
-    return axios.patch(`${requestUrl}/categories/${id}`, payload)
+    return axios.patch<Category>(`${requestUrl}/categories/${id}`, payload)
+      .then(({ data }) => {
+        setCategories(categories.map(category => {
+          if (category.id === data.id) {
+            return data
+          }
+          return category
+        }))
+      })
       .catch(error => {
         console.log(error)
       })
   }
 
-  const deleteCategory: BaseDeleteFilter = (id) => axios.delete(`${requestUrl}/categories/${id}`)
+  const deleteCategory: BaseDeleteFilter = (id) => {
+    return axios.delete(`${requestUrl}/categories/${id}`)
+      .then(() => {
+        setCategories(categories.filter(category => category.id !== id))
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }
 
   const getCategory: BaseGetFilter = (id) => axios.get<Category>(`${requestUrl}/categories/${id}`).then(({ data }) => data)
+
+  useEffect(() => {
+    getCategories()
+  }, [])
 
   const value = {
     getCategories,
@@ -42,6 +78,8 @@ export const CategoriesProvider: React.FC<Props> = ({ children }) => {
     editCategory,
     deleteCategory,
     getCategory,
+    categories,
+    loading,
   }
 
   return <CategoriesContext.Provider value={value}>{children}</CategoriesContext.Provider>

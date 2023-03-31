@@ -43,7 +43,7 @@ const TabColors: React.FC = () => {
         icon={<CreateButton />}
         title="Создать цвет"
       >
-        <ColorsForm onSubmit={handleSubmit} title="Создать цвет" buttonTitle="Создать"/>
+        {() => <ColorsForm onSubmit={handleSubmit} title="Создать цвет" buttonTitle="Создать"/>}
       </StyledModal>
 
       {loading ? <Spinner/> : (

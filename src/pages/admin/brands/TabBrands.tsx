@@ -43,7 +43,7 @@ const TabBrands: React.FC = () => {
         icon={<CreateButton />}
         title="Создать бренд"
       >
-        <BrandForm onSubmit={handleSubmit} title="Создать бренд" buttonTitle="Создать"/>
+        {() => <BrandForm onSubmit={handleSubmit} title="Создать бренд" buttonTitle="Создать"/>}
       </StyledModal>
 
       {loading ? <Spinner/> : (

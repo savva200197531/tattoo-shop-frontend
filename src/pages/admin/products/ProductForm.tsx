@@ -15,7 +15,6 @@ import FormInputText from '../../../components/FormInputs/Text/FormInputText'
 import FormInputNumber from '../../../components/FormInputs/Text/FormInputNumber'
 import FormInputSelect from '../../../components/FormInputs/Select/FormInputSelect'
 import './styles.scss'
-import { Category } from '../../../contexts/productsFilters/CategoriesContext/types'
 import { Brand } from '../../../contexts/productsFilters/BrandsContext/types'
 import { useCategories } from '../../../contexts/productsFilters/CategoriesContext/CategoriesContext'
 import { useBrands } from '../../../contexts/productsFilters/BrandsContext/BrandsContext'
@@ -75,9 +74,8 @@ const ProductForm: React.FC<Props> = ({ record, onSubmit, buttonTitle, title }) 
   const [brands, setBrands] = useState<Brand[]>([])
   const [colors, setColors] = useState<Color[]>([])
   const [amounts, setAmounts] = useState<Amount[]>([])
-  const [categories, setCategories] = useState<Category[]>([])
 
-  const { getCategories } = useCategories()
+  const { categories } = useCategories()
   const { getBrands } = useBrands()
   const { createFiles } = useFiles()
   const { getColors } = useColors()
@@ -119,19 +117,11 @@ const ProductForm: React.FC<Props> = ({ record, onSubmit, buttonTitle, title }) 
     return createFiles(payload)
   }
 
-  const getCategory = (): Category | undefined => categories.find(category => category.id === category_id)
-
   useEffect(() => {
     if (isSubmitSuccessful) {
       reset()
     }
   }, [isSubmitSuccessful, reset])
-
-  useEffect(() => {
-    getCategories().then(data => setCategories(data)).catch(error => {
-      console.log(error)
-    })
-  }, [])
 
   useEffect(() => {
     if (category_id) {

@@ -1,0 +1,41 @@
+@import "../../styles/variables";
+
+.categories-list-mobile {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: scroll;
+  padding-bottom: 16px;
+  padding-top: 12px;
+}
+
+.category-mobile {
+  text-align: center;
+  width: 90px;
+
+  &:not(:first-child) {
+    margin-left: 18px;
+  }
+}
+
+.category-mobile__text {
+  margin-top: 4px;
+  word-wrap: break-word;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  display: -webkit-box;
+  max-height: 45px;
+  overflow: hidden;
+  vertical-align: middle;
+  width: 100%;
+  font-size: 11px;
+}
+
+.category-mobile__img {
+  aspect-ratio: 1;
+  width: 90px;
+  height: 90px;
+  border-radius: $border-radius;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+}

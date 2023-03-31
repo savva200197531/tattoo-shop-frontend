@@ -25,7 +25,7 @@ const CreateProduct: React.FC<Props> = ({ loadProducts }) => {
       title="Создать товар"
       icon={<CreateButton />}
     >
-      <ProductForm buttonTitle="Создать" title="Создать товар" onSubmit={handleSubmit}/>
+      {() => <ProductForm buttonTitle="Создать" title="Создать товар" onSubmit={handleSubmit}/>}
     </StyledModal>
   )
 }

@@ -43,7 +43,7 @@ const TabAmount: React.FC = () => {
         icon={<CreateButton />}
         title="Создать обьем"
       >
-        <AmountForm onSubmit={handleSubmit} title="Создать обьем" buttonTitle="Создать"/>
+        {() => <AmountForm onSubmit={handleSubmit} title="Создать обьем" buttonTitle="Создать"/>}
       </StyledModal>
 
       {loading ? <Spinner/> : (
