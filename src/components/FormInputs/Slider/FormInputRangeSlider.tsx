@@ -123,17 +123,19 @@ export const FormInputRangeSlider: React.FC<Props> = ({
             />
           </div>
 
-          <Slider
-            value={sliderValue}
-            onChange={handleChange}
-            onChangeCommitted={handleChangeCommitted}
-            min={min}
-            max={max}
-            step={step}
-            valueLabelDisplay="auto"
-            getAriaValueText={valuetext}
-            disableSwap
-          />
+          <div className="range-slider__wrapper">
+            <Slider
+              value={sliderValue}
+              onChange={handleChange}
+              onChangeCommitted={handleChangeCommitted}
+              min={min}
+              max={max}
+              step={step}
+              valueLabelDisplay="auto"
+              getAriaValueText={valuetext}
+              disableSwap
+            />
+          </div>
         </Box>
       )}
     />

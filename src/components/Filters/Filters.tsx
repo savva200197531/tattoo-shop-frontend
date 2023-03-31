@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { useMediaQuery } from '@mui/material'
 import IconButton from '@mui/material/IconButton'
@@ -26,6 +26,12 @@ const Filters: React.FC<Props> = ({ products }) => {
     setOpen(false)
     document.body.style.overflow = 'auto'
   }
+
+  useEffect(() => {
+    return () => {
+      handleClose()
+    }
+  }, [])
 
   return (
     <div className="filters">
