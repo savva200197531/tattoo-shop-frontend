@@ -55,8 +55,8 @@ const productSchema = object({
       return { message: validationErrors.required('бренд') }
     },
   }),
-  color_id: number().optional(),
-  amount_id: number().optional(),
+  color_id: any().optional(),
+  amount_id: any().optional(),
   img_ids: any().optional(),
 })
 
