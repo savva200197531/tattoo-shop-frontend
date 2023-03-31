@@ -22,6 +22,8 @@ import { Color } from '../../contexts/productsFilters/ColorsContext/types'
 import { useColors } from '../../contexts/productsFilters/ColorsContext/ColorsContext'
 import { useAmount } from '../../contexts/productsFilters/AmountContext/AmountContext'
 import { formatAmount } from '../../helpers/formatters/formatAmount'
+import { useCart } from '../../contexts/cart/CartContext'
+import { useFavorite } from '../../contexts/favorite/FavoriteContext'
 
 const formatDescription = (text: string) => {
   return text.replace(/\n/g, '<br/>')
@@ -36,22 +38,14 @@ const ProductPage = () => {
   const [amount, setAmount] = useState<Brand>({} as Amount)
 
   const { getProduct } = useProducts()
-  const { user, getUser } = useAuth()
+  const { user } = useAuth()
   const { getCategory } = useCategories()
+  const { findCartItemByProductId } = useCart()
+  const { findFavoriteByProductId } = useFavorite()
   const { getBrand } = useBrands()
   const { getColor } = useColors()
   const { getAmount } = useAmount()
   const { id } = useParams()
-
-  const handleUpdate = (promise: Promise<any>) => {
-    promise
-      .then(() => {
-        getUser(user.id)
-      })
-      .catch(error => {
-        console.log(error)
-      })
-  }
 
   useEffect(() => {
     setLoading(true)
@@ -94,8 +88,6 @@ const ProductPage = () => {
     }
   }, [product.amount_id])
 
-  console.log(brand)
-
   return (
     <div className="product">
       <div className="container">
@@ -110,16 +102,14 @@ const ProductPage = () => {
                     <Typography variant="h5" component="h4" fontWeight={500}>
                       {category.name}{' '}
                       {brand.name}{' '}
-                      {formatAmount(amount.name)}{' '}
-                      {color.name}{' '}
+                      {amount.name && formatAmount(amount.name)}{' '}
+                      {color.name && color.name}{' '}
                     </Typography>
 
                     <AddToFavorite
-                      id={user.favorite?.find(favoriteProduct => favoriteProduct.product?.id === product.id)?.id}
                       product_id={product.id}
                       user_id={user.id}
-                      onSubmit={handleUpdate}
-                      isFavorite={!!user.favorite?.find(favoriteProduct => favoriteProduct.product?.id === product.id)}
+                      isFavorite={!!findFavoriteByProductId(product.id)}
                     />
                   </div>
 
@@ -138,8 +128,7 @@ const ProductPage = () => {
                   <CartCounter
                     className="product-cart-counter"
                     product={product}
-                    count={user.cart?.find(cartItem => cartItem.product?.id === product.id)?.count}
-                    onSubmit={handleUpdate}
+                    count={findCartItemByProductId(product.id)?.count}
                     user_id={user.id}
                   />
 

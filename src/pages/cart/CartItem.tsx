@@ -42,22 +42,6 @@ const CartItem: React.FC<Props> = ({ cartItem }) => {
     }
   }
 
-  const handleUpdate = (promise: Promise<any>) => {
-    if (!user) return
-    promise
-      .then(({ data }) => {
-        getCartItems(user.id).catch(error => {
-          console.log(error)
-        })
-        if (data.action === 'delete') {
-          getUser(user.id)
-        }
-      })
-      .catch(error => {
-        console.log(error)
-      })
-  }
-
   return (
     <Stack className="cart-item bordered-box" direction={mobile ? 'column' : 'row'} sx={{ alignItems: mobile ? 'center' : 'unset' }} spacing={2}>
       <div className="cart-item__left">
@@ -98,7 +82,7 @@ const CartItem: React.FC<Props> = ({ cartItem }) => {
           handleSubmit={handleDeleteFromCart}
         />
 
-        <CartCounter product={product} count={count} onSubmit={handleUpdate} user_id={user?.id}/>
+        <CartCounter product={product} count={count} user_id={user?.id}/>
       </div>
     </Stack>
   )

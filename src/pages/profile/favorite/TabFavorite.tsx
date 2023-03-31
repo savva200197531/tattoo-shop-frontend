@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { useAuth } from '../../../contexts/auth/AuthContext'
 import { useFavorite } from '../../../contexts/favorite/FavoriteContext'
+
 import { Typography } from '@mui/material'
+
 import Spinner from '../../../components/Spinner/Spinner'
 import FavoriteItem from './FavoriteItem'
 import './styles.scss'
@@ -9,24 +11,8 @@ import AuthButton from '../../../components/AuthButton'
 import CatalogButton from '../../../components/CatalogButton'
 
 const TabFavorite: React.FC = () => {
-  const [loading, setLoading] = useState<boolean>(false)
-
-  const { getFavoriteProducts, favoriteProducts } = useFavorite()
-  const { user, isUserExist } = useAuth()
-
-  useEffect(() => {
-    setLoading(true)
-
-    if (!isUserExist) return
-
-    getFavoriteProducts(user.id)
-      .catch(error => {
-        console.log(error)
-      })
-      .finally(() => {
-        setLoading(false)
-      })
-  }, [isUserExist])
+  const { favoriteProducts, loading } = useFavorite()
+  const { isUserExist } = useAuth()
 
   return (
     <div className="favorite">

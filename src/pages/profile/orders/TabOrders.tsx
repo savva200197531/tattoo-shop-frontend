@@ -41,11 +41,11 @@ const TabOrders: React.FC = () => {
         Мои заказы
       </Typography>
 
-      <div className="products-list">
-        {isUserExist ? loading ? <Spinner/> : orders.length ?
-          orders.map(order => <OrderItem key={order.id} order={order}/>) :
-          <CatalogButton/> : <AuthButton/>}
-      </div>
+      {isUserExist ? loading ? <Spinner/> : orders.length ?
+        <div className="products-list">
+          {orders.map(order => <OrderItem key={order.id} order={order}/>)}
+        </div> :
+        <CatalogButton/> : <AuthButton/>}
     </div>
   )
 }

@@ -5,9 +5,11 @@ import {
   AddToCart,
   AddToLocalCart,
   Cart,
-  CartContextProps, CartItem,
+  CartContextProps,
+  CartItem,
   DeleteFromCart,
   DeleteFromLocalCart,
+  FindCartItemByProductId,
   GetLocalCartItems,
 } from './types'
 import { requestUrl } from '../../env'
@@ -23,18 +25,31 @@ type Props = {
 }
 
 export const CartProvider: React.FC<Props> = ({ children }) => {
+  const [loading, setLoading] = useState<boolean>(false)
   const [cart, setCart] = useState<Cart>({} as Cart)
 
   const { isUserExist, setUser, user } = useAuth()
 
+  const findCartItemByProductId: FindCartItemByProductId = (product_id) => {
+    return cart.items?.find(cartItem => cartItem.product.id === product_id)
+  }
+
   const getCartItems = (user_id: number) => {
+    setLoading(true)
     return axios.get<Cart>(`${requestUrl}/cart/${user_id}`)
       .then((response) => {
         setCart(response.data)
       })
+      .finally(() => {
+        setLoading(false)
+      })
   }
 
-  const addToCart: AddToCart = ({ user_id, ...payload }) => axios.put(`${requestUrl}/cart/${user_id}`, payload)
+  const addToCart: AddToCart = ({ user_id, ...payload }) => {
+    return axios.put(`${requestUrl}/cart/${user_id}`, payload).then(({ data }) => {
+      setCart(data)
+    })
+  }
 
   const deleteFromCart: DeleteFromCart = (id) => axios.delete(`${requestUrl}/cart/${id}`)
 
@@ -137,6 +152,8 @@ export const CartProvider: React.FC<Props> = ({ children }) => {
   useEffect(() => {
     if (!isUserExist) {
       getLocalCartItems()
+    } else {
+      getCartItems(user.id)
     }
   }, [isUserExist])
 
@@ -148,6 +165,8 @@ export const CartProvider: React.FC<Props> = ({ children }) => {
     getLocalCartItems,
     addToLocalCart,
     deleteFromLocalCart,
+    findCartItemByProductId,
+    loading,
   }
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>

@@ -5,55 +5,31 @@ import AddToFavorite from '../../../components/AddToFavorite/AddToFavorite'
 import CartCounter from '../../../components/CartCounter/CartCounter'
 import ProductLayout from '../../../components/ProductLayout/ProductLayout'
 import { useAuth } from '../../../contexts/auth/AuthContext'
-import { useFavorite } from '../../../contexts/favorite/FavoriteContext'
+import { useCart } from '../../../contexts/cart/CartContext'
 
 type Props = {
   favoriteProduct: Favorite
 }
 
 const FavoriteItem: React.FC<Props> = ({ favoriteProduct }) => {
-  const { product, id } = favoriteProduct
-  const { getFavoriteProducts } = useFavorite()
-  const { getUser, user } = useAuth()
-
-  const handleUpdateFavorite = (promise: Promise<any>) => {
-    promise
-      .then(() => {
-        getUser(user.id)
-        getFavoriteProducts(user.id)
-      })
-      .catch(error => {
-        console.log(error)
-      })
-  }
-
-  const handleUpdateCart = (promise: Promise<any>) => {
-    promise
-      .then(() => {
-        getUser(user.id)
-      })
-      .catch(error => {
-        console.log(error)
-      })
-  }
+  const { product } = favoriteProduct
+  const { user } = useAuth()
+  const { findCartItemByProductId } = useCart()
 
   return (
     <ProductLayout
       product={product}
       headerContent={(
         <AddToFavorite
-          id={id}
           product_id={product.id}
           user_id={user.id}
-          onSubmit={handleUpdateFavorite}
           isFavorite={true}
         />
       )}
       footerContent={(
         <CartCounter
           product={product}
-          count={user.cart?.find(cartItem => cartItem.product?.id === product.id)?.count}
-          onSubmit={handleUpdateCart}
+          count={findCartItemByProductId(product.id)?.count}
           user_id={user.id}
         />
       )}

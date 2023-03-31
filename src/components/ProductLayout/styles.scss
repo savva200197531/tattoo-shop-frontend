@@ -18,7 +18,7 @@
   margin-top: 5px;
   margin-bottom: 5px;
   display: grid;
-  grid-template-columns: 3fr 1fr;
+  grid-template-columns: 3fr auto;
 }
 
 .product-layout__name {

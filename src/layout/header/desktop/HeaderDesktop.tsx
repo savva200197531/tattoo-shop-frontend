@@ -8,16 +8,18 @@ import { ListItem } from '../../../types/list-item'
 import SearchField from '../../../components/SearchField/SearchField'
 import Svg from '../../../components/Svg/Svg'
 import CounterBadge from '../../../components/CounterBadge'
-import { useAuth } from '../../../contexts/auth/AuthContext'
 import Logo from '../../../components/Logo'
 import ProfileIcon from '../../../components/ProfileIcon/ProfileIcon'
 import CatalogIcon from '../../catalog/Catalog'
 import ContactsList from '../../../components/ContactsList/ContactsList'
 import './desktop.scss'
+import { useCart } from '../../../contexts/cart/CartContext'
+import { useFavorite } from '../../../contexts/favorite/FavoriteContext'
 
 const HeaderDesktop: React.FC = () => {
   const navigate = useNavigate()
-  const { user } = useAuth()
+  const { cart } = useCart()
+  const { favoriteProducts } = useFavorite()
 
   const items: ListItem[] = [
     {
@@ -35,7 +37,7 @@ const HeaderDesktop: React.FC = () => {
     },
     {
       element: (
-        <CounterBadge right={19} count={user.favorite?.length} onClick={() => navigate('/profile/favorite')}>
+        <CounterBadge right={19} count={favoriteProducts.length} onClick={() => navigate('/profile/favorite')}>
           <Svg text="Избранное" fill="none" stroke="black" className="base-icon" id="hearth" />
         </CounterBadge>
       ),
@@ -43,7 +45,7 @@ const HeaderDesktop: React.FC = () => {
     },
     {
       element: (
-        <CounterBadge count={user.cart?.length} onClick={() => navigate('/cart')}>
+        <CounterBadge count={cart.items?.length} onClick={() => navigate('/cart')}>
           <Svg text="Корзина" className="base-icon" id="cart" />
         </CounterBadge>
       ),

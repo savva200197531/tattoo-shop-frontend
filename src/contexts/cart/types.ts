@@ -28,6 +28,8 @@ export type CartItem = {
 //
 // export type RemoveCartItem = (payload: RemoveCartItemPayload) => Promise<any>
 
+export type FindCartItemByProductId = (product_id: CartItem['id']) => CartItem | undefined
+
 export type AddToCartPayload = {
   user_id: number
   product_id: number
@@ -59,4 +61,6 @@ export type CartContextProps = {
   getLocalCartItems: GetLocalCartItems
   addToLocalCart: AddToLocalCart
   deleteFromLocalCart: DeleteFromLocalCart
+  findCartItemByProductId: FindCartItemByProductId
+  loading: boolean
 }

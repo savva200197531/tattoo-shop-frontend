@@ -1,24 +1,23 @@
 import React from 'react'
-import { CartItem } from '../../contexts/cart/types'
+
+import IconButton from '@mui/material/IconButton'
+import { useTheme } from '@mui/material'
+
 import { AddToFavoritePayload } from '../../contexts/favorite/types'
 import { useFavorite } from '../../contexts/favorite/FavoriteContext'
 import Svg from '../Svg/Svg'
-import IconButton from '@mui/material/IconButton'
 import { useAuth } from '../../contexts/auth/AuthContext'
 import { useAlert } from '../../contexts/alert/AlertContext'
 import { ShowAlertPayload } from '../../contexts/alert/types'
-import { useTheme } from '@mui/material'
 
 type Props = {
   product_id: number
   user_id: number
-  onSubmit: (promise: Promise<CartItem>) => void
   isFavorite: boolean
-  id?: number
 }
 
-const AddToFavorite: React.FC<Props> = ({ product_id, onSubmit, user_id, isFavorite, id }) => {
-  const { addToFavorite, deleteFromFavorite } = useFavorite()
+const AddToFavorite: React.FC<Props> = ({ product_id, user_id, isFavorite }) => {
+  const { addToFavorite } = useFavorite()
   const { isUserExist } = useAuth()
   const { showAlert } = useAlert()
   const theme = useTheme()
@@ -38,21 +37,13 @@ const AddToFavorite: React.FC<Props> = ({ product_id, onSubmit, user_id, isFavor
       user_id,
     }
 
-    onSubmit(addToFavorite(payload))
-  }
-
-  const handleDeleteFromFavorite = () => {
-    if (!id) return
-
-    onSubmit(deleteFromFavorite(id))
+    return addToFavorite(payload)
   }
 
   return (
     <IconButton
       className="product-item__favorite"
-      onClick={() => {
-        isFavorite ? handleDeleteFromFavorite() : handleAddToFavorite()
-      }}
+      onClick={handleAddToFavorite}
       type="button"
       sx={{ p: '6px' }}
     >

@@ -1,7 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
 
-import { AddToCartPayload, AddToLocalCartPayload, CartItem } from '../../contexts/cart/types'
+import { AddToCartPayload, AddToLocalCartPayload } from '../../contexts/cart/types'
 import { useCart } from '../../contexts/cart/CartContext'
 import { useAuth } from '../../contexts/auth/AuthContext'
 import { Product } from '../../contexts/products/types'
@@ -13,11 +13,10 @@ type Props = {
   count?: number
   product: Product
   user_id?: number
-  onSubmit: (promise: Promise<CartItem>) => void
   className?: string
 }
 
-const CartCounter: React.FC<Props> = ({ count = 0, product, onSubmit, user_id, className }) => {
+const CartCounter: React.FC<Props> = ({ count = 0, product, user_id, className }) => {
   const { addToCart, addToLocalCart } = useCart()
   const { isUserExist } = useAuth()
 
@@ -37,7 +36,7 @@ const CartCounter: React.FC<Props> = ({ count = 0, product, onSubmit, user_id, c
         product_id: product.id,
       }
 
-      onSubmit(addToCart(payload))
+      return addToCart(payload)
     }
   }
 
