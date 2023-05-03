@@ -112,4 +112,8 @@
   .products-list {
     grid-template-columns: repeat(2, 1fr);
   }
+
+  .product-layout__price {
+    font-size: 20px !important;
+  }
 }

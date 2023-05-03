@@ -1,4 +1,4 @@
-import { Divider, IconButton, ListItemIcon, Menu, MenuItem } from '@mui/material'
+import { Button, Divider, ListItemIcon, Menu, MenuItem } from '@mui/material'
 import React from 'react'
 import './styles.scss'
 import { Logout, Settings } from '@mui/icons-material'
@@ -23,9 +23,9 @@ const ProfileIcon: React.FC = () => {
 
   return (
     <>
-      <IconButton onClick={handleClick} type="button" color="secondary" sx={{ p: '6px' }}>
-        <Svg text="Профиль" className="base-icon" id="profile"/>
-      </IconButton>
+      <Button onClick={handleClick} type="button" color="secondary" sx={{ p: '6px' }}>
+        <Svg text="Меню" className="base-icon" id="menu"/>
+      </Button>
       <Menu
         anchorEl={anchorEl}
         id="account-menu"

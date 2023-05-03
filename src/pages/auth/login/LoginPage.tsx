@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { object, string, TypeOf } from 'zod'
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
+// eslint-disable-next-line import/no-named-as-default
+import ReCAPTCHA from 'react-google-recaptcha'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Box } from '@mui/material'
@@ -11,6 +13,7 @@ import { useAuth } from '../../../contexts/auth/AuthContext'
 import { StyledLoadingButton } from '../../../components/StyledButtons'
 import { validationErrors } from '../../../helpers/validationErrors'
 import FormInputText from '../../../components/FormInputs/Text/FormInputText'
+import { siteKey } from '../../../env'
 
 const loginSchema = object({
   email: string({ required_error: validationErrors.required('почта') }).nonempty(validationErrors.required('почта')).email(validationErrors.email()),
@@ -24,12 +27,13 @@ type LoginInput = TypeOf<typeof loginSchema>;
 
 const LoginPage = () => {
   const [loading, setLoading] = useState<boolean>(false)
+  const [captcha, setCaptcha] = useState<string | null>(null)
 
   const { login } = useAuth()
   const methods = useForm<LoginInput>({
     resolver: zodResolver(loginSchema),
     // defaultValues: {
-    //   email: 'yakikbutovski353@gmail.com',
+    //   email: 'test@mail.ru',
     //   password: '123123123',
     // },
   })
@@ -69,6 +73,8 @@ const LoginPage = () => {
         <FormInputText name="password" label="Пароль" type="password"/>
       </FormProvider>
 
+      <ReCAPTCHA style={{ marginBottom: '10px' }} sitekey={siteKey} onChange={token => setCaptcha(token)} />
+
       <Link to="/register">
         Регистрация
       </Link>
@@ -78,6 +84,7 @@ const LoginPage = () => {
         fullWidth
         type="submit"
         loading={loading}
+        disabled={!captcha}
         sx={{ py: '0.8rem', mt: '1rem' }}
       >
         Войти

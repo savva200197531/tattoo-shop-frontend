@@ -40,7 +40,7 @@ const ProductLayout: React.FC<Props> = ({ product, headerContent, footerContent,
         {headerContent}
       </div>
 
-      <Typography component="h6" variant="h5" fontWeight={600}>
+      <Typography className="product-layout__price" component="h6" variant="h5" fontWeight={600}>
         {formatPrice(price)}
       </Typography>
 

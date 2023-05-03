@@ -1,7 +1,6 @@
 import React, { ReactElement } from 'react'
 
-import IconButton from '@mui/material/IconButton'
-import { Badge, BadgeProps, styled } from '@mui/material'
+import { Badge, BadgeProps, Button, styled } from '@mui/material'
 
 const StyledBadge = styled(Badge)<BadgeProps>((props) => {
   return ({
@@ -10,6 +9,7 @@ const StyledBadge = styled(Badge)<BadgeProps>((props) => {
       top: 14,
       border: `2px solid ${props.theme.palette.background.paper}`,
       padding: '0 4px',
+      color: 'white',
     },
   })
 })
@@ -23,7 +23,7 @@ type Props = BadgeProps & {
 
 const CounterBadge: React.FC<Props> = ({ count, children, onClick, right = 11 }) => {
   return (
-    <IconButton onClick={onClick} type="button" color="secondary" sx={{ p: '6px' }}>
+    <Button onClick={onClick} type="button" color="secondary" sx={{ p: '6px' }}>
       <StyledBadge
         style={{
           right,
@@ -38,7 +38,7 @@ const CounterBadge: React.FC<Props> = ({ count, children, onClick, right = 11 })
       >
         {children}
       </StyledBadge>
-    </IconButton>
+    </Button>
   )
 }
 

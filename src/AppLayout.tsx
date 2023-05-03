@@ -4,6 +4,7 @@ import Header from './layout/header/Header'
 import AppRoutes from './AppRoutes'
 import Footer from './layout/footer/Footer'
 import AppAlert from './components/AppAlert/AppAlert'
+import AppHiddenNiger from './AppHiddenNiger'
 
 const AppLayout = () => {
   return (
@@ -11,6 +12,7 @@ const AppLayout = () => {
       <Header />
       <AppRoutes />
       <AppAlert />
+      <AppHiddenNiger />
       <Footer />
     </>
   )

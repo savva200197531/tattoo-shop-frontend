@@ -1,22 +1,4 @@
-// export type OptionId = (number | string)
-//
-// export type Option = {
-//   name: string
-//   id: OptionId
-// }
-//
-// export type BaseSelectProps = {
-//   label: string
-//   options: Option[]
-// }
-//
-// export type BaseSelectInputProps = BaseSelectProps & {
-//   name: string
-// }
-
-// new
-
-import { ReactElement } from 'react'
+import React, { ReactElement } from 'react'
 
 export type SelectVariables = {
   [key: string | number]: string | number
@@ -36,4 +18,5 @@ export type BaseFormInputSelectProps = {
   options: Option[]
   optionIcon?: OptionIcon
   defaultValue?: number
+  style?: React.CSSProperties
 }

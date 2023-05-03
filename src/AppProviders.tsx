@@ -13,6 +13,7 @@ import { BrandsProvider } from './contexts/productsFilters/BrandsContext/BrandsC
 import { ColorsProvider } from './contexts/productsFilters/ColorsContext/ColorsContext'
 import { AmountProvider } from './contexts/productsFilters/AmountContext/AmountContext'
 import { createTheme, ThemeProvider } from '@mui/material'
+import { FeedbackProvider } from './contexts/feedback/FeedbackContext'
 
 type Props = {
   children: ReactNode
@@ -45,7 +46,9 @@ const AppProviders: React.FC<Props> = ({ children }) => {
                           <BrandsProvider>
                             <ColorsProvider>
                               <AmountProvider>
-                                {children}
+                                <FeedbackProvider>
+                                  {children}
+                                </FeedbackProvider>
                               </AmountProvider>
                             </ColorsProvider>
                           </BrandsProvider>

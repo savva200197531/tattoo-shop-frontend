@@ -11,6 +11,7 @@ const FormInputSelectMultiple: React.FC<BaseFormInputSelectProps> = ({
   options,
   optionIcon,
   defaultValue,
+  style,
 }) => {
   const { formState: { errors }, control, resetField } = useFormContext()
 
@@ -26,7 +27,7 @@ const FormInputSelectMultiple: React.FC<BaseFormInputSelectProps> = ({
       name={name}
       defaultValue={defaultValue || []}
       render={({ field: { onChange, value } }) => (
-        <FormControl fullWidth sx={{ mb: 2 }}>
+        <FormControl style={style} fullWidth sx={{ mb: 2 }}>
           <InputLabel>{label}</InputLabel>
           <Select
             onChange={onChange}

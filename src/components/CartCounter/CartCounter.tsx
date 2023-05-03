@@ -6,7 +6,6 @@ import { useCart } from '../../contexts/cart/CartContext'
 import { useAuth } from '../../contexts/auth/AuthContext'
 import { Product } from '../../contexts/products/types'
 import { StyledButton } from '../StyledButtons'
-import Svg from '../../components/Svg/Svg'
 import './styles.scss'
 
 type Props = {
@@ -46,7 +45,7 @@ const CartCounter: React.FC<Props> = ({ count = 0, product, user_id, className }
         (
           <StyledButton
             disabled={product.count === count}
-            startIcon={<Svg id="cart" className="" height={20} width={20}/>}
+            // startIcon={<Svg fill="white" id="cart" className="" height={20} width={20}/>}
             onClick={() => handleAddToCart(1)}
             fullWidth
             variant="contained"

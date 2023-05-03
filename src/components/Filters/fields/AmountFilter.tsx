@@ -28,12 +28,9 @@ const AmountFilter: React.FC<BaseFilterFieldProps> = ({ defaultValue }) => {
     category_id ? loadAmounts({ category_id }) : loadAmounts()
   }, [category_id])
 
-  if (!amounts.length) {
-    return null
-  }
-
   return (
     <FormInputSelectMultiple
+      style={!amounts.length ? { display: 'none' } : {}}
       label="Обьем"
       name="amount"
       defaultValue={defaultValue}

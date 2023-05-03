@@ -35,7 +35,7 @@ body {
 }
 
 .container {
-  max-width: 1500px;
+  max-width: 1250px;
   margin: 0 auto;
   padding: 0 10px;
 }
@@ -76,12 +76,17 @@ h1 {
   padding: 10px 20px;
   border: 1px solid $border;
   border-radius: $border-radius;
-  box-shadow: $shadow;
+  //box-shadow: $shadow;
   background: white;
 }
 
 .header, .footer {
   display: block !important;
+
+  button {
+    text-transform: capitalize !important;
+    min-width: unset !important;
+  }
 }
 
 .header + div {
@@ -125,9 +130,22 @@ h1 {
 //  height: 100%;
 //}
 
+.hidden-niger {
+  position: fixed;
+  left: calc(50% - 864px / 2);
+  top: calc(50% - 796px / 2 + 40px);
+  opacity: 0.5;
+}
+
 @media screen and (max-width: 750px) {
   .header + div {
     padding-top: 100px;
     padding-bottom: 80px;
+  }
+
+  h1 {
+    font-size: 30px !important;
+    margin-top: 10px !important;
+    margin-bottom: 20px !important;
   }
 }

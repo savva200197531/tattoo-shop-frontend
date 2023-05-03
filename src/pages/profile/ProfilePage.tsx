@@ -53,6 +53,8 @@ const ProfilePage: React.FC = () => {
                 location.pathname :
                 false
             }
+            scrollButtons
+            allowScrollButtonsMobile
             className="profile-tabs tabs"
             orientation={mobile ? 'horizontal' : 'vertical'}
             variant="scrollable"

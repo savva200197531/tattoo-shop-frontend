@@ -29,12 +29,9 @@ const ColorFilter: React.FC<BaseFilterFieldProps> = ({ defaultValue }) => {
     category_id ? loadColors({ category_id }) : loadColors()
   }, [category_id])
 
-  if (!colors.length) {
-    return null
-  }
-
   return (
     <FormInputSelectMultiple
+      style={!colors.length ? { display: 'none' } : {}}
       label="Цвет"
       name="color"
       defaultValue={defaultValue}

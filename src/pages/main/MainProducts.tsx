@@ -13,7 +13,7 @@ const MainProducts = () => {
   useEffect(() => {
     setLoading(true)
 
-    getProducts()
+    getProducts({ limit: '8' })
       .then(data => setProducts(data.data))
       .finally(() => {
         setLoading(false)
@@ -24,7 +24,7 @@ const MainProducts = () => {
   }, [])
 
   return (
-    <div className="products-list">
+    <div className="products-list products-list__new">
       {loading ? <Spinner/> : (
         products.map(product => <ProductItem key={product.id} product={product}/>)
       )}

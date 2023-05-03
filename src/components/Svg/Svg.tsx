@@ -16,7 +16,9 @@ export type SvgId =
   'cross' |
   'filter' |
   'checkmark' |
-  'slider-arrow'
+  'slider-arrow' |
+  'menu' |
+  'house'
 
 type Props = {
   className?: string

@@ -17,7 +17,7 @@
   position: relative;
   display: flex;
   justify-content: space-between;
-  box-shadow: $shadow;
+  //box-shadow: $shadow;
 
   &:not(:first-child) {
     margin-top: 20px;

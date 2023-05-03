@@ -1,5 +1,5 @@
 import React from 'react'
-import { IconButton } from '@mui/material'
+import { Button } from '@mui/material'
 import './styles.scss'
 import { useLocation, useNavigate } from 'react-router-dom'
 import Hamburger from '../Hamburger/Hamburger'
@@ -17,14 +17,14 @@ const CatalogIcon: React.FC = () => {
   }
 
   return (
-    <IconButton
+    <Button
       color="secondary"
       onClick={onClick}
       className="catalog-button"
     >
       <Hamburger isActive={location.pathname === '/catalog'}/>
       <p className="catalog-text">Каталог</p>
-    </IconButton>
+    </Button>
   )
 }
 

@@ -1,7 +1,8 @@
 @import "../../../styles/variables";
 
 .footer-mobile-content {
-  justify-content: space-between;
+  display: grid !important;
+  grid-template-columns: repeat(5, 1fr);
 }
 
 .footer-mobile-item {

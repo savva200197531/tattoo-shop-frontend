@@ -23,7 +23,7 @@ const ProductsPage: React.FC<Props> = ({ ProductItem, Filters, CreateProduct }) 
   const [products, setProducts] = useState<Product[]>([])
   const [productsMeta, setProductsMeta] = useState<ProductsMeta>({} as ProductsMeta)
 
-  const [searchParams, setSearchParams] = useSearchParams()
+  const [searchParams] = useSearchParams()
   const { getProducts } = useProducts()
 
   const loadProducts = () => {
@@ -69,17 +69,17 @@ const ProductsPage: React.FC<Props> = ({ ProductItem, Filters, CreateProduct }) 
     loadProducts()
   }, [searchParams])
 
-  useEffect(() => {
-    if (!searchParams.get('page')) {
-      searchParams.set('page', '1')
-    }
-
-    if (!searchParams.get('limit')) {
-      searchParams.set('limit', '15')
-    }
-
-    setSearchParams(searchParams)
-  }, [])
+  // useEffect(() => {
+  //   if (!searchParams.get('page')) {
+  //     searchParams.set('page', '1')
+  //   }
+  //
+  //   if (!searchParams.get('limit')) {
+  //     searchParams.set('limit', '15')
+  //   }
+  //
+  //   setSearchParams(searchParams)
+  // }, [])
 
   return (
     <div className="products">

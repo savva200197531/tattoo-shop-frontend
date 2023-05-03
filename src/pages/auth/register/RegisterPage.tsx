@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useForm, SubmitHandler, FormProvider } from 'react-hook-form'
 import { object, string, TypeOf } from 'zod'
+// eslint-disable-next-line import/no-named-as-default
+import ReCAPTCHA from 'react-google-recaptcha'
 
 import { Box } from '@mui/material'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -11,6 +13,7 @@ import { useAuth } from '../../../contexts/auth/AuthContext'
 import { StyledLoadingButton } from '../../../components/StyledButtons'
 import { validationErrors } from '../../../helpers/validationErrors'
 import FormInputText from '../../../components/FormInputs/Text/FormInputText'
+import { siteKey } from '../../../envs/development'
 
 const registerSchema = object({
   name: string()
@@ -35,6 +38,7 @@ type RegisterInput = TypeOf<typeof registerSchema>;
 
 const RegisterPage: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false)
+  const [captcha, setCaptcha] = useState<string | null>(null)
 
   const { register: registerUser } = useAuth()
   const methods = useForm<RegisterInput>({
@@ -102,6 +106,8 @@ const RegisterPage: React.FC = () => {
       {/*  </FormHelperText>*/}
       {/*</FormGroup>*/}
 
+      <ReCAPTCHA style={{ marginBottom: '10px' }} sitekey={siteKey} onChange={token => setCaptcha(token)} />
+
       <Link to="/login">
         Войти
       </Link>
@@ -111,6 +117,7 @@ const RegisterPage: React.FC = () => {
         fullWidth
         type="submit"
         loading={loading}
+        disabled={!captcha}
         sx={{ py: '0.8rem', mt: '1rem' }}
       >
         Зарегистрироваться

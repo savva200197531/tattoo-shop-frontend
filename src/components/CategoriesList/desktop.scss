@@ -2,13 +2,12 @@
 
 .categories-list {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   grid-gap: 20px;
   justify-content: center;
 }
 
 .category {
-  position: relative;
   aspect-ratio: 1;
   background-position: center center;
   background-size: cover;
@@ -24,6 +23,10 @@
     transition: 0.2s ease;
     transform: translateY(-10px);
   }
+}
+
+.category, .category-mobile__img {
+  position: relative;
 
   &:before {
     content: '';
@@ -37,6 +40,12 @@
     bottom: 0;
     background-color:rgba(0, 0, 0, .5);
     border-radius: $border-radius;
+  }
+}
+
+.category-mobile__img {
+  &:before {
+    z-index: -1;
   }
 }
 

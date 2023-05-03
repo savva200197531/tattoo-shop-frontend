@@ -2,15 +2,13 @@ import React from 'react'
 
 import { Typography } from '@mui/material'
 
-import { imgSrc } from '../../helpers/imgSrc'
 import { CategoryLayoutProps } from './types'
 
-const CategoryLayout: React.FC<CategoryLayoutProps> = ({ category, children, onClick }) => {
+const CategoryLayout: React.FC<CategoryLayoutProps> = ({ id, imgSrc, name, onClick }) => {
   return (
-    <div onClick={() => onClick(category)} className="category" style={{ backgroundImage: `url(${imgSrc(category.img_id)})` }}>
-      {children?.(category)}
+    <div onClick={() => onClick(id)} className="category" style={{ backgroundImage: `url(${imgSrc})` }}>
       <Typography className="category-title" variant="h5" component="h6" textAlign="center">
-        {category.name}
+        {name}
       </Typography>
     </div>
   )

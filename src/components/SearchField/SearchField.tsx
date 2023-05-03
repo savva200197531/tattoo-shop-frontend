@@ -52,7 +52,7 @@ const SearchField: React.FC = () => {
       pathname: '/products',
       search: createSearchParams({
         page: '1',
-        limit: '15',
+        limit: '16',
         search: data.search,
       }).toString(),
     })
@@ -94,16 +94,6 @@ const SearchField: React.FC = () => {
       setProducts([])
     }
   }, [search])
-
-  // useEffect(() => {
-  //   if (isSubmitSuccessful) {
-  //     reset()
-  //   }
-  // }, [isSubmitSuccessful, reset])
-
-  useEffect(() => {
-
-  }, [])
 
   return (
     <ClickAwayListener onClickAway={handleClose}>
